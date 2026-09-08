@@ -57,7 +57,7 @@ Hoja **`Confirmaciones`**:
 | A | `Fecha` | Cuándo confirmó |
 | B | `Nombre` | Nombre y apellido |
 | C | `WhatsApp` | Número normalizado, solo dígitos con código de país (`5491155555555`). Guardado como **texto**, si no la planilla lo muestra como `5,49115E+12` |
-| D | `Escribirle` | `https://wa.me/5491155555555` — clic y se abre el chat, sin agendar el número |
+| D | `Escribirle` | `https://wa.me/549...?text=...` — clic y se abre el chat **con el mensaje ya escrito**: *«¡Hola Fede! 🦭 Gracias por confirmar al Foka Palooza. Toda la info está en https://fokapalooza.ar»*. No lo manda solo: lo deja listo y vos apretás enviar |
 | E | `Días` | `Viernes 25`, `Sábado 26`, `Domingo 27` o `Los tres` |
 | F | `Personas` | Cuántos vienen en total, contándole a él/ella |
 | G | `Dieta` | De todo / Vegetariane / Vegane / Sin TACC / Otra |
@@ -66,6 +66,10 @@ Hoja **`Confirmaciones`**:
 | J | `Origen` | URL desde donde se envió |
 
 Hoja **`Avisos Lineup`**: `Fecha` · `WhatsApp` · `Escribirle` · `Origen`.
+Acá el mensaje precargado es el del anuncio: *«🦭 ¡El lineup del Foka Palooza ya está
+confirmado! Entrá a https://fokapalooza.ar»*. El texto sale de `mensajeLineup()` y el
+de las confirmaciones de `mensajeGracias()`, las dos arriba de todo en `Codigo.gs`.
+Se pueden probar con `node tools/test-links.js`.
 
 > ⚠️ Si cambiás el **orden** de las columnas, hay que actualizar `COLUMNAS` en
 > `Codigo.gs` (y el índice de la columna `Personas` que usa `estadisticas()`).
@@ -97,6 +101,31 @@ de cada uno por si preferís escribirles uno por uno.
 ---
 
 ## 2. Publicar la página
+
+### Dominio propio (fokapalooza.ar)
+
+El sitio vive en `vmrodriguez90.github.io/foka-palooza`. Para pasarlo a `fokapalooza.ar`,
+**en este orden** (importante: al revés se rompe el preview de WhatsApp):
+
+1. **DNS del dominio** → cuatro registros `A` de la raíz apuntando a
+   `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`,
+   y un `CNAME` de `www` a `vmrodriguez90.github.io`.
+2. **GitHub** → Settings → Pages → *Custom domain* → `fokapalooza.ar` → Save.
+   Eso crea un archivo `CNAME` en la raíz del repo. Esperá a que aparezca el tilde
+   verde de *DNS check successful* y tildá **Enforce HTTPS** (puede tardar un rato
+   hasta que emita el certificado).
+3. **Recién cuando `https://fokapalooza.ar` cargue bien**, cambiá en el `<head>` de
+   `index.html` las cinco URLs absolutas (`canonical`, `og:url`, `og:image`,
+   `og:image:secure_url`, `twitter:image`) y `event.url` en el bloque `const FOKA`.
+   Subile también el `?v=` a la imagen para que WhatsApp regenere el preview.
+
+> Si hacés el paso 3 antes que el 1 y 2, las etiquetas van a apuntar a un dominio que
+> todavía no resuelve: WhatsApp no va a poder bajar la imagen y el link se va a compartir
+> sin preview, con ese resultado cacheado por varios días.
+
+`URL_SITIO` en `Codigo.gs` ya apunta a `https://fokapalooza.ar`: es sólo el texto de los
+mensajes de WhatsApp, no afecta al sitio. Si mandás mensajes antes de que el dominio
+resuelva, van a llevar un link muerto.
 
 ### Opción A — GitHub Pages (gratis, recomendada)
 

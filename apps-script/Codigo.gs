@@ -21,6 +21,11 @@
 var HOJA_CONFIRMACIONES = 'Confirmaciones';
 var HOJA_LINEUP = 'Avisos Lineup';
 
+// Sitio del evento: va dentro de los mensajes de WhatsApp que arma la
+// planilla. Cambialo acá si el dominio cambia (y acordate de volver a
+// implementar el script para que tome el cambio).
+var URL_SITIO = 'https://fokapalooza.ar';
+
 var COLUMNAS = {
   confirmacion: ['Fecha', 'Nombre', 'WhatsApp', 'Escribirle', 'Días', 'Personas', 'Dieta', 'Mensaje', 'Quiere aviso lineup', 'Origen'],
   lineup:       ['Fecha', 'WhatsApp', 'Escribirle', 'Origen']
@@ -114,8 +119,26 @@ function procesar(d) {
  * Link directo de WhatsApp. Pegado en la planilla queda clickeable:
  * se abre el chat con esa persona sin tener que agendar el número.
  */
-function linkWhatsapp(numero) {
-  return 'https://wa.me/' + numero;
+function linkWhatsapp(numero, mensaje) {
+  var url = 'https://wa.me/' + numero;
+  if (mensaje) {
+    url += '?text=' + encodeURIComponent(mensaje);
+  }
+  return url;
+}
+
+/** Mensaje que se abre al tocar el link de alguien que ya confirmó. */
+function mensajeGracias(nombre) {
+  var primero = String(nombre || '').trim().split(/\s+/)[0];
+  var saludo = primero ? '¡Hola ' + primero + '! ' : '¡Hola! ';
+  return saludo + '🦭 Gracias por confirmar al Foka Palooza. '
+       + 'Toda la info está en ' + URL_SITIO;
+}
+
+/** Mensaje para avisar que salió el lineup. */
+function mensajeLineup() {
+  return '🦭 ¡El lineup del Foka Palooza ya está confirmado! '
+       + 'Entrá a ' + URL_SITIO;
 }
 
 function guardarConfirmacion(whatsapp, d) {
@@ -131,7 +154,7 @@ function guardarConfirmacion(whatsapp, d) {
     new Date(),
     nombre,
     whatsapp,
-    linkWhatsapp(whatsapp),
+    linkWhatsapp(whatsapp, mensajeGracias(nombre)),
     String(d.dias || ''),
     personas,
     String(d.dieta || ''),
@@ -160,7 +183,7 @@ function guardarLineup(whatsapp, d) {
   var res = actualizarOAgregar(hoja, 1 /* col WhatsApp */, whatsapp, [
     new Date(),
     whatsapp,
-    linkWhatsapp(whatsapp),
+    linkWhatsapp(whatsapp, mensajeLineup()),
     String(d.origen || '')
   ]);
   return { ok: true, tipo: 'lineup', actualizado: res.actualizado };
@@ -261,6 +284,8 @@ function numerosParaAvisar() {
   Logger.log('%s número(s) anotados:', numeros.length);
   Logger.log(numeros.map(function (n) { return '+' + n; }).join(', '));
   Logger.log('---- links directos ----');
-  Logger.log(numeros.map(linkWhatsapp).join('\n'));
+  Logger.log(numeros.map(function (n) {
+    return linkWhatsapp(n, mensajeLineup());
+  }).join('\n'));
   return numeros;
 }
