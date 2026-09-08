@@ -13,7 +13,7 @@
  *   4. Copiar la URL /exec y pegarla en FOKA.endpoint de index.html
  *
  * Acepta POST con JSON en el body, y también GET con parámetros
- * (ej: ?tipo=lineup&email=foo@bar.com) por si querés probar desde
+ * (ej: ?tipo=lineup&whatsapp=5491155555555) por si querés probar desde
  * la barra del navegador.
  * ------------------------------------------------------------------
  */
