@@ -22,9 +22,13 @@ var HOJA_CONFIRMACIONES = 'Confirmaciones';
 var HOJA_LINEUP = 'Avisos Lineup';
 
 var COLUMNAS = {
-  confirmacion: ['Fecha', 'Nombre', 'Email', 'Días', 'Personas', 'Dieta', 'Mensaje', 'Quiere aviso lineup', 'Origen'],
-  lineup:       ['Fecha', 'Email', 'Origen']
+  confirmacion: ['Fecha', 'Nombre', 'WhatsApp', 'Escribirle', 'Días', 'Personas', 'Dieta', 'Mensaje', 'Quiere aviso lineup', 'Origen'],
+  lineup:       ['Fecha', 'WhatsApp', 'Escribirle', 'Origen']
 };
+
+// Columnas que se guardan como texto plano, para que la planilla no
+// convierta los números largos a notación científica.
+var COLUMNAS_TEXTO = { confirmacion: [3], lineup: [2] };
 
 /* ====================== ENTRADAS HTTP ====================== */
 
@@ -78,37 +82,49 @@ function procesar(d) {
   }
 
   var tipo = String(d.tipo || 'confirmacion').toLowerCase();
-  var email = String(d.email || '').trim();
 
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-    return { ok: false, error: 'Email inválido' };
+  // La web ya manda el número normalizado (solo dígitos, con código de país).
+  // Acá igual lo limpiamos, por si el endpoint se llama a mano por GET.
+  var whatsapp = String(d.whatsapp || '').replace(/\D/g, '');
+
+  if (whatsapp.length < 10 || whatsapp.length > 15) {
+    return { ok: false, error: 'Número de WhatsApp inválido' };
   }
 
   var lock = LockService.getScriptLock();
   lock.waitLock(20000); // evita que dos envíos simultáneos pisen la misma fila
   try {
     if (tipo === 'lineup') {
-      return guardarLineup(email, d);
+      return guardarLineup(whatsapp, d);
     }
-    return guardarConfirmacion(email, d);
+    return guardarConfirmacion(whatsapp, d);
   } finally {
     lock.releaseLock();
   }
 }
 
-function guardarConfirmacion(email, d) {
+/**
+ * Link directo de WhatsApp. Pegado en la planilla queda clickeable:
+ * se abre el chat con esa persona sin tener que agendar el número.
+ */
+function linkWhatsapp(numero) {
+  return 'https://wa.me/' + numero;
+}
+
+function guardarConfirmacion(whatsapp, d) {
   var nombre = String(d.nombre || '').trim();
   if (!nombre) return { ok: false, error: 'Falta el nombre' };
 
-  var hoja = hojaCon(HOJA_CONFIRMACIONES, COLUMNAS.confirmacion);
+  var hoja = hojaCon(HOJA_CONFIRMACIONES, COLUMNAS.confirmacion, COLUMNAS_TEXTO.confirmacion);
   var personas = Math.max(1, Math.min(20, parseInt(d.acompaniantes, 10) || 1));
   var quiereLineup = String(d.avisar_lineup || '').toLowerCase();
   quiereLineup = (quiereLineup === 'si' || quiereLineup === 'sí' || quiereLineup === 'true') ? 'Sí' : 'No';
 
-  var fila = actualizarOAgregar(hoja, 2 /* col Email */, email, [
+  var fila = actualizarOAgregar(hoja, 2 /* col WhatsApp */, whatsapp, [
     new Date(),
     nombre,
-    email,
+    whatsapp,
+    linkWhatsapp(whatsapp),
     String(d.dias || ''),
     personas,
     String(d.dieta || ''),
@@ -119,7 +135,7 @@ function guardarConfirmacion(email, d) {
 
   // Si además pidió el aviso del lineup, lo sumamos a la otra hoja
   if (quiereLineup === 'Sí') {
-    guardarLineup(email, d);
+    guardarLineup(whatsapp, d);
   }
 
   var stats = estadisticas();
@@ -132,28 +148,29 @@ function guardarConfirmacion(email, d) {
   };
 }
 
-function guardarLineup(email, d) {
-  var hoja = hojaCon(HOJA_LINEUP, COLUMNAS.lineup);
-  var res = actualizarOAgregar(hoja, 1 /* col Email */, email, [
+function guardarLineup(whatsapp, d) {
+  var hoja = hojaCon(HOJA_LINEUP, COLUMNAS.lineup, COLUMNAS_TEXTO.lineup);
+  var res = actualizarOAgregar(hoja, 1 /* col WhatsApp */, whatsapp, [
     new Date(),
-    email,
+    whatsapp,
+    linkWhatsapp(whatsapp),
     String(d.origen || '')
   ]);
   return { ok: true, tipo: 'lineup', actualizado: res.actualizado };
 }
 
 /**
- * Escribe la fila. Si el email ya existe, la reemplaza en lugar de
+ * Escribe la fila. Si el número ya existe, la reemplaza en lugar de
  * duplicarla (así alguien puede corregir su confirmación).
- * indiceEmail es la posición del email DENTRO del array de valores (0-based).
+ * indiceClave es la posición del WhatsApp DENTRO del array de valores (0-based).
  */
-function actualizarOAgregar(hoja, indiceEmail, email, valores) {
+function actualizarOAgregar(hoja, indiceClave, clave, valores) {
   var ultima = hoja.getLastRow();
   if (ultima > 1) {
-    var col = indiceEmail + 1;
+    var col = indiceClave + 1;
     var existentes = hoja.getRange(2, col, ultima - 1, 1).getValues();
     for (var i = 0; i < existentes.length; i++) {
-      if (String(existentes[i][0]).trim().toLowerCase() === email.toLowerCase()) {
+      if (String(existentes[i][0]).trim() === clave) {
         hoja.getRange(i + 2, 1, 1, valores.length).setValues([valores]);
         return { actualizado: true, fila: i + 2 };
       }
@@ -163,7 +180,7 @@ function actualizarOAgregar(hoja, indiceEmail, email, valores) {
   return { actualizado: false, fila: hoja.getLastRow() };
 }
 
-function hojaCon(nombre, encabezados) {
+function hojaCon(nombre, encabezados, columnasTexto) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var hoja = ss.getSheetByName(nombre);
   if (!hoja) {
@@ -176,6 +193,12 @@ function hojaCon(nombre, encabezados) {
         .setBackground('#0B3C49')
         .setFontColor('#E0F7F5');
     hoja.setFrozenRows(1);
+
+    // El número de WhatsApp va como texto: si no, la planilla lo muestra
+    // como 5,49115E+12 y deja de servir para nada.
+    (columnasTexto || []).forEach(function (col) {
+      hoja.getRange(2, col, hoja.getMaxRows() - 1, 1).setNumberFormat('@');
+    });
   }
   return hoja;
 }
@@ -186,7 +209,7 @@ function estadisticas() {
   if (!hoja || hoja.getLastRow() < 2) {
     return { ok: true, confirmados: 0, personas: 0 };
   }
-  var personasCol = hoja.getRange(2, 5, hoja.getLastRow() - 1, 1).getValues();
+  var personasCol = hoja.getRange(2, 6, hoja.getLastRow() - 1, 1).getValues();
   var total = 0;
   for (var i = 0; i < personasCol.length; i++) {
     total += parseInt(personasCol[i][0], 10) || 1;
@@ -207,26 +230,30 @@ function json(obj) {
  * crear las hojas con sus encabezados y aceptar los permisos.
  */
 function inicializar() {
-  hojaCon(HOJA_CONFIRMACIONES, COLUMNAS.confirmacion);
-  hojaCon(HOJA_LINEUP, COLUMNAS.lineup);
+  hojaCon(HOJA_CONFIRMACIONES, COLUMNAS.confirmacion, COLUMNAS_TEXTO.confirmacion);
+  hojaCon(HOJA_LINEUP, COLUMNAS.lineup, COLUMNAS_TEXTO.lineup);
   Logger.log('Hojas listas 🦭');
 }
 
 /**
- * Devuelve los emails de quienes pidieron el aviso del lineup,
- * separados por coma, listos para pegar en el campo CCO del mail.
+ * Lista los números de quienes pidieron el aviso del lineup, para armar
+ * una lista de difusión de WhatsApp, más el link directo de cada uno.
+ * Ejecutala desde el editor y mirá Ver > Registro de ejecución.
  */
-function emailsParaAvisar() {
+function numerosParaAvisar() {
   var hoja = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(HOJA_LINEUP);
   if (!hoja || hoja.getLastRow() < 2) {
     Logger.log('Todavía no hay nadie anotado.');
     return '';
   }
-  var emails = hoja.getRange(2, 2, hoja.getLastRow() - 1, 1)
-                   .getValues()
-                   .map(function (f) { return String(f[0]).trim(); })
-                   .filter(String);
-  var lista = emails.join(', ');
-  Logger.log(lista);
-  return lista;
+  var numeros = hoja.getRange(2, 2, hoja.getLastRow() - 1, 1)
+                    .getValues()
+                    .map(function (f) { return String(f[0]).trim(); })
+                    .filter(String);
+
+  Logger.log('%s número(s) anotados:', numeros.length);
+  Logger.log(numeros.map(function (n) { return '+' + n; }).join(', '));
+  Logger.log('---- links directos ----');
+  Logger.log(numeros.map(linkWhatsapp).join('\n'));
+  return numeros;
 }

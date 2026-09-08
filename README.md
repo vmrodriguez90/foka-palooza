@@ -1,6 +1,7 @@
 # 🦭 FOKA PALOOZA 2026
 
 Landing del cumpleaños. **Viernes 25, sábado 26 y domingo 27 de septiembre.**
+El cumple es el viernes 25; el festejo grande es el sábado 26.
 Lineup por confirmarse: se anuncia el **15 de septiembre**.
 
 ```
@@ -41,26 +42,49 @@ const FOKA = {
 Listo. Cada confirmación cae como una fila en la planilla, en vivo.
 
 **Probarlo sin llenar el formulario:** abrí en el navegador
-`https://script.google.com/macros/s/..../exec?tipo=lineup&email=prueba@mail.com`
+`https://script.google.com/macros/s/..../exec?tipo=lineup&whatsapp=5491155555555`
 Tiene que responder `{"ok":true,...}` y aparecer la fila en la hoja.
 
 ### Qué guarda
 
-| Hoja | Columnas |
-|---|---|
-| `Confirmaciones` | Fecha · Nombre · Email · Días · Personas · Dieta · Mensaje · Quiere aviso lineup · Origen |
-| `Avisos Lineup` | Fecha · Email · Origen |
+**No hace falta que escribas los encabezados a mano**: la función `inicializar()`
+crea las dos hojas con estas columnas, en este orden exacto.
+
+Hoja **`Confirmaciones`**:
+
+| # | Columna | Contenido |
+|---|---|---|
+| A | `Fecha` | Cuándo confirmó |
+| B | `Nombre` | Nombre y apellido |
+| C | `WhatsApp` | Número normalizado, solo dígitos con código de país (`5491155555555`). Guardado como **texto**, si no la planilla lo muestra como `5,49115E+12` |
+| D | `Escribirle` | `https://wa.me/5491155555555` — clic y se abre el chat, sin agendar el número |
+| E | `Días` | `Viernes 25`, `Sábado 26`, `Domingo 27` o `Los tres` |
+| F | `Personas` | Cuántos vienen en total, contándole a él/ella |
+| G | `Dieta` | De todo / Vegetariane / Vegane / Sin TACC / Otra |
+| H | `Mensaje` | Texto libre |
+| I | `Quiere aviso lineup` | `Sí` / `No` |
+| J | `Origen` | URL desde donde se envió |
+
+Hoja **`Avisos Lineup`**: `Fecha` · `WhatsApp` · `Escribirle` · `Origen`.
+
+> ⚠️ Si cambiás el **orden** de las columnas, hay que actualizar `COLUMNAS` en
+> `Codigo.gs` (y el índice de la columna `Personas` que usa `estadisticas()`).
+> Agregar columnas *a la derecha* de las que están es seguro.
 
 Detalles útiles:
-- Si alguien confirma **dos veces con el mismo email**, se **actualiza** su fila en lugar de duplicarla (así puede corregirse).
+- El número se normaliza **antes** de guardarse: `011 15 5555-5555`, `11 5555 5555`
+  y `+54 9 11 5555-5555` terminan todos como `5491155555555`. Si alguien pone `+`
+  y código de país, se respeta el país que haya puesto (sirve para invitados de afuera).
+- Si alguien confirma **dos veces con el mismo número**, se **actualiza** su fila en lugar de duplicarla (así puede corregirse).
 - Hay un *honeypot* (campo oculto `apodo_foka`): si un bot lo completa, el envío se descarta en silencio.
 - `?action=stats` devuelve el total de confirmados; la web lo usa para mostrar el contador de "focas confirmadas".
 
-### Mandar el mail del lineup el 15/9
+### Avisar del lineup el 15/9
 
-En el editor de Apps Script ejecutá la función **`emailsParaAvisar()`** y mirá el registro
-(*Ver → Registro de ejecución*): te devuelve todos los emails separados por coma,
-listos para pegar en el campo **CCO** de un mail.
+En el editor de Apps Script ejecutá la función **`numerosParaAvisar()`** y mirá el
+registro (*Ver → Registro de ejecución*): te lista todos los números separados por coma
+—listos para armar una **lista de difusión** de WhatsApp— y abajo los links `wa.me`
+de cada uno por si preferís escribirles uno por uno.
 
 > ⚠️ Cada vez que edites `Codigo.gs` tenés que hacer **Implementar → Administrar implementaciones → ✏️ → Versión: Nueva versión → Implementar**, si no sigue corriendo la versión vieja.
 
@@ -123,6 +147,7 @@ Todo está en el bloque `const FOKA = {` al final de `index.html`:
 | Qué | Dónde |
 |---|---|
 | URL del Apps Script | `endpoint` |
+| Cómo se normalizan los números | función `normalizarWhatsapp()` |
 | Fecha del anuncio del lineup (contador) | `revealISO` — hoy `2026-09-15T20:00:00-03:00` |
 | Horarios de cada día (para el botón "Agendar") | `event.days` |
 | Mostrar/ocultar el contador de confirmados | `showStats` |

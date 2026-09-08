@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
 <title>FOKA PALOOZA 2026 — 25, 26 y 27 de septiembre</title>
-<meta name="description" content="Tres días de foca. Viernes 25, sábado 26 y domingo 27 de septiembre. Lineup por confirmarse el 15/9. Confirmá tu lugar.">
+<meta name="description" content="Cumplo el viernes 25 y el festejo grande es el sábado 26. Tres días: 25, 26 y 27 de septiembre. Lineup por confirmarse el 15/9. Confirmá tu lugar.">
 
 <!-- ============================================================
      COMPARTIR EN WHATSAPP / REDES  (Open Graph + Twitter Cards)
@@ -20,7 +20,7 @@
 <meta property="og:locale" content="es_AR">
 <meta property="og:url" content="https://vmrodriguez90.github.io/foka-palooza/">
 <meta property="og:title" content="FOKA PALOOZA 2026 🦭">
-<meta property="og:description" content="25, 26 y 27 de septiembre · Tres días de foca. Lineup por confirmarse. Confirmá tu lugar acá.">
+<meta property="og:description" content="Cumplo el viernes 25, pero el festejo grande es el sábado 26. Tres días de foca. Lineup por confirmarse.">
 <meta property="og:image" content="https://vmrodriguez90.github.io/foka-palooza/assets/og.png?v=3">
 <meta property="og:image:secure_url" content="https://vmrodriguez90.github.io/foka-palooza/assets/og.png?v=3">
 <meta property="og:image:type" content="image/png">
@@ -29,7 +29,7 @@
 <meta property="og:image:alt" content="Afiche de Foka Palooza 2026: 25, 26 y 27 de septiembre.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="FOKA PALOOZA 2026 🦭">
-<meta name="twitter:description" content="25, 26 y 27 de septiembre · Tres días de foca. Lineup por confirmarse.">
+<meta name="twitter:description" content="Cumplo el viernes 25, pero el festejo grande es el sábado 26. Tres días de foca.">
 <meta name="twitter:image" content="https://vmrodriguez90.github.io/foka-palooza/assets/og.png?v=3">
 <meta name="theme-color" content="#062C30">
 
@@ -64,9 +64,11 @@
 }
 
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;overflow-x:hidden}
 body{
   margin:0;
+  -webkit-tap-highlight-color:rgba(79,189,187,.25);
+  -webkit-text-size-adjust:100%;
   background:var(--abyss);
   color:var(--ink);
   font-family:var(--body);
@@ -303,7 +305,7 @@ section{position:relative}
 }
 .clock .lbl{
   font-family:var(--label);
-  letter-spacing:.22em;font-size:.72rem;text-transform:uppercase;color:var(--muted);
+  letter-spacing:.2em;font-size:.8rem;text-transform:uppercase;color:var(--muted);
   display:block;margin-top:.4rem;
 }
 .reveal-note{margin-top:1.6rem;font-size:.95rem;color:var(--muted)}
@@ -335,6 +337,18 @@ section{position:relative}
   font-family:var(--label);letter-spacing:.3em;text-transform:uppercase;
   color:var(--foam);font-size:1rem;
 }
+.day-head{display:flex;align-items:center;justify-content:space-between;gap:.6rem;min-height:1.9rem}
+.day-badge{
+  font-family:var(--label);
+  font-size:.78rem;letter-spacing:.13em;text-transform:uppercase;
+  padding:.32rem .7rem .14rem;
+  border-radius:999px;white-space:nowrap;
+}
+.day-badge.cumple{background:var(--gold);color:#2a2109}
+.day-badge.grande{background:var(--coral);color:#2a1109}
+/* el sábado es el día fuerte: se lo marca con el borde coral */
+.day.destacado{border-color:rgba(255,122,89,.55)}
+.day.destacado:hover{border-color:var(--coral)}
 .day .dnum{
   font-family:var(--display);
   padding-top:.06em;
@@ -382,7 +396,7 @@ section{position:relative}
   font-size:.85rem;color:var(--foam);margin-bottom:.4rem;
 }
 .field .hint{display:block;font-size:.8rem;color:var(--muted);margin-top:.35rem;letter-spacing:0;font-family:var(--body);text-transform:none}
-input[type=text],input[type=email],input[type=number],select,textarea{
+input[type=text],input[type=tel],input[type=email],input[type=number],select,textarea{
   width:100%;
   font-family:var(--body);font-size:1rem;color:var(--ink);
   background:rgba(6,44,48,.72);
@@ -415,10 +429,17 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 .check input:checked + span{background:var(--foam);color:#04262a;border-color:var(--foam);transform:translateY(-2px)}
 .check input:focus-visible + span{box-shadow:0 0 0 4px rgba(79,189,187,.25)}
 
-.inline-check{display:flex;gap:.6rem;align-items:flex-start;font-size:.92rem;color:var(--muted);margin-bottom:1.2rem}
-.inline-check input{width:20px;height:20px;accent-color:var(--foam);margin-top:.15rem;flex:none}
+.inline-check{display:flex;gap:.7rem;align-items:flex-start;font-size:.92rem;color:var(--muted);margin-bottom:1.2rem;padding:.35rem 0;cursor:pointer}
+.inline-check input{width:24px;height:24px;accent-color:var(--foam);margin-top:.05rem;flex:none}
 
-.hp{position:absolute!important;left:-9999px!important;opacity:0!important;height:0!important}
+.hp{
+  position:absolute!important;
+  width:1px!important;height:1px!important;
+  padding:0!important;margin:-1px!important;
+  overflow:hidden!important;clip:rect(0 0 0 0)!important;clip-path:inset(50%)!important;
+  white-space:nowrap!important;border:0!important;opacity:0!important;
+  pointer-events:none!important;
+}
 
 .form-msg{
   margin-top:1rem;padding:.9rem 1.1rem;border-radius:12px;font-size:.95rem;display:none;
@@ -465,6 +486,26 @@ footer{
 }
 .foot-note{color:var(--muted);font-size:.86rem;margin-top:.9rem}
 .share-row{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-top:1.6rem}
+
+/* ============================ MOBILE ============================ */
+@media (max-width:520px){
+  /* botones a lo ancho: más fáciles de tocar con el pulgar */
+  .cta-row .btn,
+  #btn-rsvp,
+  .notify-row .btn{flex:1 1 100%;width:100%;justify-content:center}
+  .notify-row input{flex:1 1 100%}
+  /* dos días por fila en vez de cuatro apretados */
+  .check{flex:1 1 calc(50% - .3rem)}
+  .clock{gap:.45rem}
+  .day{padding:1.4rem 1.15rem 1.5rem}
+  .card{padding:1.35rem 1.15rem 1.6rem}
+  .wrap{width:min(100% - 1.75rem, var(--maxw))}
+}
+@media (max-width:360px){
+  /* el contador pasa a 2x2 para que los números no queden minúsculos */
+  .clock{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .date-chip{font-size:1rem;padding:.4rem .8rem .2rem}
+}
 
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
@@ -523,7 +564,7 @@ footer{
       <span class="date-chip">Septiembre</span>
     </div>
 
-    <p class="hero-tag">Tres días de foca. El cumpleaños que ya no entra en una noche.</p>
+    <p class="hero-tag">Tres días de foca. <b style="color:var(--ice);font-weight:500">Cumplo el viernes 25</b>, pero como sé que muchos llegan recién esa noche, el festejo grande va el sábado.</p>
 
     <div class="cta-row">
       <a class="btn btn-primary" href="#confirmar">Confirmar asistencia</a>
@@ -565,16 +606,16 @@ footer{
   <div class="wrap center">
     <p class="eyebrow">Tres jornadas</p>
     <h2 class="section-title">El <em>cronograma</em></h2>
-    <p class="lead">Podés venir un día, dos o los tres. La foca no juzga (sí juzga a los que se van temprano).</p>
+    <p class="lead">Podés venir un día, dos o los tres. La foca no juzga (sí juzga a los que se van temprano).<br>Si tenés que elegir uno solo, que sea el sábado.</p>
   </div>
 
   <div class="wrap">
     <div class="days">
       <article class="day">
-        <p class="dow">Viernes</p>
+        <div class="day-head"><p class="dow">Viernes</p><span class="day-badge cumple">🎂 Cumple</span></div>
         <p class="dnum">25</p>
         <p class="dmon">Septiembre 2026</p>
-        <p class="dvibe">Apertura. Arranque tranqui que después se descontrola.</p>
+        <p class="dvibe">El día que cumplo años, oficialmente. Arranque tranqui, brindis a medianoche y a esperar a los que caen tarde.</p>
         <div class="tba">
           <p class="tba-label">Line up</p>
           <p class="blurline" aria-hidden="true">Posible Grupazo</p>
@@ -583,11 +624,11 @@ footer{
         </div>
       </article>
 
-      <article class="day">
-        <p class="dow">Sábado</p>
+      <article class="day destacado">
+        <div class="day-head"><p class="dow">Sábado</p><span class="day-badge grande">🎉 Festejo grande</span></div>
         <p class="dnum">26</p>
         <p class="dmon">Septiembre 2026</p>
-        <p class="dvibe">El día grande. Si venís a uno solo, que sea este.</p>
+        <p class="dvibe">Con todos ya en el iceberg, acá va el festejo en serio. Si venís a uno solo, que sea este.</p>
         <div class="tba">
           <p class="tba-label">Line up</p>
           <p class="blurline" aria-hidden="true">Headliner Secreto</p>
@@ -597,7 +638,7 @@ footer{
       </article>
 
       <article class="day">
-        <p class="dow">Domingo</p>
+        <div class="day-head"><p class="dow">Domingo</p></div>
         <p class="dnum">27</p>
         <p class="dmon">Septiembre 2026</p>
         <p class="dvibe">Cierre en modo foca: sol, comida y cero apuro.</p>
@@ -631,8 +672,9 @@ footer{
         <input type="text" name="nombre" required autocomplete="name" placeholder="Foka Rodríguez">
       </label>
       <label class="field">
-        <span class="lb">Email *</span>
-        <input type="email" name="email" required autocomplete="email" placeholder="foka@mail.com">
+        <span class="lb">WhatsApp *</span>
+        <input type="tel" name="whatsapp" required autocomplete="tel" inputmode="tel" placeholder="11 5555-5555">
+        <span class="hint">Con código de área, sin el 0 ni el 15. Si estás fuera de Argentina, poné + y el código de país.</span>
       </label>
     </div>
 
@@ -644,6 +686,7 @@ footer{
         <label class="check"><input type="checkbox" name="dias" value="Domingo 27"><span>Dom 27</span></label>
         <label class="check"><input type="checkbox" name="dias" value="Los tres" id="chk-todos"><span>Los 3 🦭</span></label>
       </div>
+      <span class="hint">Cumplo el viernes 25; el sábado 26 es el festejo grande.</span>
     </div>
 
     <div class="grid2">
@@ -671,7 +714,7 @@ footer{
 
     <label class="inline-check">
       <input type="checkbox" name="avisar_lineup" value="si" checked>
-      <span>Avisame por mail cuando salga el lineup del Foka Palooza.</span>
+      <span>Avisame por WhatsApp cuando salga el lineup del Foka Palooza.</span>
     </label>
 
     <input class="hp" type="text" name="apodo_foka" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -688,11 +731,11 @@ footer{
   <div class="wrap">
     <p class="eyebrow">Alerta lineup</p>
     <h2 class="section-title">No te lo <em>pierdas</em></h2>
-    <p class="lead">Dejame tu mail y sos de los primeros en enterarte cuando se confirme quién toca. Cero spam, solo focas.</p>
+    <p class="lead">Dejame tu WhatsApp y sos de los primeros en enterarte cuando se confirme quién toca. Un solo mensaje, lo prometo.</p>
 
     <form class="card" id="form-lineup" novalidate>
       <div class="notify-row">
-        <input type="email" name="email" required autocomplete="email" placeholder="tu@mail.com" aria-label="Tu email">
+        <input type="tel" name="whatsapp" required autocomplete="tel" inputmode="tel" placeholder="Tu WhatsApp: 11 5555-5555" aria-label="Tu WhatsApp">
         <button class="btn btn-gold" type="submit" id="btn-lineup">Avisame</button>
       </div>
       <input class="hp" type="text" name="apodo_foka" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -797,6 +840,27 @@ const FOKA = {
   sueltos.forEach(i => i.addEventListener('change', () => { if(i.checked) todos.checked = false; }));
 })();
 
+/* ================= NÚMEROS DE WHATSAPP =================
+   Convierte lo que escriba la gente al formato que necesita wa.me:
+   solo dígitos, con código de país y sin el 0 ni el 15 argentinos.
+     "11 5555-5555"      -> 5491155555555
+     "011 15 5555-5555"  -> 5491155555555
+     "+598 99 123 456"   -> 59899123456   (respeta el país si lo ponen)
+   Devuelve '' si no parece un número usable. */
+function normalizarWhatsapp(valor){
+  let v = String(valor || '').trim();
+  const traeCodigoPais = v.startsWith('+') || v.startsWith('00');
+  let d = v.replace(/\D/g, '');
+  if(traeCodigoPais) return d.replace(/^00/, '');
+
+  d = d.replace(/^0/, '');            // 011 5555-5555 -> 11 5555-5555
+  if(d.startsWith('54')) d = d.slice(2);
+  // el 9 de celular va antes que el 15: ningún código de área empieza con 9
+  if(d.startsWith('9') && d.length >= 11) d = d.slice(1);
+  d = d.replace(/^(\d{2,4})15/, '$1'); // saca el 15 que va después del código de área
+  return '549' + d;
+}
+
 /* ================= ENVÍO AL APPS SCRIPT ================= */
 async function enviar(payload){
   if(!FOKA.endpoint){
@@ -828,11 +892,12 @@ document.getElementById('form-rsvp').addEventListener('submit', async e => {
   const fd = new FormData(form);
 
   const nombre = (fd.get('nombre')||'').trim();
-  const email = (fd.get('email')||'').trim();
+  const escrito = (fd.get('whatsapp')||'').trim();
+  const whatsapp = normalizarWhatsapp(escrito);
   const dias = fd.getAll('dias');
 
   if(!nombre) return feedback('msg-rsvp','err','Poné tu nombre así sé quién sos 🦭');
-  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return feedback('msg-rsvp','err','Ese email no parece un email.');
+  if(whatsapp.length < 10 || whatsapp.length > 15) return feedback('msg-rsvp','err','Revisá el WhatsApp: código de área + número, sin el 0 ni el 15.');
   if(dias.length === 0) return feedback('msg-rsvp','err','Marcá al menos un día.');
 
   btn.disabled = true; btn.textContent = 'Guardando...';
@@ -840,7 +905,8 @@ document.getElementById('form-rsvp').addEventListener('submit', async e => {
     await enviar({
       tipo: 'confirmacion',
       nombre,
-      email,
+      whatsapp,
+      whatsapp_escrito: escrito,
       dias: dias.join(', '),
       acompaniantes: fd.get('acompaniantes') || '1',
       dieta: fd.get('dieta') || '',
@@ -851,7 +917,7 @@ document.getElementById('form-rsvp').addEventListener('submit', async e => {
     });
     form.querySelectorAll('input, textarea, select, button').forEach(i => i.disabled = true);
     feedback('msg-rsvp','ok','¡Listo, ' + nombre.split(' ')[0] + '! Quedaste confirmade para ' + dias.join(', ') + '. Nos vemos en el iceberg 🦭');
-    try{ localStorage.setItem('foka2026_rsvp', email); }catch(_){}
+    try{ localStorage.setItem('foka2026_rsvp', whatsapp); }catch(_){}
     cargarStats();
   }catch(err){
     feedback('msg-rsvp','err', err.message);
@@ -864,19 +930,21 @@ document.getElementById('form-lineup').addEventListener('submit', async e => {
   e.preventDefault();
   const form = e.target;
   const btn = document.getElementById('btn-lineup');
-  const email = (new FormData(form).get('email')||'').trim();
+  const escrito = (new FormData(form).get('whatsapp')||'').trim();
+  const whatsapp = normalizarWhatsapp(escrito);
 
-  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return feedback('msg-lineup','err','Revisá el email.');
+  if(whatsapp.length < 10 || whatsapp.length > 15) return feedback('msg-lineup','err','Revisá el número: código de área + número, sin el 0 ni el 15.');
 
   btn.disabled = true; btn.textContent = '...';
   try{
     await enviar({
       tipo: 'lineup',
-      email,
+      whatsapp,
+      whatsapp_escrito: escrito,
       trampa: new FormData(form).get('apodo_foka') || '',
       origen: location.href
     });
-    feedback('msg-lineup','ok','Anotado. Te escribimos el 15/09 con el lineup completo 🦭');
+    feedback('msg-lineup','ok','Anotado. Te escribimos por WhatsApp el 15/09 con el lineup completo 🦭');
     form.reset();
   }catch(err){
     feedback('msg-lineup','err', err.message);
@@ -903,7 +971,7 @@ cargarStats();
 /* ================= AGENDAR (.ics) ================= */
 document.getElementById('btn-ics').addEventListener('click', () => {
   const stamp = new Date().toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z';
-  const nombres = ['Día 1 — Viernes','Día 2 — Sábado','Día 3 — Domingo'];
+  const nombres = ['Día 1 — Viernes (el cumple)','Día 2 — Sábado (festejo grande)','Día 3 — Domingo'];
   const eventos = FOKA.event.days.map((d,i) => [
     'BEGIN:VEVENT',
     'UID:fokapalooza-2026-' + (i+1) + '@fokapalooza',

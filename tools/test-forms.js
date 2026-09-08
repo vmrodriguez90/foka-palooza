@@ -21,18 +21,18 @@ const path = require('path');
 
   // 1. validación: sin días marcados
   await p.fill('input[name=nombre]', 'Foka Rodríguez');
-  await p.fill('#form-rsvp input[name=email]', 'foka@mail.com');
+  await p.fill('#form-rsvp input[name=whatsapp]', '011 15 5555-5555');
   await p.click('#btn-rsvp');
   console.log('1. sin días  →', await p.textContent('#msg-rsvp'));
 
-  // 2. email inválido
-  await p.fill('#form-rsvp input[name=email]', 'noesunmail');
+  // 2. número inválido
+  await p.fill('#form-rsvp input[name=whatsapp]', '123');
   await p.click('.check:nth-child(2) span');
   await p.click('#btn-rsvp');
-  console.log('2. mail malo →', await p.textContent('#msg-rsvp'));
+  console.log('2. tel malo  →', await p.textContent('#msg-rsvp'));
 
   // 3. envío correcto
-  await p.fill('#form-rsvp input[name=email]', 'foka@mail.com');
+  await p.fill('#form-rsvp input[name=whatsapp]', '011 15 5555-5555');
   await p.fill('textarea[name=mensaje]', 'Llevo el fernet');
   await p.click('#btn-rsvp');
   await p.waitForTimeout(500);
@@ -40,7 +40,7 @@ const path = require('path');
   console.log('   stats     →', await p.textContent('#stats'));
 
   // 4. alta al lineup
-  await p.fill('#form-lineup input[name=email]', 'otra@foca.com');
+  await p.fill('#form-lineup input[name=whatsapp]', '+54 9 351 123-4567');
   await p.click('#btn-lineup');
   await p.waitForTimeout(400);
   console.log('4. lineup    →', await p.textContent('#msg-lineup'));
