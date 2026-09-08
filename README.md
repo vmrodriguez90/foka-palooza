@@ -1,6 +1,6 @@
 # 🦭 FOKA PALOOZA 2026
 
-Landing del cumpleaños. **Viernes 25, sábado 26 y domingo 27 de septiembre.**
+Landing del cumpleaños. **Miramar, Buenos Aires · Viernes 25, sábado 26 y domingo 27 de septiembre.**
 El cumple es el viernes 25; el festejo grande es el sábado 26.
 Lineup por confirmarse: se anuncia el **15 de septiembre**.
 
