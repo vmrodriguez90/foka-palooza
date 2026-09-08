@@ -674,7 +674,7 @@ footer{
       <label class="field">
         <span class="lb">WhatsApp *</span>
         <input type="tel" name="whatsapp" required autocomplete="tel" inputmode="tel" placeholder="11 5555-5555">
-        <span class="hint">Con código de área, sin el 0 ni el 15. Si estás fuera de Argentina, poné + y el código de país.</span>
+        <span class="hint">Característica + número, sin el 0 ni el 15 (ej: 2291 456789). Si estás fuera de Argentina, poné + y el código de país.</span>
       </label>
     </div>
 
@@ -855,10 +855,21 @@ function normalizarWhatsapp(valor){
 
   d = d.replace(/^0/, '');            // 011 5555-5555 -> 11 5555-5555
   if(d.startsWith('54')) d = d.slice(2);
-  // el 9 de celular va antes que el 15: ningún código de área empieza con 9
+  // el 9 de celular va antes que el 15: ninguna característica empieza con 9
   if(d.startsWith('9') && d.length >= 11) d = d.slice(1);
-  d = d.replace(/^(\d{2,4})15/, '$1'); // saca el 15 que va después del código de área
+
+  // Un número argentino son SIEMPRE 10 dígitos: característica (2, 3 o 4:
+  // 11, 351, 2291...) + abonado. Con el 15 del medio son 12. Por eso el 15
+  // se saca solo si el número tiene 12 dígitos; si ya tiene 10 no sobra nada
+  // y tocarlo rompería a los abonados que arrancan con 15 (11 1512-3456).
+  if(d.length === 12) d = d.replace(/^(\d{2,4})15/, '$1');
   return '549' + d;
+}
+
+/* ¿El número normalizado sirve para wa.me? */
+function whatsappValido(d){
+  if(d.startsWith('549')) return d.length === 13; // 54 + 9 + los 10 de Argentina
+  return d.length >= 10 && d.length <= 15;        // invitados de otros países
 }
 
 /* ================= ENVÍO AL APPS SCRIPT ================= */
@@ -897,7 +908,7 @@ document.getElementById('form-rsvp').addEventListener('submit', async e => {
   const dias = fd.getAll('dias');
 
   if(!nombre) return feedback('msg-rsvp','err','Poné tu nombre así sé quién sos 🦭');
-  if(whatsapp.length < 10 || whatsapp.length > 15) return feedback('msg-rsvp','err','Revisá el WhatsApp: código de área + número, sin el 0 ni el 15.');
+  if(!whatsappValido(whatsapp)) return feedback('msg-rsvp','err','Revisá el WhatsApp: característica + número, sin el 0 ni el 15 (10 dígitos en total).');
   if(dias.length === 0) return feedback('msg-rsvp','err','Marcá al menos un día.');
 
   btn.disabled = true; btn.textContent = 'Guardando...';
@@ -933,7 +944,7 @@ document.getElementById('form-lineup').addEventListener('submit', async e => {
   const escrito = (new FormData(form).get('whatsapp')||'').trim();
   const whatsapp = normalizarWhatsapp(escrito);
 
-  if(whatsapp.length < 10 || whatsapp.length > 15) return feedback('msg-lineup','err','Revisá el número: código de área + número, sin el 0 ni el 15.');
+  if(!whatsappValido(whatsapp)) return feedback('msg-lineup','err','Revisá el número: característica + número, sin el 0 ni el 15 (10 dígitos en total).');
 
   btn.disabled = true; btn.textContent = '...';
   try{

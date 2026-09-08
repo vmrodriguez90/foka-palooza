@@ -75,6 +75,12 @@ Detalles útiles:
 - El número se normaliza **antes** de guardarse: `011 15 5555-5555`, `11 5555 5555`
   y `+54 9 11 5555-5555` terminan todos como `5491155555555`. Si alguien pone `+`
   y código de país, se respeta el país que haya puesto (sirve para invitados de afuera).
+- Las características argentinas son de **2, 3 o 4 dígitos** (`11`, `351`, `2291`),
+  así que no se puede asumir un largo fijo. La regla que usa el normalizador es que
+  el número nacional son **siempre 10 dígitos**: si llegan 12, sobra el `15` y se saca;
+  si llegan 10, no se toca nada. Eso evita romper abonados que arrancan con 15
+  (`11 1512-3456` es un número válido, no un `15` de más).
+  Los casos están cubiertos en `tools/test-whatsapp.js` (`node tools/test-whatsapp.js`).
 - Si alguien confirma **dos veces con el mismo número**, se **actualiza** su fila en lugar de duplicarla (así puede corregirse).
 - Hay un *honeypot* (campo oculto `apodo_foka`): si un bot lo completa, el envío se descarta en silencio.
 - `?action=stats` devuelve el total de confirmados; la web lo usa para mostrar el contador de "focas confirmadas".

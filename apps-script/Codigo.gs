@@ -87,7 +87,14 @@ function procesar(d) {
   // Acá igual lo limpiamos, por si el endpoint se llama a mano por GET.
   var whatsapp = String(d.whatsapp || '').replace(/\D/g, '');
 
-  if (whatsapp.length < 10 || whatsapp.length > 15) {
+  // Argentina son 13 dígitos: 54 + 9 + los 10 del número (la característica
+  // puede ser de 2, 3 o 4: 11, 351, 2291...). Del resto del mundo aceptamos
+  // un rango amplio porque cada país tiene su largo.
+  var valido = whatsapp.indexOf('549') === 0
+    ? whatsapp.length === 13
+    : (whatsapp.length >= 10 && whatsapp.length <= 15);
+
+  if (!valido) {
     return { ok: false, error: 'Número de WhatsApp inválido' };
   }
 
