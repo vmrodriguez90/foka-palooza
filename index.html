@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<title>FOKA PALOOZA 2026 — 25, 26 y 27 de septiembre</title>
+<meta name="description" content="Tres días de foca. Viernes 25, sábado 26 y domingo 27 de septiembre. Lineup por confirmarse el 15/9. Confirmá tu lugar.">
+
+<!-- ============================================================
+     COMPARTIR EN WHATSAPP / REDES  (Open Graph + Twitter Cards)
+     ⚠️  IMPORTANTE: si publicás el sitio en otro dominio,
+     cambiá TODAS las URLs absolutas de abajo (og:url y og:image).
+     WhatsApp NO ejecuta JavaScript: estas etiquetas tienen que
+     estar escritas a mano en el HTML, con URL absoluta y https.
+     ============================================================ -->
+<link rel="canonical" href="https://vmrodriguez90.github.io/foka-palooza/">
+<meta property="og:site_name" content="Foka Palooza">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:url" content="https://vmrodriguez90.github.io/foka-palooza/">
+<meta property="og:title" content="FOKA PALOOZA 2026 🦭">
+<meta property="og:description" content="25, 26 y 27 de septiembre · Tres días de foca. Lineup por confirmarse. Confirmá tu lugar acá.">
+<meta property="og:image" content="https://vmrodriguez90.github.io/foka-palooza/assets/og.png?v=3">
+<meta property="og:image:secure_url" content="https://vmrodriguez90.github.io/foka-palooza/assets/og.png?v=3">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Afiche de Foka Palooza 2026: 25, 26 y 27 de septiembre.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FOKA PALOOZA 2026 🦭">
+<meta name="twitter:description" content="25, 26 y 27 de septiembre · Tres días de foca. Lineup por confirmarse.">
+<meta name="twitter:image" content="https://vmrodriguez90.github.io/foka-palooza/assets/og.png?v=3">
+<meta name="theme-color" content="#062C30">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icon-512.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================ TOKENS ============================ */
+:root{
+  --abyss:#062C30;
+  --deep:#0B3C49;
+  --teal:#1B6B73;
+  --foam:#4FBDBB;
+  --ice:#E0F7F5;
+  --coral:#FF7A59;
+  --gold:#FFD166;
+
+  --ink:var(--ice);
+  --muted:#8FBFC2;
+  --line:rgba(79,189,187,.28);
+
+  --display:'Anton', 'Arial Narrow', Impact, sans-serif;
+  --label:'Bebas Neue', 'Arial Narrow', sans-serif;
+  --body:'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+
+  --maxw:1120px;
+  --r:18px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--abyss);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:var(--foam)}
+::selection{background:var(--coral);color:#20110d}
+
+.wrap{width:min(100% - 2.5rem, var(--maxw));margin-inline:auto}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ============================ TIPOGRAFÍA ============================ */
+.display{
+  font-family:var(--display);
+  font-weight:400;
+  line-height:.86;
+  letter-spacing:.005em;
+  text-transform:uppercase;
+  margin:0;
+}
+.eyebrow{
+  font-family:var(--label);
+  font-size:clamp(.95rem,2.2vw,1.15rem);
+  letter-spacing:.34em;
+  text-transform:uppercase;
+  color:var(--foam);
+  margin:0 0 .75rem;
+}
+.section-title{
+  font-family:var(--display);
+  font-size:clamp(2.4rem,7vw,4.6rem);
+  line-height:.95;
+  text-transform:uppercase;
+  margin:0 0 .3em;
+  padding-top:.06em;
+}
+.section-title em{font-style:normal;color:var(--coral)}
+.lead{color:var(--muted);max-width:56ch;margin:0 auto}
+
+/* ============================ HERO ============================ */
+.hero{
+  position:relative;
+  min-height:100svh;
+  display:grid;
+  place-items:center;
+  padding:clamp(3rem,9vw,5.5rem) 0 clamp(2rem,6vw,4rem);
+  overflow:hidden;
+  isolation:isolate;
+}
+.rays{
+  position:absolute;inset:-40% -20%;
+  z-index:-2;
+  background:repeating-conic-gradient(from 0deg at 50% 42%,
+    rgba(27,107,115,.55) 0deg 7deg, transparent 7deg 14deg);
+  animation:spin 90s linear infinite;
+  opacity:.5;
+}
+.glow{
+  position:absolute;inset:0;z-index:-1;
+  background:
+    radial-gradient(70% 55% at 50% 34%, rgba(79,189,187,.28), transparent 68%),
+    radial-gradient(120% 90% at 50% 100%, rgba(6,44,48,.96), var(--abyss) 70%);
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.hero-inner{text-align:center;position:relative;z-index:1}
+
+.badge-top{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-family:var(--label);letter-spacing:.3em;font-size:.9rem;
+  text-transform:uppercase;color:var(--abyss);
+  background:var(--gold);
+  padding:.35rem 1rem .2rem;
+  border-radius:999px;
+  transform:rotate(-2deg);
+}
+
+.wordmark{margin:clamp(1rem,3vw,1.6rem) 0 0}
+.wordmark .line{
+  font-family:var(--display);
+  text-transform:uppercase;
+  line-height:.82;
+  font-size:clamp(4.2rem,20vw,15rem);
+  letter-spacing:-.015em;
+  display:block;
+}
+.wordmark .foka{
+  color:var(--ice);
+  text-shadow:
+    .055em .06em 0 var(--teal),
+    .11em .12em 0 rgba(6,44,48,.85);
+}
+.wordmark .palooza{
+  color:var(--coral);
+  font-size:clamp(3.1rem,15.2vw,11.4rem);
+  letter-spacing:.005em;
+  text-shadow:
+    .05em .055em 0 #7d2f1e,
+    .1em .11em 0 rgba(6,44,48,.85);
+}
+.wordmark .year{
+  display:inline-block;
+  font-family:var(--label);
+  font-size:clamp(1.1rem,3.4vw,1.7rem);
+  letter-spacing:.5em;
+  color:var(--foam);
+  margin-top:1.5rem;
+  padding-left:.5em;
+}
+
+.dates-strip{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;
+  margin:clamp(1.4rem,4vw,2.2rem) 0 0;
+}
+.date-chip{
+  font-family:var(--label);
+  font-size:clamp(1.05rem,2.9vw,1.5rem);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  padding:.45rem 1rem .25rem;
+  border:2px solid var(--line);
+  border-radius:999px;
+  background:rgba(11,60,73,.55);
+  backdrop-filter:blur(6px);
+}
+.date-chip b{color:var(--gold);font-weight:400}
+
+.hero-tag{
+  margin:1.4rem auto 0;
+  max-width:34ch;
+  color:var(--muted);
+  font-size:clamp(1rem,2.4vw,1.15rem);
+}
+
+.cta-row{
+  display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center;
+  margin-top:clamp(1.6rem,4vw,2.4rem);
+}
+.btn{
+  font-family:var(--label);
+  font-size:1.15rem;letter-spacing:.14em;text-transform:uppercase;
+  padding:.85rem 1.7rem .65rem;
+  border-radius:999px;
+  border:2px solid transparent;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-flex;align-items:center;gap:.5rem;
+  transition:transform .16s ease, box-shadow .16s ease, background .16s ease;
+}
+.btn-primary{background:var(--coral);color:#2a1109;box-shadow:0 8px 0 #8f3b26}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 11px 0 #8f3b26}
+.btn-primary:active{transform:translateY(3px);box-shadow:0 4px 0 #8f3b26}
+.btn-ghost{background:transparent;color:var(--ice);border-color:var(--foam)}
+.btn-ghost:hover{background:rgba(79,189,187,.14);transform:translateY(-3px)}
+.btn-gold{background:var(--gold);color:#2a2109;box-shadow:0 8px 0 #9c7c2e}
+.btn-gold:hover{transform:translateY(-3px);box-shadow:0 11px 0 #9c7c2e}
+
+.scroll-hint{
+  margin-top:clamp(1.8rem,5vw,3rem);
+  font-family:var(--label);letter-spacing:.28em;font-size:.8rem;
+  color:var(--muted);text-transform:uppercase;
+  animation:bob 2.4s ease-in-out infinite;
+}
+@keyframes bob{0%,100%{transform:translateY(0);opacity:.7}50%{transform:translateY(6px);opacity:1}}
+
+/* ============================ FOCA ============================ */
+.seal-wrap{
+  width:clamp(120px,22vw,190px);
+  margin:0 auto;
+  filter:drop-shadow(0 14px 26px rgba(0,0,0,.45));
+  animation:float 6s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(2deg)}}
+
+/* ============================ MARQUEE ============================ */
+.marquee{
+  background:var(--coral);
+  color:#2a1109;
+  border-block:3px solid var(--abyss);
+  overflow:hidden;
+  white-space:nowrap;
+  transform:rotate(-1.2deg) scale(1.04);
+  margin:clamp(2rem,6vw,3.5rem) 0;
+}
+.marquee.alt{background:var(--gold);transform:rotate(1.2deg) scale(1.04)}
+.marquee__track{display:inline-flex;animation:slide 26s linear infinite;will-change:transform}
+.marquee.alt .marquee__track{animation-duration:34s;animation-direction:reverse}
+.marquee__track span{
+  font-family:var(--display);
+  font-size:clamp(1.3rem,3.6vw,2.1rem);
+  text-transform:uppercase;
+  padding:.42em 0;
+  padding-right:.7em;
+  display:inline-block;
+}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============================ SECCIONES ============================ */
+section{position:relative}
+.pad{padding:clamp(3.5rem,10vw,6.5rem) 0}
+.center{text-align:center}
+
+/* ============================ COUNTDOWN ============================ */
+.countdown-band{
+  background:
+    linear-gradient(180deg, rgba(11,60,73,.9), rgba(6,44,48,.9)),
+    radial-gradient(60% 100% at 50% 0%, rgba(79,189,187,.22), transparent 70%);
+  border-block:1px solid var(--line);
+}
+.clock{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(.5rem,2vw,1.1rem);
+  max-width:720px;margin:2rem auto 0;
+}
+.clock .unit{
+  background:rgba(6,44,48,.72);
+  border:2px solid var(--line);
+  border-radius:var(--r);
+  padding:clamp(.7rem,2.4vw,1.2rem) .3rem .6rem;
+  text-align:center;
+}
+.clock .num{
+  font-family:var(--display);
+  font-size:clamp(2rem,8vw,4rem);
+  line-height:1;
+  color:var(--gold);
+  font-variant-numeric:tabular-nums;
+  display:block;
+}
+.clock .lbl{
+  font-family:var(--label);
+  letter-spacing:.22em;font-size:.72rem;text-transform:uppercase;color:var(--muted);
+  display:block;margin-top:.4rem;
+}
+.reveal-note{margin-top:1.6rem;font-size:.95rem;color:var(--muted)}
+.reveal-note b{color:var(--foam);font-weight:500}
+
+/* ============================ DÍAS ============================ */
+.days{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1.2rem;
+  margin-top:clamp(2rem,5vw,3rem);
+}
+.day{
+  position:relative;
+  background:linear-gradient(165deg, rgba(27,107,115,.5), rgba(11,60,73,.65));
+  border:2px solid var(--line);
+  border-radius:var(--r);
+  padding:1.6rem 1.4rem 1.8rem;
+  overflow:hidden;
+  transition:transform .2s ease, border-color .2s ease;
+}
+.day:hover{transform:translateY(-6px);border-color:var(--foam)}
+.day::after{
+  content:'';position:absolute;inset:auto -30% -55% -30%;height:60%;
+  background:radial-gradient(50% 100% at 50% 0%, rgba(79,189,187,.24), transparent 70%);
+  pointer-events:none;
+}
+.day .dow{
+  font-family:var(--label);letter-spacing:.3em;text-transform:uppercase;
+  color:var(--foam);font-size:1rem;
+}
+.day .dnum{
+  font-family:var(--display);
+  padding-top:.06em;
+  font-size:clamp(3.6rem,11vw,5.4rem);
+  line-height:.85;
+  margin:.2rem 0 .1rem;
+  color:var(--ice);
+  text-shadow:.04em .05em 0 rgba(6,44,48,.7);
+}
+.day .dmon{font-family:var(--label);letter-spacing:.24em;text-transform:uppercase;color:var(--muted);font-size:.95rem}
+.day .dvibe{margin:.9rem 0 1.1rem;font-size:.95rem;color:var(--ice);opacity:.88}
+.tba{
+  border-top:1px dashed var(--line);
+  padding-top:1rem;
+}
+.tba .tba-label{
+  font-family:var(--label);letter-spacing:.2em;font-size:.78rem;text-transform:uppercase;color:var(--gold);
+}
+.blurline{
+  font-family:var(--display);
+  text-transform:uppercase;
+  font-size:clamp(1.1rem,3.4vw,1.5rem);
+  line-height:1.25;
+  color:var(--ice);
+  filter:blur(6px);
+  opacity:.55;
+  user-select:none;
+  margin-top:.45rem;
+}
+.blurline.b2{font-size:clamp(.95rem,2.8vw,1.2rem);filter:blur(5px);opacity:.42}
+
+/* ============================ FORMULARIOS ============================ */
+.card{
+  background:linear-gradient(170deg, rgba(11,60,73,.82), rgba(6,44,48,.9));
+  border:2px solid var(--line);
+  border-radius:calc(var(--r) + 6px);
+  padding:clamp(1.5rem,4.5vw,2.6rem);
+  max-width:760px;margin:clamp(2rem,5vw,3rem) auto 0;
+}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.field{display:block;margin-bottom:1.1rem}
+.field > span.lb{
+  display:block;
+  font-family:var(--label);letter-spacing:.16em;text-transform:uppercase;
+  font-size:.85rem;color:var(--foam);margin-bottom:.4rem;
+}
+.field .hint{display:block;font-size:.8rem;color:var(--muted);margin-top:.35rem;letter-spacing:0;font-family:var(--body);text-transform:none}
+input[type=text],input[type=email],input[type=number],select,textarea{
+  width:100%;
+  font-family:var(--body);font-size:1rem;color:var(--ink);
+  background:rgba(6,44,48,.72);
+  border:2px solid var(--line);
+  border-radius:12px;
+  padding:.75rem .9rem;
+  transition:border-color .15s ease, box-shadow .15s ease;
+}
+textarea{min-height:96px;resize:vertical}
+input:focus,select:focus,textarea:focus{
+  outline:none;border-color:var(--foam);box-shadow:0 0 0 4px rgba(79,189,187,.16);
+}
+input::placeholder,textarea::placeholder{color:rgba(143,191,194,.65)}
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--foam) 50%),linear-gradient(135deg,var(--foam) 50%,transparent 50%);background-position:calc(100% - 20px) 55%,calc(100% - 14px) 55%;background-size:6px 6px,6px 6px;background-repeat:no-repeat}
+
+.checks{display:flex;flex-wrap:wrap;gap:.6rem}
+.check{
+  position:relative;
+  flex:1 1 150px;
+}
+.check input{position:absolute;opacity:0;pointer-events:none}
+.check span{
+  display:block;text-align:center;cursor:pointer;
+  font-family:var(--label);letter-spacing:.14em;text-transform:uppercase;font-size:1rem;
+  padding:.7rem .6rem .5rem;
+  border:2px solid var(--line);border-radius:12px;
+  background:rgba(6,44,48,.55);
+  transition:all .16s ease;
+}
+.check input:checked + span{background:var(--foam);color:#04262a;border-color:var(--foam);transform:translateY(-2px)}
+.check input:focus-visible + span{box-shadow:0 0 0 4px rgba(79,189,187,.25)}
+
+.inline-check{display:flex;gap:.6rem;align-items:flex-start;font-size:.92rem;color:var(--muted);margin-bottom:1.2rem}
+.inline-check input{width:20px;height:20px;accent-color:var(--foam);margin-top:.15rem;flex:none}
+
+.hp{position:absolute!important;left:-9999px!important;opacity:0!important;height:0!important}
+
+.form-msg{
+  margin-top:1rem;padding:.9rem 1.1rem;border-radius:12px;font-size:.95rem;display:none;
+}
+.form-msg.show{display:block}
+.form-msg.ok{background:rgba(79,189,187,.16);border:1px solid var(--foam);color:var(--ice)}
+.form-msg.err{background:rgba(255,122,89,.14);border:1px solid var(--coral);color:#ffd9cf}
+
+.btn[disabled]{opacity:.6;cursor:progress;transform:none!important}
+
+.stats{
+  margin-top:1.4rem;font-family:var(--label);letter-spacing:.2em;
+  text-transform:uppercase;font-size:.9rem;color:var(--gold);
+  display:none;
+}
+.stats.show{display:block}
+
+/* ============================ AVISO LINEUP ============================ */
+.notify{
+  background:
+    linear-gradient(180deg, rgba(27,107,115,.35), rgba(6,44,48,0)),
+    var(--abyss);
+}
+.notify .card{max-width:620px}
+.notify-row{display:flex;gap:.7rem;flex-wrap:wrap}
+.notify-row input{flex:1 1 220px}
+
+/* ============================ FOOTER ============================ */
+footer{
+  border-top:1px solid var(--line);
+  padding:clamp(2.5rem,7vw,4rem) 0 3rem;
+  text-align:center;
+}
+.icon-row{
+  font-size:clamp(1.3rem,4vw,1.9rem);
+  letter-spacing:.35em;
+  margin-bottom:1.2rem;
+  filter:saturate(.9);
+}
+.foot-word{
+  font-family:var(--display);text-transform:uppercase;
+  font-size:clamp(1.4rem,5vw,2.4rem);color:var(--coral);
+  line-height:.95;
+}
+.foot-note{color:var(--muted);font-size:.86rem;margin-top:.9rem}
+.share-row{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-top:1.6rem}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================ HERO ============================ -->
+<header class="hero">
+  <div class="rays" aria-hidden="true"></div>
+  <div class="glow" aria-hidden="true"></div>
+
+  <div class="wrap hero-inner">
+
+    <div class="seal-wrap" aria-hidden="true">
+      <svg viewBox="0 -18 220 228" role="img" aria-hidden="true">
+        <ellipse cx="110" cy="196" rx="70" ry="9" fill="#042226" opacity=".5"/>
+        <path d="M110 166c-5 15-23 27-43 28 4-16 21-28 43-28z" fill="#0B3C49"/>
+        <path d="M110 166c5 15 23 27 43 28-4-16-21-28-43-28z" fill="#0B3C49"/>
+        <path d="M110 26c-30 0-52 21-52 50 0 17-8 33-11 51-4 25 21 43 63 43s67-18 63-43c-3-18-11-34-11-51 0-29-22-50-52-50z" fill="#1B6B73"/>
+        <path d="M110 26c-30 0-52 21-52 50 0 17-8 33-11 51-3 20 11 35 38 41-16-20-22-45-22-70 0-30 16-56 47-72z" fill="#4FBDBB" opacity=".3"/>
+        <ellipse cx="110" cy="138" rx="42" ry="38" fill="#E0F7F5" opacity=".15"/>
+        <path d="M60 122c-13 9-20 23-19 37 1 6 7 8 11 4 11-10 17-24 18-35z" fill="#0B3C49"/>
+        <path d="M160 122c13 9 20 23 19 37-1 6-7 8-11 4-11-10-17-24-18-35z" fill="#0B3C49"/>
+        <circle cx="90" cy="74" r="8.5" fill="#04222E"/>
+        <circle cx="130" cy="74" r="8.5" fill="#04222E"/>
+        <circle cx="93" cy="70.5" r="3" fill="#E0F7F5"/>
+        <circle cx="133" cy="70.5" r="3" fill="#E0F7F5"/>
+        <ellipse cx="110" cy="102" rx="23" ry="15" fill="#E0F7F5" opacity=".2"/>
+        <ellipse cx="110" cy="94" rx="8.5" ry="6.5" fill="#FF7A59"/>
+        <path d="M110 101v5M110 106c0 5-6 8-11 4M110 106c0 5 6 8 11 4" stroke="#04222E" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <g stroke="#E0F7F5" stroke-width="2.2" stroke-linecap="round" opacity=".85">
+        <path d="M87 96 61 89M87 102H61M87 108l-24 7M133 96l26-7M133 102h26M133 108l24 7"/>
+        </g>
+        <path d="M89 33C95 19 102 5 110-8c10 13 18 27 23 41-11 6-25 7-44 0z" fill="#FFD166"/>
+        <path d="M110-8c10 13 18 27 23 41-6 3-13 5-21 6z" fill="#FF7A59"/>
+        <circle cx="110" cy="-11" r="7" fill="#FF7A59"/>
+      </svg>
+    </div>
+
+    <p class="badge-top">Edición 2026</p>
+
+    <h1 class="wordmark">
+      <span class="sr">Foka Palooza 2026</span>
+      <span class="line foka" aria-hidden="true">Foka</span>
+      <span class="line palooza" aria-hidden="true">Palooza</span>
+      <span class="year" aria-hidden="true">2026</span>
+    </h1>
+
+    <div class="dates-strip">
+      <span class="date-chip">Viernes <b>25</b></span>
+      <span class="date-chip">Sábado <b>26</b></span>
+      <span class="date-chip">Domingo <b>27</b></span>
+      <span class="date-chip">Septiembre</span>
+    </div>
+
+    <p class="hero-tag">Tres días de foca. El cumpleaños que ya no entra en una noche.</p>
+
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#confirmar">Confirmar asistencia</a>
+      <a class="btn btn-ghost" href="#lineup">Avisame del lineup</a>
+    </div>
+
+    <p class="scroll-hint">Bajá ↓</p>
+  </div>
+</header>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track" id="mq1"></div>
+</div>
+
+<!-- ============================ COUNTDOWN ============================ -->
+<section class="pad countdown-band center" id="lineup">
+  <div class="wrap">
+    <p class="eyebrow">Artistas confirmados</p>
+    <h2 class="section-title">Lineup <em>por confirmarse</em></h2>
+    <p class="lead">Todavía estamos cerrando quién toca cada día. El anuncio oficial cae el <b style="color:var(--gold);font-weight:500">martes 15 de septiembre</b>.</p>
+
+    <div class="clock" id="clock" role="timer" aria-live="off">
+      <div class="unit"><span class="num" id="cd-d">--</span><span class="lbl">Días</span></div>
+      <div class="unit"><span class="num" id="cd-h">--</span><span class="lbl">Horas</span></div>
+      <div class="unit"><span class="num" id="cd-m">--</span><span class="lbl">Minutos</span></div>
+      <div class="unit"><span class="num" id="cd-s">--</span><span class="lbl">Segundos</span></div>
+    </div>
+
+    <p class="reveal-note" id="reveal-note">Faltan para el anuncio del lineup · <b>15/09/2026, 20:00 hs</b></p>
+
+    <div class="cta-row">
+      <a class="btn btn-gold" href="#avisame">Quiero que me avisen 🦭</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ DÍAS ============================ -->
+<section class="pad">
+  <div class="wrap center">
+    <p class="eyebrow">Tres jornadas</p>
+    <h2 class="section-title">El <em>cronograma</em></h2>
+    <p class="lead">Podés venir un día, dos o los tres. La foca no juzga (sí juzga a los que se van temprano).</p>
+  </div>
+
+  <div class="wrap">
+    <div class="days">
+      <article class="day">
+        <p class="dow">Viernes</p>
+        <p class="dnum">25</p>
+        <p class="dmon">Septiembre 2026</p>
+        <p class="dvibe">Apertura. Arranque tranqui que después se descontrola.</p>
+        <div class="tba">
+          <p class="tba-label">Line up</p>
+          <p class="blurline" aria-hidden="true">Posible Grupazo</p>
+          <p class="blurline b2" aria-hidden="true">Nombre Sorpresa · Alguien Que Ya Sabés</p>
+          <p class="sr">Lineup por confirmarse.</p>
+        </div>
+      </article>
+
+      <article class="day">
+        <p class="dow">Sábado</p>
+        <p class="dnum">26</p>
+        <p class="dmon">Septiembre 2026</p>
+        <p class="dvibe">El día grande. Si venís a uno solo, que sea este.</p>
+        <div class="tba">
+          <p class="tba-label">Line up</p>
+          <p class="blurline" aria-hidden="true">Headliner Secreto</p>
+          <p class="blurline b2" aria-hidden="true">Banda Misteriosa · Dj Foka · Invitade</p>
+          <p class="sr">Lineup por confirmarse.</p>
+        </div>
+      </article>
+
+      <article class="day">
+        <p class="dow">Domingo</p>
+        <p class="dnum">27</p>
+        <p class="dmon">Septiembre 2026</p>
+        <p class="dvibe">Cierre en modo foca: sol, comida y cero apuro.</p>
+        <div class="tba">
+          <p class="tba-label">Line up</p>
+          <p class="blurline" aria-hidden="true">Resaca Set</p>
+          <p class="blurline b2" aria-hidden="true">Acústico Sorpresa · Los Que Quedan</p>
+          <p class="sr">Lineup por confirmarse.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div class="marquee alt" aria-hidden="true">
+  <div class="marquee__track" id="mq2"></div>
+</div>
+
+<!-- ============================ CONFIRMACIÓN ============================ -->
+<section class="pad" id="confirmar">
+  <div class="wrap center">
+    <p class="eyebrow">RSVP</p>
+    <h2 class="section-title">Confirmá <em>tu lugar</em></h2>
+    <p class="lead">Necesito saber cuántas focas entran en el iceberg. Tardás 30 segundos.</p>
+  </div>
+
+  <form class="card" id="form-rsvp" novalidate>
+    <div class="grid2">
+      <label class="field">
+        <span class="lb">Nombre y apellido *</span>
+        <input type="text" name="nombre" required autocomplete="name" placeholder="Foka Rodríguez">
+      </label>
+      <label class="field">
+        <span class="lb">Email *</span>
+        <input type="email" name="email" required autocomplete="email" placeholder="foka@mail.com">
+      </label>
+    </div>
+
+    <div class="field">
+      <span class="lb">¿Qué días venís? *</span>
+      <div class="checks">
+        <label class="check"><input type="checkbox" name="dias" value="Viernes 25"><span>Vie 25</span></label>
+        <label class="check"><input type="checkbox" name="dias" value="Sábado 26"><span>Sáb 26</span></label>
+        <label class="check"><input type="checkbox" name="dias" value="Domingo 27"><span>Dom 27</span></label>
+        <label class="check"><input type="checkbox" name="dias" value="Los tres" id="chk-todos"><span>Los 3 🦭</span></label>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <label class="field">
+        <span class="lb">¿Cuántos son en total?</span>
+        <input type="number" name="acompaniantes" min="1" max="20" value="1" inputmode="numeric">
+        <span class="hint">Contándote a vos.</span>
+      </label>
+      <label class="field">
+        <span class="lb">¿Comés de todo?</span>
+        <select name="dieta">
+          <option value="De todo">De todo</option>
+          <option value="Vegetariane">Vegetariane</option>
+          <option value="Vegane">Vegane</option>
+          <option value="Sin TACC">Sin TACC</option>
+          <option value="Otra (ver mensaje)">Otra — te cuento abajo</option>
+        </select>
+      </label>
+    </div>
+
+    <label class="field">
+      <span class="lb">Mensaje para el cumpleañero</span>
+      <textarea name="mensaje" placeholder="Qué traés, a qué hora caés, o simplemente insultos cariñosos."></textarea>
+    </label>
+
+    <label class="inline-check">
+      <input type="checkbox" name="avisar_lineup" value="si" checked>
+      <span>Avisame por mail cuando salga el lineup del Foka Palooza.</span>
+    </label>
+
+    <input class="hp" type="text" name="apodo_foka" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+    <button class="btn btn-primary" type="submit" id="btn-rsvp">Confirmo, voy 🦭</button>
+
+    <p class="form-msg" id="msg-rsvp" role="status" aria-live="polite"></p>
+    <p class="stats" id="stats"></p>
+  </form>
+</section>
+
+<!-- ============================ AVISO LINEUP ============================ -->
+<section class="pad notify center" id="avisame">
+  <div class="wrap">
+    <p class="eyebrow">Alerta lineup</p>
+    <h2 class="section-title">No te lo <em>pierdas</em></h2>
+    <p class="lead">Dejame tu mail y sos de los primeros en enterarte cuando se confirme quién toca. Cero spam, solo focas.</p>
+
+    <form class="card" id="form-lineup" novalidate>
+      <div class="notify-row">
+        <input type="email" name="email" required autocomplete="email" placeholder="tu@mail.com" aria-label="Tu email">
+        <button class="btn btn-gold" type="submit" id="btn-lineup">Avisame</button>
+      </div>
+      <input class="hp" type="text" name="apodo_foka" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <p class="form-msg" id="msg-lineup" role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="cta-row">
+      <button class="btn btn-ghost" type="button" id="btn-ics">Agendar los 3 días 📅</button>
+      <button class="btn btn-ghost" type="button" id="btn-share">Compartir por WhatsApp</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FOOTER ============================ -->
+<footer>
+  <div class="wrap">
+    <p class="icon-row" aria-hidden="true">🦭 🎸 ✦ 🍻 ✦ 🎧 ✦ 🎂 🦭</p>
+    <p class="foot-word">Foka Palooza<br>2026</p>
+    <p class="foot-note">25, 26 y 27 de septiembre · Hecho con cariño y sin patrocinadores.</p>
+    <div class="share-row">
+      <a class="btn btn-ghost" href="#confirmar">Confirmar</a>
+      <a class="btn btn-ghost" href="#avisame">Avisame del lineup</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ==================================================================
+   CONFIG — lo único que tenés que tocar
+   ================================================================== */
+const FOKA = {
+  /* Pegá acá la URL /exec que te da Google Apps Script al
+     "Implementar > Nueva implementación > Aplicación web".
+     Mientras esté vacío, los formularios avisan que falta configurarlo. */
+  endpoint: '',
+
+  /* Fecha en que se anuncia el lineup (hora de Argentina, UTC-3) */
+  revealISO: '2026-09-15T20:00:00-03:00',
+
+  /* Datos del evento para el archivo .ics */
+  event: {
+    title: 'FOKA PALOOZA 2026',
+    days: [
+      { start: '20260925T200000', end: '20260926T050000' },
+      { start: '20260926T190000', end: '20260927T060000' },
+      { start: '20260927T140000', end: '20260927T235900' }
+    ],
+    url: 'https://vmrodriguez90.github.io/foka-palooza/'
+  },
+
+  /* Mostrar el contador de confirmados que devuelve el Apps Script */
+  showStats: true
+};
+
+/* ================= MARQUEE ================= */
+(function marquee(){
+  const items = ['FOKA PALOOZA 2026','25 · 26 · 27 SEPTIEMBRE','LINEUP POR CONFIRMARSE','🦭','TRES DÍAS DE FOKA','CONFIRMÁ TU LUGAR','🦭'];
+  const build = (el, sep) => {
+    if(!el) return;
+    const chunk = items.map(t => `<span>${t}<span style="opacity:.45"> ${sep} </span></span>`).join('');
+    el.innerHTML = chunk + chunk; /* duplicado para loop infinito */
+  };
+  build(document.getElementById('mq1'), '✦');
+  build(document.getElementById('mq2'), '★');
+})();
+
+/* ================= COUNTDOWN ================= */
+(function countdown(){
+  const target = new Date(FOKA.revealISO).getTime();
+  const el = {
+    d: document.getElementById('cd-d'),
+    h: document.getElementById('cd-h'),
+    m: document.getElementById('cd-m'),
+    s: document.getElementById('cd-s')
+  };
+  const note = document.getElementById('reveal-note');
+  const pad = n => String(n).padStart(2,'0');
+
+  function tick(){
+    const diff = target - Date.now();
+    if(diff <= 0){
+      el.d.textContent = el.h.textContent = el.m.textContent = el.s.textContent = '00';
+      note.innerHTML = '¡Se viene! El lineup ya tendría que estar acá. <b>Refrescá la página.</b>';
+      clearInterval(timer);
+      return;
+    }
+    const s = Math.floor(diff/1000);
+    el.d.textContent = pad(Math.floor(s/86400));
+    el.h.textContent = pad(Math.floor(s%86400/3600));
+    el.m.textContent = pad(Math.floor(s%3600/60));
+    el.s.textContent = pad(s%60);
+  }
+  tick();
+  const timer = setInterval(tick, 1000);
+})();
+
+/* ================= CHECKBOX "LOS 3" ================= */
+(function dias(){
+  const todos = document.getElementById('chk-todos');
+  const sueltos = [...document.querySelectorAll('input[name="dias"]')].filter(i => i !== todos);
+  todos.addEventListener('change', () => { if(todos.checked) sueltos.forEach(i => i.checked = false); });
+  sueltos.forEach(i => i.addEventListener('change', () => { if(i.checked) todos.checked = false; }));
+})();
+
+/* ================= ENVÍO AL APPS SCRIPT ================= */
+async function enviar(payload){
+  if(!FOKA.endpoint){
+    throw new Error('Todavía no está conectado el formulario. Avisale al cumpleañero (o escribile por WhatsApp).');
+  }
+  /* Content-Type text/plain evita el preflight CORS que Apps Script no responde */
+  const res = await fetch(FOKA.endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload),
+    redirect: 'follow'
+  });
+  const data = await res.json();
+  if(!data.ok) throw new Error(data.error || 'No se pudo guardar. Probá de nuevo.');
+  return data;
+}
+
+function feedback(id, tipo, texto){
+  const el = document.getElementById(id);
+  el.className = 'form-msg show ' + tipo;
+  el.textContent = texto;
+}
+
+/* ================= FORM: CONFIRMACIÓN ================= */
+document.getElementById('form-rsvp').addEventListener('submit', async e => {
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('btn-rsvp');
+  const fd = new FormData(form);
+
+  const nombre = (fd.get('nombre')||'').trim();
+  const email = (fd.get('email')||'').trim();
+  const dias = fd.getAll('dias');
+
+  if(!nombre) return feedback('msg-rsvp','err','Poné tu nombre así sé quién sos 🦭');
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return feedback('msg-rsvp','err','Ese email no parece un email.');
+  if(dias.length === 0) return feedback('msg-rsvp','err','Marcá al menos un día.');
+
+  btn.disabled = true; btn.textContent = 'Guardando...';
+  try{
+    await enviar({
+      tipo: 'confirmacion',
+      nombre,
+      email,
+      dias: dias.join(', '),
+      acompaniantes: fd.get('acompaniantes') || '1',
+      dieta: fd.get('dieta') || '',
+      mensaje: (fd.get('mensaje')||'').trim(),
+      avisar_lineup: fd.get('avisar_lineup') ? 'Sí' : 'No',
+      trampa: fd.get('apodo_foka') || '',
+      origen: location.href
+    });
+    form.querySelectorAll('input, textarea, select, button').forEach(i => i.disabled = true);
+    feedback('msg-rsvp','ok','¡Listo, ' + nombre.split(' ')[0] + '! Quedaste confirmade para ' + dias.join(', ') + '. Nos vemos en el iceberg 🦭');
+    try{ localStorage.setItem('foka2026_rsvp', email); }catch(_){}
+    cargarStats();
+  }catch(err){
+    feedback('msg-rsvp','err', err.message);
+    btn.disabled = false; btn.textContent = 'Confirmo, voy 🦭';
+  }
+});
+
+/* ================= FORM: AVISO DE LINEUP ================= */
+document.getElementById('form-lineup').addEventListener('submit', async e => {
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('btn-lineup');
+  const email = (new FormData(form).get('email')||'').trim();
+
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return feedback('msg-lineup','err','Revisá el email.');
+
+  btn.disabled = true; btn.textContent = '...';
+  try{
+    await enviar({
+      tipo: 'lineup',
+      email,
+      trampa: new FormData(form).get('apodo_foka') || '',
+      origen: location.href
+    });
+    feedback('msg-lineup','ok','Anotado. Te escribimos el 15/09 con el lineup completo 🦭');
+    form.reset();
+  }catch(err){
+    feedback('msg-lineup','err', err.message);
+  }finally{
+    btn.disabled = false; btn.textContent = 'Avisame';
+  }
+});
+
+/* ================= CONTADOR DE CONFIRMADOS ================= */
+async function cargarStats(){
+  if(!FOKA.showStats || !FOKA.endpoint) return;
+  try{
+    const res = await fetch(FOKA.endpoint + '?action=stats');
+    const data = await res.json();
+    if(data.ok && data.personas > 0){
+      const el = document.getElementById('stats');
+      el.textContent = '🦭 ' + data.personas + ' foca' + (data.personas === 1 ? '' : 's') + ' confirmada' + (data.personas === 1 ? '' : 's');
+      el.classList.add('show');
+    }
+  }catch(_){ /* silencioso: si falla, simplemente no se muestra */ }
+}
+cargarStats();
+
+/* ================= AGENDAR (.ics) ================= */
+document.getElementById('btn-ics').addEventListener('click', () => {
+  const stamp = new Date().toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z';
+  const nombres = ['Día 1 — Viernes','Día 2 — Sábado','Día 3 — Domingo'];
+  const eventos = FOKA.event.days.map((d,i) => [
+    'BEGIN:VEVENT',
+    'UID:fokapalooza-2026-' + (i+1) + '@fokapalooza',
+    'DTSTAMP:' + stamp,
+    'DTSTART;TZID=America/Argentina/Buenos_Aires:' + d.start,
+    'DTEND;TZID=America/Argentina/Buenos_Aires:' + d.end,
+    'SUMMARY:' + FOKA.event.title + ' — ' + nombres[i],
+    'DESCRIPTION:Lineup por confirmarse. Más info: ' + FOKA.event.url,
+    'URL:' + FOKA.event.url,
+    'END:VEVENT'
+  ].join('\r\n')).join('\r\n');
+
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Foka Palooza//ES','CALSCALE:GREGORIAN','METHOD:PUBLISH',eventos,'END:VCALENDAR'].join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([ics], {type:'text/calendar;charset=utf-8'}));
+  a.download = 'foka-palooza-2026.ics';
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+/* ================= COMPARTIR ================= */
+document.getElementById('btn-share').addEventListener('click', async () => {
+  const url = FOKA.event.url;
+  const text = '🦭 FOKA PALOOZA 2026 — 25, 26 y 27 de septiembre. Lineup por confirmarse. Confirmá acá: ';
+  if(navigator.share){
+    try{ await navigator.share({ title:'FOKA PALOOZA 2026', text, url }); return; }catch(_){}
+  }
+  window.open('https://wa.me/?text=' + encodeURIComponent(text + url), '_blank', 'noopener');
+});
+</script>
+</body>
+</html>
