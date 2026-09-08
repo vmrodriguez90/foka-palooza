@@ -104,34 +104,32 @@ de cada uno por si preferís escribirles uno por uno.
 
 ### Dominio propio (fokapalooza.ar)
 
-El sitio vive en `vmrodriguez90.github.io/foka-palooza`. Para pasarlo a `fokapalooza.ar`,
-**en este orden** (importante: al revés se rompe el preview de WhatsApp):
+El sitio se publica en **https://fokapalooza.ar** (archivo `CNAME` en la raíz + los
+registros DNS del dominio). `vmrodriguez90.github.io/foka-palooza` sigue existiendo pero
+**redirige** al dominio propio: es el comportamiento normal de Pages cuando hay dominio
+personalizado.
 
-1. **DNS del dominio** → cuatro registros `A` de la raíz apuntando a
-   `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`,
-   y un `CNAME` de `www` a `vmrodriguez90.github.io`.
-2. **GitHub** → Settings → Pages → *Custom domain* → `fokapalooza.ar` → Save.
-   Eso crea un archivo `CNAME` en la raíz del repo. Esperá a que aparezca el tilde
-   verde de *DNS check successful* y tildá **Enforce HTTPS** (puede tardar un rato
-   hasta que emita el certificado).
-3. **Recién cuando `https://fokapalooza.ar` cargue bien**, cambiá en el `<head>` de
-   `index.html` las cinco URLs absolutas (`canonical`, `og:url`, `og:image`,
-   `og:image:secure_url`, `twitter:image`) y `event.url` en el bloque `const FOKA`.
-   Subile también el `?v=` a la imagen para que WhatsApp regenere el preview.
+Los DNS que necesita son cuatro registros `A` de la raíz a `185.199.108.153`,
+`185.199.109.153`, `185.199.110.153` y `185.199.111.153`, más un `CNAME` de `www` a
+`vmrodriguez90.github.io`. En Settings → Pages tiene que aparecer el tilde verde de
+*DNS check successful*, y conviene tildar **Enforce HTTPS** una vez que GitHub emitió
+el certificado (puede tardar un rato largo la primera vez).
 
-> Si hacés el paso 3 antes que el 1 y 2, las etiquetas van a apuntar a un dominio que
-> todavía no resuelve: WhatsApp no va a poder bajar la imagen y el link se va a compartir
-> sin preview, con ese resultado cacheado por varios días.
+> ⚠️ Las meta de compartir apuntan a `https://fokapalooza.ar` con URL absoluta. Hasta
+> que el dominio resuelva **y** tenga certificado HTTPS válido, WhatsApp no va a poder
+> bajar la imagen del preview — y cachea el resultado por varios días. Antes de mandar
+> el link a nadie, abrí `https://fokapalooza.ar` y confirmá que carga con candado, y
+> después probá el preview en [opengraph.xyz](https://www.opengraph.xyz/).
 
-`URL_SITIO` en `Codigo.gs` ya apunta a `https://fokapalooza.ar`: es sólo el texto de los
-mensajes de WhatsApp, no afecta al sitio. Si mandás mensajes antes de que el dominio
-resuelva, van a llevar un link muerto.
+Si cambiás de dominio otra vez, hay que tocar las cinco URLs absolutas del `<head>`
+(`canonical`, `og:url`, `og:image`, `og:image:secure_url`, `twitter:image`), `event.url`
+en el bloque `const FOKA` de `index.html`, y `URL_SITIO` en `Codigo.gs`.
 
 ### Opción A — GitHub Pages (gratis, recomendada)
 
 1. En el repo: **Settings → Pages**.
 2. *Source*: **Deploy from a branch** · *Branch*: `main` · carpeta `/ (root)` → **Save**.
-3. En un par de minutos queda en `https://vmrodriguez90.github.io/foka-palooza/`.
+3. En un par de minutos queda publicado (hoy, en `https://fokapalooza.ar`).
 
 ### Opción B — Netlify / Vercel
 
