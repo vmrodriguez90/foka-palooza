@@ -1,5 +1,6 @@
 /* Auditoría de mobile: desborde horizontal, elementos más anchos que la
-   pantalla, tamaño de los targets táctiles y del texto. */
+   pantalla, tamaño de los targets táctiles y del texto.
+   Uso: node tools/audit-mobile.js [pagina.html ...]   (por defecto, todas) */
 const { chromium, devices } = require('playwright');
 const path = require('path');
 const f = n => 'file://' + path.resolve(__dirname, 'fonts', n);
@@ -9,12 +10,15 @@ const CSS = `
 @font-face{font-family:'Space Grotesk';src:url('${f('SpaceGrotesk.ttf')}') format('truetype');font-weight:400 700;font-display:block}`;
 
 const ANCHOS = [320, 360, 390, 414, 768];
+const PAGINAS = process.argv.slice(2).length ? process.argv.slice(2) : ['index.html', 'torneo.html', 'admin.html'];
 
 (async () => {
   const b = await chromium.launch();
+  for (const pagina of PAGINAS) {
+  console.log('\n══════════ ' + pagina + ' ══════════');
   for (const w of ANCHOS) {
     const p = await b.newPage({ viewport: { width: w, height: 780 }, deviceScaleFactor: 2, isMobile: w < 700, hasTouch: w < 700 });
-    await p.goto('file://' + path.resolve(__dirname, '..', 'index.html'));
+    await p.goto('file://' + path.resolve(__dirname, '..', pagina));
     await p.addStyleTag({ content: CSS });
     await p.evaluate(() => document.fonts.ready);
     await p.waitForTimeout(500);
@@ -52,6 +56,7 @@ const ANCHOS = [320, 360, 390, 414, 768];
     console.log('  targets < 44px:', r.targetsChicos.length ? r.targetsChicos : 'ninguno ✓');
     console.log('  texto < 12px:', r.textoChico.length ? r.textoChico : 'ninguno ✓');
     await p.close();
+  }
   }
   await b.close();
 })();

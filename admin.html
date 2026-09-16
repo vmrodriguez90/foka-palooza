@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+
+<title>Consola — La Foka Kermesse</title>
+<meta name="description" content="Panel privado para manejar el torneo del Foka Palooza.">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icon-512.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/foka.css">
+<script src="assets/config.js"></script>
+
+<style>
+main{padding:clamp(1.5rem,5vw,2.5rem) 0 8rem}
+.bloque{margin-top:clamp(1.8rem,5vw,2.6rem)}
+.bloque > h2{
+  font-family:var(--display);text-transform:uppercase;
+  font-size:clamp(1.5rem,5vw,2.2rem);line-height:1;margin:0 0 .3rem;
+}
+.bloque > .sub{margin:0 0 1rem;color:var(--muted);font-size:.9rem}
+.panel + .panel{margin-top:.8rem}
+
+.acciones{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.9rem}
+.acciones .btn{font-size:.95rem;padding:.55rem 1.1rem .38rem}
+
+/* ---- barra de publicar, pegada abajo ---- */
+.barra{
+  position:fixed;left:0;right:0;bottom:0;z-index:30;
+  background:rgba(6,44,48,.94);
+  backdrop-filter:blur(10px);
+  border-top:2px solid var(--line);
+  padding:.7rem 0 max(.7rem, env(safe-area-inset-bottom));
+}
+.barra .wrap{display:flex;align-items:center;justify-content:space-between;gap:.8rem;flex-wrap:wrap}
+.barra .sync{font-size:.85rem;color:var(--muted);flex:1 1 180px}
+.barra .sync b{color:var(--gold);font-weight:500}
+.barra .sync.ok b{color:var(--foam)}
+.barra .sync.err b{color:var(--coral)}
+
+/* ---- listas editables ---- */
+.lista{list-style:none;margin:0;padding:0;display:grid;gap:.5rem}
+.item{
+  display:flex;align-items:center;gap:.6rem;
+  border:2px solid var(--line);border-radius:12px;
+  background:rgba(6,44,48,.5);
+  padding:.5rem .7rem;
+}
+.item .nom{flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
+.item .nom small{display:block;color:var(--muted);font-size:.78rem}
+.item input[type=text]{padding:.45rem .6rem}
+.item.no-juega{opacity:.5}
+.mini{
+  background:none;border:2px solid var(--line);color:var(--muted);
+  border-radius:999px;cursor:pointer;
+  font-family:var(--label);letter-spacing:.1em;text-transform:uppercase;
+  font-size:.78rem;line-height:1;padding:.45rem .6rem .3rem;
+  white-space:nowrap;
+}
+.mini:hover{color:var(--ice);border-color:var(--foam)}
+.mini.on{background:var(--foam);border-color:var(--foam);color:#04262a}
+.mini.peligro:hover{border-color:var(--coral);color:var(--coral)}
+
+/* ---- puntos ---- */
+.prueba-admin{border:2px solid var(--line);border-radius:var(--r);background:rgba(11,60,73,.45);padding:1rem 1.1rem 1.2rem}
+.prueba-admin + .prueba-admin{margin-top:.8rem}
+.prueba-admin.jugando{border-color:var(--coral)}
+.prueba-admin header{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.4rem}
+.prueba-admin header h3{font-family:var(--display);text-transform:uppercase;font-size:1.25rem;line-height:1;margin:0;font-weight:400;flex:1 1 auto}
+.prueba-admin header select{width:auto;padding:.35rem 2rem .35rem .6rem;font-size:.85rem}
+.puntos-fila{
+  display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;
+  border-top:1px dashed var(--line);padding-top:.6rem;margin-top:.6rem;
+}
+.puntos-fila .quien{flex:1 1 140px;min-width:0;font-size:.92rem;overflow-wrap:anywhere}
+.puntos-fila .quien small{display:block;color:var(--muted);font-size:.75rem}
+.seg{display:flex;gap:.3rem;flex-wrap:wrap}
+.seg button{
+  border:2px solid var(--line);background:rgba(6,44,48,.6);color:var(--muted);
+  border-radius:10px;cursor:pointer;font-size:.95rem;line-height:1;
+  padding:.5rem .55rem;min-width:2.6rem;
+}
+.seg button.on{background:var(--gold);border-color:var(--gold);color:#2a2109}
+.seg button.on[data-m="plata"]{background:var(--ice);border-color:var(--ice);color:#04262a}
+.seg button.on[data-m="bronce"]{background:var(--coral);border-color:var(--coral);color:#2a1109}
+.seg button.on[data-m="jugo"]{background:var(--foam);border-color:var(--foam);color:#04262a}
+
+/* ---- tabla preview ---- */
+.preview{list-style:none;margin:0;padding:0;display:grid;gap:.4rem}
+.preview li{display:flex;align-items:center;gap:.7rem;border:2px solid var(--line);border-radius:12px;padding:.5rem .8rem;background:rgba(6,44,48,.45)}
+.preview .pos{font-family:var(--display);font-size:1.3rem;color:var(--gold);min-width:1.6rem;text-align:center}
+.preview .nm{flex:1 1 auto;overflow-wrap:anywhere}
+.preview .nm small{display:block;color:var(--muted);font-size:.78rem}
+.preview .pt{font-family:var(--display);font-size:1.3rem;color:var(--foam)}
+
+.nota{font-size:.85rem;color:var(--muted);margin:.6rem 0 0}
+.oculto{display:none!important}
+#login{max-width:420px;margin:clamp(2rem,8vw,4rem) auto}
+textarea.chico{min-height:70px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <a class="marca" href="index.html">🦭 Foka <b>Palooza</b></a>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="torneo.html">El torneo</a>
+      <a href="admin.html" aria-current="page">Consola</a>
+    </nav>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- ============================ LOGIN ============================ -->
+  <section class="panel" id="login">
+    <h1 class="section-title" style="font-size:2rem">Consola <em>Foka</em></h1>
+    <p class="nota">Es la parte de atrás del torneo. Si llegaste acá de casualidad: no hay nada para ver, andá a <a href="torneo.html">la tabla</a>.</p>
+    <form id="form-pin" style="margin-top:1.2rem">
+      <label class="field">
+        <span class="lb">PIN</span>
+        <input type="password" id="pin" autocomplete="current-password" inputmode="numeric" placeholder="••••">
+      </label>
+      <button class="btn btn-primary btn-block" type="submit" id="btn-entrar">Entrar</button>
+      <p class="form-msg" id="msg-pin" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <!-- ============================ CONSOLA ============================ -->
+  <div id="consola" class="oculto">
+
+    <!-- ---------- estado ---------- -->
+    <section class="bloque">
+      <h2>Cómo va</h2>
+      <p class="sub">Esto es lo primero que ve la gente al entrar a la página del torneo.</p>
+      <div class="panel">
+        <label class="field">
+          <span class="lb">Momento del torneo</span>
+          <select id="fase"></select>
+        </label>
+        <label class="field" style="margin-bottom:.4rem">
+          <span class="lb">Mensaje grande (opcional)</span>
+          <textarea id="mensaje" class="chico" placeholder="Ej: Arrancamos con el mini golf. Los Sanguches van punteros por 3 puntos."></textarea>
+          <span class="hint">Se muestra arriba de todo, en el recuadro coral. Vacío = no se muestra.</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- ---------- participantes ---------- -->
+    <section class="bloque">
+      <h2>Jugadores</h2>
+      <p class="sub">Los que entran al sorteo. Podés traer los que confirmaron en la web y sumar a mano a los que anotaste vos.</p>
+      <div class="panel">
+        <label class="field">
+          <span class="lb">Sumar a mano</span>
+          <textarea id="nuevos" class="chico" placeholder="Un nombre por renglón:&#10;Fede&#10;Juli&#10;El primo de Fede"></textarea>
+        </label>
+        <div class="acciones">
+          <button class="btn btn-ghost btn-sm" type="button" id="btn-sumar">Sumar a la lista</button>
+          <button class="btn btn-ghost btn-sm" type="button" id="btn-confirmados">Traer confirmados de la planilla</button>
+        </div>
+        <p class="nota" id="nota-jugadores"></p>
+        <ul class="lista" id="participantes" style="margin-top:1rem"></ul>
+      </div>
+    </section>
+
+    <!-- ---------- parejas ---------- -->
+    <section class="bloque">
+      <h2>Parejas</h2>
+      <p class="sub">El sorteo respeta las parejas marcadas como <b>fijas</b> y mezcla al resto. Si sobra uno, se arma un trío.</p>
+      <div class="panel">
+        <div class="acciones">
+          <button class="btn btn-primary btn-sm" type="button" id="btn-sortear">🎲 Sortear parejas</button>
+          <button class="btn btn-ghost btn-sm" type="button" id="btn-vaciar-parejas">Borrar todas</button>
+        </div>
+        <p class="nota" id="nota-sorteo">Cada sorteo usa una semilla al azar: si la anotás, podés repetir el mismo sorteo y demostrar que no hubo trampa.</p>
+        <ul class="lista" id="parejas" style="margin-top:1rem"></ul>
+      </div>
+    </section>
+
+    <!-- ---------- pruebas y puntos ---------- -->
+    <section class="bloque">
+      <h2>Pruebas y puntos</h2>
+      <p class="sub">Marcá el puesto de cada pareja en cada prueba. La tabla se recalcula sola: 🥇 10 · 🥈 7 · 🥉 5 · 🎽 3.</p>
+      <div id="pruebas"></div>
+    </section>
+
+    <!-- ---------- vista previa ---------- -->
+    <section class="bloque">
+      <h2>Tabla</h2>
+      <p class="sub">Así se está viendo en <a href="torneo.html" target="_blank" rel="noopener">torneo.html</a>.</p>
+      <div class="panel">
+        <ul class="preview" id="preview"></ul>
+      </div>
+    </section>
+
+    <!-- ---------- bitácora ---------- -->
+    <section class="bloque">
+      <h2>Bitácora</h2>
+      <p class="sub">El minuto a minuto. Lo más nuevo aparece primero en la página pública.</p>
+      <div class="panel">
+        <label class="field">
+          <span class="lb">Nueva entrada</span>
+          <textarea id="nueva-nota" class="chico" placeholder="Ej: Terminó el mini golf. Ganaron Las Gaviotas con un hoyo en uno de casualidad."></textarea>
+        </label>
+        <div class="acciones">
+          <button class="btn btn-gold btn-sm" type="button" id="btn-anotar">Anotar</button>
+        </div>
+        <ul class="lista" id="bitacora" style="margin-top:1rem"></ul>
+      </div>
+    </section>
+
+    <!-- ---------- datos ---------- -->
+    <section class="bloque">
+      <h2>Datos</h2>
+      <p class="sub">Por si querés una copia, o arreglar algo a mano.</p>
+      <div class="panel">
+        <div class="acciones">
+          <button class="btn btn-ghost btn-sm" type="button" id="btn-recargar">Traer del servidor</button>
+          <button class="btn btn-ghost btn-sm" type="button" id="btn-exportar">Bajar copia (JSON)</button>
+          <button class="btn btn-ghost btn-sm" type="button" id="btn-importar">Pegar un JSON</button>
+          <button class="btn btn-ghost btn-sm" type="button" id="btn-reset">Empezar de cero</button>
+        </div>
+        <p class="nota">Todo lo que tocás queda guardado en este teléfono aunque se corte internet. Se publica recién cuando apretás <b>Publicar</b>.</p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- ============================ BARRA DE PUBLICAR ============================ -->
+<div class="barra oculto" id="barra">
+  <div class="wrap">
+    <p class="sync" id="sync">Listo.</p>
+    <button class="btn btn-primary btn-sm" type="button" id="btn-publicar">Publicar 🦭</button>
+  </div>
+</div>
+
+<script src="assets/torneo-core.js"></script>
+<script>
+/* ==================================================================
+   Consola del torneo.
+   - El estado vive en memoria y se guarda en localStorage a cada toque
+     (así no se pierde nada si se corta el internet del balneario).
+   - "Publicar" lo manda al Apps Script, que lo guarda en la hoja Torneo
+     y lo deja disponible para torneo.html.
+   ================================================================== */
+const ENDPOINT = (window.FOKA_CONFIG || {}).endpoint || '';
+const T = window.FokaTorneo;
+const CLAVE_LOCAL = 'foka2026_torneo_borrador';
+const CLAVE_PIN = 'foka2026_pin';
+
+const $ = id => document.getElementById(id);
+const esc = t => String(t == null ? '' : t).replace(/[&<>"']/g, c => (
+  { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]
+));
+
+let E = T.estadoInicial();   // estado que se está editando
+let pin = '';
+let baseActualizado = '';    // el "actualizado" que tenía el servidor cuando cargamos
+let sucio = false;           // hay cambios sin publicar
+
+/* ================= GUARDADO LOCAL ================= */
+/* En localStorage vive únicamente lo que todavía NO se publicó. Si hay
+   algo guardado ahí, es porque quedaron cambios a medio camino. */
+function guardarLocal(){
+  try{ localStorage.setItem(CLAVE_LOCAL, JSON.stringify(E)); }catch(_){}
+}
+function borrarLocal(){
+  try{ localStorage.removeItem(CLAVE_LOCAL); }catch(_){}
+}
+function leerLocal(){
+  try{
+    const crudo = localStorage.getItem(CLAVE_LOCAL);
+    return crudo ? T.normalizar(JSON.parse(crudo)) : null;
+  }catch(_){ return null; }
+}
+
+function tocado(recargar){
+  sucio = true;
+  E.actualizado = new Date().toISOString();
+  guardarLocal();
+  estadoSync('Hay cambios sin publicar', '');
+  if(recargar !== false) pintarTodo();
+}
+
+function estadoSync(texto, clase){
+  const el = $('sync');
+  el.className = 'sync ' + (clase || '');
+  el.innerHTML = '<b>' + esc(texto) + '</b>';
+}
+
+/* ================= RED ================= */
+async function pedir(payload){
+  if(!ENDPOINT) throw new Error('Falta la URL del Apps Script en assets/config.js');
+  const res = await fetch(ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload),
+    redirect: 'follow'
+  });
+  const data = await res.json();
+  if(!data.ok) throw new Error(data.error || 'El servidor dijo que no');
+  return data;
+}
+
+async function leerServidor(){
+  if(!ENDPOINT) throw new Error('Falta la URL del Apps Script en assets/config.js');
+  const res = await fetch(ENDPOINT + '?action=torneo&t=' + Date.now());
+  const data = await res.json();
+  if(!data.ok) throw new Error(data.error || 'No se pudo leer el torneo');
+  return data;
+}
+
+/* ================= LOGIN ================= */
+$('form-pin').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = $('btn-entrar');
+  const valor = $('pin').value.trim();
+  if(!valor) return msgPin('err', 'Poné el PIN.');
+  btn.disabled = true; btn.textContent = 'Probando...';
+  try{
+    await pedir({ tipo: 'torneo_ping', pin: valor });
+    pin = valor;
+    try{ sessionStorage.setItem(CLAVE_PIN, pin); }catch(_){}
+    abrirConsola();
+  }catch(err){
+    msgPin('err', err.message);
+  }finally{
+    btn.disabled = false; btn.textContent = 'Entrar';
+  }
+});
+
+function msgPin(tipo, texto){
+  const el = $('msg-pin');
+  el.className = 'form-msg show ' + tipo;
+  el.textContent = texto;
+}
+
+async function abrirConsola(){
+  $('login').classList.add('oculto');
+  $('consola').classList.remove('oculto');
+  $('barra').classList.remove('oculto');
+  await traerDelServidor(true);
+}
+
+/* Si ya entramos antes en esta pestaña, no vuelve a pedir el PIN. */
+(function auto(){
+  let guardado = '';
+  try{ guardado = sessionStorage.getItem(CLAVE_PIN) || ''; }catch(_){}
+  if(guardado){ pin = guardado; abrirConsola(); }
+})();
+
+/* ================= CARGA ================= */
+async function traerDelServidor(alEntrar){
+  estadoSync('Buscando el torneo...', '');
+  try{
+    const data = await leerServidor();
+    const hayPublicado = !!data.torneo;
+    const delServidor = T.normalizar(data.torneo || {});
+    /* Sin nada publicado no hay con qué comparar después, al publicar. */
+    baseActualizado = hayPublicado ? delServidor.actualizado : '';
+
+    const borrador = leerLocal();
+    const borradorMasNuevo = borrador && (
+      !hayPublicado || Date.parse(borrador.actualizado) > Date.parse(delServidor.actualizado) + 1000
+    );
+
+    if(alEntrar && borradorMasNuevo){
+      /* Si todavía no se publicó nada, el borrador es lo único que hay.
+         Si ya había algo publicado y el borrador es más nuevo, preguntamos:
+         puede haberse cortado internet en el medio del torneo. */
+      const usar = !hayPublicado || confirm(
+        'En este teléfono hay cambios sin publicar (' + new Date(borrador.actualizado).toLocaleString('es-AR', { hour12:false }) + ')\n' +
+        'más nuevos que lo que está publicado (' + new Date(delServidor.actualizado).toLocaleString('es-AR', { hour12:false }) + ').\n\n' +
+        'Aceptar: seguir con los cambios de este teléfono.\n' +
+        'Cancelar: descartarlos y usar lo publicado.'
+      );
+      E = usar ? borrador : delServidor;
+      sucio = usar;
+      if(!usar) borrarLocal();
+    }else{
+      E = delServidor;
+      sucio = false;
+      borrarLocal();
+    }
+    pintarTodo();
+    estadoSync(sucio ? 'Hay cambios sin publicar' : 'Al día con lo publicado', sucio ? '' : 'ok');
+  }catch(err){
+    const borrador = leerLocal();
+    if(borrador){ E = borrador; sucio = true; }
+    pintarTodo();
+    estadoSync('Sin conexión: trabajando en local (' + err.message + ')', 'err');
+  }
+}
+
+/* ================= PUBLICAR ================= */
+$('btn-publicar').addEventListener('click', async () => {
+  const btn = $('btn-publicar');
+  btn.disabled = true; btn.textContent = 'Publicando...';
+  estadoSync('Publicando...', '');
+  try{
+    /* Chequeo rápido de que nadie haya publicado desde otro lado. */
+    try{
+      const actual = await leerServidor();
+      const remoto = T.normalizar(actual.torneo || {});
+      if(baseActualizado && remoto.actualizado !== baseActualizado){
+        const pisar = confirm(
+          'Alguien publicó desde otro lado a las ' + new Date(remoto.actualizado).toLocaleTimeString('es-AR') + '.\n\n' +
+          'Aceptar: publicar lo tuyo igual (pisa lo otro).\n' +
+          'Cancelar: no publicar nada.'
+        );
+        if(!pisar){
+          estadoSync('No se publicó nada', 'err');
+          return;
+        }
+      }
+    }catch(_){ /* si no se pudo chequear, seguimos: mejor publicar que perder */ }
+
+    E.actualizado = new Date().toISOString();
+    const data = await pedir({ tipo: 'torneo_guardar', pin: pin, torneo: E });
+    baseActualizado = (data.torneo && data.torneo.actualizado) || E.actualizado;
+    sucio = false;
+    borrarLocal();
+    estadoSync('Publicado ' + new Date().toLocaleTimeString('es-AR', { hour12:false }), 'ok');
+  }catch(err){
+    estadoSync('No se pudo publicar: ' + err.message, 'err');
+  }finally{
+    btn.disabled = false; btn.textContent = 'Publicar 🦭';
+  }
+});
+
+window.addEventListener('beforeunload', e => {
+  if(sucio){ e.preventDefault(); e.returnValue = ''; }
+});
+
+/* ================= ESTADO / MENSAJE ================= */
+$('fase').innerHTML = T.FASES.map(f => '<option value="' + f.id + '">' + esc(f.label) + '</option>').join('');
+$('fase').addEventListener('change', () => { E.fase = $('fase').value; tocado(false); });
+$('mensaje').addEventListener('input', () => { E.mensaje = $('mensaje').value; tocado(false); });
+
+/* ================= JUGADORES ================= */
+$('btn-sumar').addEventListener('click', () => {
+  const lineas = $('nuevos').value.split('\n').map(s => s.trim()).filter(Boolean);
+  if(!lineas.length) return;
+  sumarNombres(lineas);
+  $('nuevos').value = '';
+});
+
+function sumarNombres(nombres, marcarJuega){
+  const usados = E.participantes.map(p => p.id);
+  let sumados = 0, repetidos = 0;
+  nombres.forEach(nombre => {
+    const existe = E.participantes.some(p => p.nombre.toLowerCase() === nombre.toLowerCase());
+    if(existe){ repetidos++; return; }
+    const id = T.idNuevo('p', usados);
+    usados.push(id);
+    E.participantes.push({ id: id, nombre: nombre, juega: marcarJuega === false ? false : true });
+    sumados++;
+  });
+  $('nota-jugadores').textContent = sumados + ' sumado(s)' + (repetidos ? ', ' + repetidos + ' ya estaba(n)' : '') + '.';
+  tocado();
+}
+
+$('btn-confirmados').addEventListener('click', async () => {
+  const btn = $('btn-confirmados');
+  btn.disabled = true; btn.textContent = 'Buscando...';
+  try{
+    const data = await pedir({ tipo: 'torneo_confirmados', pin: pin });
+    const gente = data.confirmados || [];
+    if(!gente.length){
+      $('nota-jugadores').textContent = 'La planilla no tiene confirmados todavía.';
+      return;
+    }
+    /* Los que dijeron que NO juegan la kermesse entran igual, pero
+       destildados: así los ves y decidís vos. */
+    const juegan = gente.filter(g => g.kermesse !== 'No').map(g => g.nombre);
+    const resto  = gente.filter(g => g.kermesse === 'No').map(g => g.nombre);
+    const antes = E.participantes.length;
+    if(juegan.length) sumarNombres(juegan, true);
+    if(resto.length) sumarNombres(resto, false);
+    $('nota-jugadores').textContent = 'La planilla tiene ' + gente.length + ' confirmado(s). Sumé ' +
+      (E.participantes.length - antes) + ' nuevo(s).';
+  }catch(err){
+    $('nota-jugadores').textContent = 'No se pudo: ' + err.message;
+  }finally{
+    btn.disabled = false; btn.textContent = 'Traer confirmados de la planilla';
+  }
+});
+
+function pintarParticipantes(){
+  const ul = $('participantes');
+  if(!E.participantes.length){
+    ul.innerHTML = '<li class="nota">Todavía no hay nadie. Sumalos arriba 👆</li>';
+    return;
+  }
+  const enPareja = {};
+  E.parejas.forEach(d => d.integrantes.forEach(id => { enPareja[id] = d; }));
+  ul.innerHTML = E.participantes.map(p => {
+    const d = enPareja[p.id];
+    return '<li class="item' + (p.juega === false ? ' no-juega' : '') + '">' +
+      '<span class="nom">' + esc(p.nombre) +
+        (d ? '<small>' + esc(d.emoji + ' ' + d.nombre) + '</small>' : '') + '</span>' +
+      '<button class="mini' + (p.juega !== false ? ' on' : '') + '" data-accion="juega" data-id="' + p.id + '">' +
+        (p.juega !== false ? 'Juega' : 'No juega') + '</button>' +
+      '<button class="mini peligro" data-accion="borrar-p" data-id="' + p.id + '" aria-label="Borrar">✕</button>' +
+    '</li>';
+  }).join('');
+}
+
+$('participantes').addEventListener('click', e => {
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  const id = btn.dataset.id;
+  if(btn.dataset.accion === 'juega'){
+    E.participantes.forEach(p => { if(p.id === id) p.juega = p.juega === false; });
+    tocado();
+  }
+  if(btn.dataset.accion === 'borrar-p'){
+    const p = E.participantes.filter(x => x.id === id)[0];
+    if(!p || !confirm('¿Borrar a ' + p.nombre + '?')) return;
+    E.participantes = E.participantes.filter(x => x.id !== id);
+    E = T.normalizar(E);   /* limpia parejas que queden sin gente */
+    tocado();
+  }
+});
+
+/* ================= PAREJAS ================= */
+$('btn-sortear').addEventListener('click', () => {
+  const juegan = E.participantes.filter(p => p.juega !== false).length;
+  if(juegan < 2) return alert('Hacen falta al menos 2 jugadores.');
+  const fijas = E.parejas.filter(d => d.fija).length;
+  const aviso = fijas
+    ? 'Se vuelven a sortear todas menos las ' + fijas + ' pareja(s) fija(s). ¿Dale?'
+    : 'Se sortean las parejas de nuevo. ¿Dale?';
+  if(E.parejas.length && !confirm(aviso)) return;
+
+  const res = T.sortearParejas(E, {});
+  E.parejas = res.parejas;
+  E.semilla = res.semilla;
+  if(E.fase === 'inscripcion') E.fase = 'sorteo';
+  E = T.anotar(E, 'Se sortearon las parejas: ' + E.parejas.length + ' en juego 🎲');
+  tocado();
+  $('nota-sorteo').textContent = 'Sorteo hecho con la semilla ' + res.semilla +
+    '. Anotala si querés poder repetirlo igual.';
+});
+
+$('btn-vaciar-parejas').addEventListener('click', () => {
+  if(!E.parejas.length) return;
+  if(!confirm('¿Borrar todas las parejas y los puntos cargados?')) return;
+  E.parejas = [];
+  E.resultados = {};
+  E.bonus = {};
+  tocado();
+});
+
+function pintarParejas(){
+  const ul = $('parejas');
+  if(!E.parejas.length){
+    ul.innerHTML = '<li class="nota">Sin parejas todavía. Dale a "Sortear".</li>';
+    return;
+  }
+  ul.innerHTML = E.parejas.map(d =>
+    '<li class="item">' +
+      '<span style="font-size:1.3rem">' + esc(d.emoji) + '</span>' +
+      '<span class="nom">' +
+        '<input type="text" value="' + esc(d.nombre) + '" data-accion="nombre-d" data-id="' + d.id + '" aria-label="Nombre de la pareja">' +
+        '<small>' + esc(d.integrantes.map(id => T.nombreDe(E, id)).join(' · ')) + '</small>' +
+      '</span>' +
+      '<button class="mini' + (d.fija ? ' on' : '') + '" data-accion="fija" data-id="' + d.id + '" title="Una pareja fija no se vuelve a sortear">' +
+        (d.fija ? 'Fija' : 'Libre') + '</button>' +
+      '<button class="mini peligro" data-accion="borrar-d" data-id="' + d.id + '" aria-label="Borrar pareja">✕</button>' +
+    '</li>'
+  ).join('');
+}
+
+$('parejas').addEventListener('click', e => {
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  const id = btn.dataset.id;
+  if(btn.dataset.accion === 'fija'){
+    E.parejas.forEach(d => { if(d.id === id) d.fija = !d.fija; });
+    tocado();
+  }
+  if(btn.dataset.accion === 'borrar-d'){
+    if(!confirm('¿Borrar esta pareja? Los jugadores vuelven a la bolsa.')) return;
+    E.parejas = E.parejas.filter(d => d.id !== id);
+    delete E.bonus[id];
+    Object.keys(E.resultados).forEach(k => { delete E.resultados[k][id]; });
+    tocado();
+  }
+});
+
+$('parejas').addEventListener('input', e => {
+  const campo = e.target.closest('input[data-accion="nombre-d"]');
+  if(!campo) return;
+  E.parejas.forEach(d => { if(d.id === campo.dataset.id) d.nombre = campo.value; });
+  tocado(false);
+  pintarPreview();
+});
+
+/* ================= PRUEBAS Y PUNTOS ================= */
+function pintarPruebas(){
+  const caja = $('pruebas');
+  if(!E.parejas.length){
+    caja.innerHTML = '<div class="panel"><p class="nota" style="margin:0">Primero sorteá las parejas y después cargás los puntos.</p></div>';
+    return;
+  }
+  caja.innerHTML = E.pruebas.map(pr => {
+    const filas = E.parejas.map(d => {
+      const actual = (E.resultados[pr.id] || {})[d.id] || '';
+      const botones = T.MEDALLAS.map(m =>
+        '<button type="button" data-accion="punto" data-prueba="' + pr.id + '" data-pareja="' + d.id + '" data-m="' + m.id + '"' +
+        ' class="' + (actual === m.id ? 'on' : '') + '" title="' + esc(m.label + ' — ' + m.puntos + ' puntos') + '">' +
+        m.emoji + '</button>'
+      ).join('');
+      return '<div class="puntos-fila">' +
+        '<span class="quien">' + esc(d.emoji + ' ' + d.nombre) +
+          '<small>' + esc(d.integrantes.map(id => T.nombreDe(E, id)).join(' · ')) + '</small></span>' +
+        '<div class="seg">' +
+          '<button type="button" data-accion="punto" data-prueba="' + pr.id + '" data-pareja="' + d.id + '" data-m=""' +
+          ' class="' + (actual ? '' : 'on') + '" title="Sin puntos">–</button>' + botones +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    return '<section class="prueba-admin ' + pr.estado + '">' +
+      '<header>' +
+        '<span style="font-size:1.4rem">' + esc(pr.emoji) + '</span>' +
+        '<h3>' + esc(pr.nombre) + (pr.secreta ? ' 🤫' : '') + '</h3>' +
+        '<select data-accion="estado-prueba" data-id="' + pr.id + '" aria-label="Estado de la prueba">' +
+          ['pendiente','jugando','jugada'].map(v =>
+            '<option value="' + v + '"' + (pr.estado === v ? ' selected' : '') + '>' +
+            ({ pendiente:'Falta', jugando:'Jugando', jugada:'Jugada' })[v] + '</option>').join('') +
+        '</select>' +
+      '</header>' +
+      (pr.secreta ? '<p class="nota" style="margin:.2rem 0 0">Tapada en la web hasta que la pongas en "Jugando" o "Jugada".</p>' : '') +
+      filas +
+    '</section>';
+  }).join('');
+}
+
+$('pruebas').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-accion="punto"]');
+  if(!btn) return;
+  const { prueba, pareja, m } = btn.dataset;
+  if(!E.resultados[prueba]) E.resultados[prueba] = {};
+  if(m) E.resultados[prueba][pareja] = m;
+  else delete E.resultados[prueba][pareja];
+  tocado();
+});
+
+$('pruebas').addEventListener('change', e => {
+  const sel = e.target.closest('select[data-accion="estado-prueba"]');
+  if(!sel) return;
+  const pr = E.pruebas.filter(p => p.id === sel.dataset.id)[0];
+  if(!pr) return;
+  pr.estado = sel.value;
+  if(sel.value === 'jugando'){
+    if(E.fase === 'inscripcion' || E.fase === 'sorteo') E.fase = 'jugando';
+    E = T.anotar(E, 'Arranca ' + (pr.secreta ? 'la prueba sorpresa: ' : '') + pr.emoji + ' ' + pr.nombre);
+  }
+  if(sel.value === 'jugada'){
+    E = T.anotar(E, 'Terminó ' + pr.emoji + ' ' + pr.nombre);
+  }
+  tocado();
+});
+
+/* ================= BITÁCORA ================= */
+$('btn-anotar').addEventListener('click', () => {
+  const texto = $('nueva-nota').value.trim();
+  if(!texto) return;
+  E = T.anotar(E, texto);
+  $('nueva-nota').value = '';
+  tocado();
+});
+
+function pintarBitacora(){
+  const ul = $('bitacora');
+  const lineas = E.bitacora.slice().reverse();
+  if(!lineas.length){
+    ul.innerHTML = '<li class="nota">Nada anotado todavía.</li>';
+    return;
+  }
+  ul.innerHTML = lineas.map((b, i) =>
+    '<li class="item">' +
+      '<span class="nom">' + esc(b.texto) +
+        '<small>' + esc(new Date(b.ts).toLocaleString('es-AR', { hour12:false })) + '</small></span>' +
+      '<button class="mini peligro" data-accion="borrar-b" data-i="' + (E.bitacora.length - 1 - i) + '" aria-label="Borrar">✕</button>' +
+    '</li>'
+  ).join('');
+}
+
+$('bitacora').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-accion="borrar-b"]');
+  if(!btn) return;
+  E.bitacora.splice(parseInt(btn.dataset.i, 10), 1);
+  tocado();
+});
+
+/* ================= VISTA PREVIA ================= */
+function pintarPreview(){
+  const filas = T.tabla(E);
+  const ul = $('preview');
+  if(!filas.length){
+    ul.innerHTML = '<li class="nota">La tabla aparece cuando haya parejas.</li>';
+    return;
+  }
+  ul.innerHTML = filas.map(f =>
+    '<li><span class="pos">' + f.pos + '</span>' +
+    '<span class="nm">' + esc(f.pareja.emoji + ' ' + f.pareja.nombre) +
+      '<small>' + esc(f.integrantes.join(' · ')) + '</small></span>' +
+    '<span class="pt">' + f.puntos + '</span></li>'
+  ).join('');
+}
+
+/* ================= DATOS ================= */
+$('btn-recargar').addEventListener('click', () => {
+  if(sucio && !confirm('Tenés cambios sin publicar. ¿Los descartás y traés lo del servidor?')) return;
+  borrarLocal();
+  traerDelServidor(false);
+});
+
+$('btn-exportar').addEventListener('click', () => {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(E, null, 2)], { type:'application/json' }));
+  a.download = 'foka-kermesse-' + new Date().toISOString().slice(0,16).replace(/[:T]/g,'-') + '.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+$('btn-importar').addEventListener('click', () => {
+  const crudo = prompt('Pegá acá el JSON del torneo:');
+  if(!crudo) return;
+  try{
+    E = T.normalizar(JSON.parse(crudo));
+    tocado();
+    estadoSync('JSON cargado — falta publicarlo', '');
+  }catch(err){
+    alert('Ese JSON no se entiende: ' + err.message);
+  }
+});
+
+$('btn-reset').addEventListener('click', () => {
+  if(!confirm('Esto borra parejas, puntos y bitácora de este teléfono. ¿Seguro?')) return;
+  E = T.estadoInicial();
+  tocado();
+});
+
+/* ================= PINTAR TODO ================= */
+function pintarTodo(){
+  $('fase').value = E.fase;
+  if(document.activeElement !== $('mensaje')) $('mensaje').value = E.mensaje;
+  pintarParticipantes();
+  pintarParejas();
+  pintarPruebas();
+  pintarPreview();
+  pintarBitacora();
+}
+
+pintarTodo();
+</script>
+</body>
+</html>

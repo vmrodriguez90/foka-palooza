@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<title>FOKA PALOOZA 2026 — 25, 26 y 27 de septiembre</title>
-<meta name="description" content="En Miramar, Buenos Aires. Cumplo el viernes 25 y el festejo grande es el sábado 26. Tres días: 25, 26 y 27 de septiembre. Lineup por confirmarse el 15/9. Confirmá tu lugar.">
+<title>FOKA PALOOZA 2026 — 25, 26 y 27 de septiembre en Miramar</title>
+<meta name="description" content="Tres días en Miramar. Viernes 25: mi cumple, torneo de pool en HISTER y la primera birra va por mi cuenta. Sábado 26: sanguches en el Balneario Oasis y La Foka Kermesse, torneo por parejas con premio. Domingo 27: playa, mates y alguna olita.">
 
 <!-- ============================================================
      COMPARTIR EN WHATSAPP / REDES  (Open Graph + Twitter Cards)
@@ -19,18 +19,18 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_AR">
 <meta property="og:url" content="https://fokapalooza.ar/">
-<meta property="og:title" content="FOKA PALOOZA 2026 🦭">
-<meta property="og:description" content="Miramar, Buenos Aires · 25, 26 y 27 de septiembre. Cumplo el viernes, pero el festejo grande es el sábado. Lineup por confirmarse.">
-<meta property="og:image" content="https://fokapalooza.ar/assets/og.png?v=5">
-<meta property="og:image:secure_url" content="https://fokapalooza.ar/assets/og.png?v=5">
+<meta property="og:title" content="FOKA PALOOZA 2026 🦭 — Lineup confirmado">
+<meta property="og:description" content="Miramar · 25, 26 y 27 de septiembre. Viernes: pool en HISTER. Sábado: sanguches en el Oasis + La Foka Kermesse, torneo por parejas con premio. Domingo: playa y mates.">
+<meta property="og:image" content="https://fokapalooza.ar/assets/og.png?v=6">
+<meta property="og:image:secure_url" content="https://fokapalooza.ar/assets/og.png?v=6">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Afiche de Foka Palooza 2026: Miramar, 25, 26 y 27 de septiembre.">
+<meta property="og:image:alt" content="Afiche de Foka Palooza 2026: Miramar, 25, 26 y 27 de septiembre. Pool, kermesse y playa.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="FOKA PALOOZA 2026 🦭">
-<meta name="twitter:description" content="Miramar, Buenos Aires · 25, 26 y 27 de septiembre. El festejo grande es el sábado.">
-<meta name="twitter:image" content="https://fokapalooza.ar/assets/og.png?v=5">
+<meta name="twitter:title" content="FOKA PALOOZA 2026 🦭 — Lineup confirmado">
+<meta name="twitter:description" content="Miramar · 25, 26 y 27 de septiembre. Pool en HISTER, La Foka Kermesse en el Oasis y cierre en la playa.">
+<meta name="twitter:image" content="https://fokapalooza.ar/assets/og.png?v=6">
 <meta name="theme-color" content="#062C30">
 
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -40,78 +40,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 
+<!-- Tokens, botones, formularios y footer compartidos con torneo.html y admin.html -->
+<link rel="stylesheet" href="assets/foka.css">
+<!-- La URL del Apps Script, en un solo lugar para las tres páginas -->
+<script src="assets/config.js"></script>
+
 <style>
-/* ============================ TOKENS ============================ */
-:root{
-  --abyss:#062C30;
-  --deep:#0B3C49;
-  --teal:#1B6B73;
-  --foam:#4FBDBB;
-  --ice:#E0F7F5;
-  --coral:#FF7A59;
-  --gold:#FFD166;
-
-  --ink:var(--ice);
-  --muted:#8FBFC2;
-  --line:rgba(79,189,187,.28);
-
-  --display:'Anton', 'Arial Narrow', Impact, sans-serif;
-  --label:'Bebas Neue', 'Arial Narrow', sans-serif;
-  --body:'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
-
-  --maxw:1120px;
-  --r:18px;
-}
-
-*,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;overflow-x:hidden}
-body{
-  margin:0;
-  -webkit-tap-highlight-color:rgba(79,189,187,.25);
-  -webkit-text-size-adjust:100%;
-  background:var(--abyss);
-  color:var(--ink);
-  font-family:var(--body);
-  font-size:16px;
-  line-height:1.6;
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
-}
-img{max-width:100%;display:block}
-a{color:var(--foam)}
-::selection{background:var(--coral);color:#20110d}
-
-.wrap{width:min(100% - 2.5rem, var(--maxw));margin-inline:auto}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-
-/* ============================ TIPOGRAFÍA ============================ */
-.display{
-  font-family:var(--display);
-  font-weight:400;
-  line-height:.86;
-  letter-spacing:.005em;
-  text-transform:uppercase;
-  margin:0;
-}
-.eyebrow{
-  font-family:var(--label);
-  font-size:clamp(.95rem,2.2vw,1.15rem);
-  letter-spacing:.34em;
-  text-transform:uppercase;
-  color:var(--foam);
-  margin:0 0 .75rem;
-}
-.section-title{
-  font-family:var(--display);
-  font-size:clamp(2.4rem,7vw,4.6rem);
-  line-height:.95;
-  text-transform:uppercase;
-  margin:0 0 .3em;
-  padding-top:.06em;
-}
-.section-title em{font-style:normal;color:var(--coral)}
-.lead{color:var(--muted);max-width:56ch;margin:0 auto}
-
 /* ============================ HERO ============================ */
 .hero{
   position:relative;
@@ -139,16 +73,6 @@ a{color:var(--foam)}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 .hero-inner{text-align:center;position:relative;z-index:1}
-
-.badge-top{
-  display:inline-flex;align-items:center;gap:.6rem;
-  font-family:var(--label);letter-spacing:.3em;font-size:.9rem;
-  text-transform:uppercase;color:var(--abyss);
-  background:var(--gold);
-  padding:.35rem 1rem .2rem;
-  border-radius:999px;
-  transform:rotate(-2deg);
-}
 
 .wordmark{margin:clamp(1rem,3vw,1.6rem) 0 0}
 .wordmark .line{
@@ -213,33 +137,10 @@ a{color:var(--foam)}
 }
 .hero-tag{
   margin:1.4rem auto 0;
-  max-width:34ch;
+  max-width:38ch;
   color:var(--muted);
   font-size:clamp(1rem,2.4vw,1.15rem);
 }
-
-.cta-row{
-  display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center;
-  margin-top:clamp(1.6rem,4vw,2.4rem);
-}
-.btn{
-  font-family:var(--label);
-  font-size:1.15rem;letter-spacing:.14em;text-transform:uppercase;
-  padding:.85rem 1.7rem .65rem;
-  border-radius:999px;
-  border:2px solid transparent;
-  cursor:pointer;
-  text-decoration:none;
-  display:inline-flex;align-items:center;gap:.5rem;
-  transition:transform .16s ease, box-shadow .16s ease, background .16s ease;
-}
-.btn-primary{background:var(--coral);color:#2a1109;box-shadow:0 8px 0 #8f3b26}
-.btn-primary:hover{transform:translateY(-3px);box-shadow:0 11px 0 #8f3b26}
-.btn-primary:active{transform:translateY(3px);box-shadow:0 4px 0 #8f3b26}
-.btn-ghost{background:transparent;color:var(--ice);border-color:var(--foam)}
-.btn-ghost:hover{background:rgba(79,189,187,.14);transform:translateY(-3px)}
-.btn-gold{background:var(--gold);color:#2a2109;box-shadow:0 8px 0 #9c7c2e}
-.btn-gold:hover{transform:translateY(-3px);box-shadow:0 11px 0 #9c7c2e}
 
 .scroll-hint{
   margin-top:clamp(1.8rem,5vw,3rem);
@@ -248,43 +149,6 @@ a{color:var(--foam)}
   animation:bob 2.4s ease-in-out infinite;
 }
 @keyframes bob{0%,100%{transform:translateY(0);opacity:.7}50%{transform:translateY(6px);opacity:1}}
-
-/* ============================ FOCA ============================ */
-.seal-wrap{
-  width:clamp(120px,22vw,190px);
-  margin:0 auto;
-  filter:drop-shadow(0 14px 26px rgba(0,0,0,.45));
-  animation:float 6s ease-in-out infinite;
-}
-@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(2deg)}}
-
-/* ============================ MARQUEE ============================ */
-.marquee{
-  background:var(--coral);
-  color:#2a1109;
-  border-block:3px solid var(--abyss);
-  overflow:hidden;
-  white-space:nowrap;
-  transform:rotate(-1.2deg) scale(1.04);
-  margin:clamp(2rem,6vw,3.5rem) 0;
-}
-.marquee.alt{background:var(--gold);transform:rotate(1.2deg) scale(1.04)}
-.marquee__track{display:inline-flex;animation:slide 26s linear infinite;will-change:transform}
-.marquee.alt .marquee__track{animation-duration:34s;animation-direction:reverse}
-.marquee__track span{
-  font-family:var(--display);
-  font-size:clamp(1.3rem,3.6vw,2.1rem);
-  text-transform:uppercase;
-  padding:.42em 0;
-  padding-right:.7em;
-  display:inline-block;
-}
-@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
-/* ============================ SECCIONES ============================ */
-section{position:relative}
-.pad{padding:clamp(3.5rem,10vw,6.5rem) 0}
-.center{text-align:center}
 
 /* ============================ COUNTDOWN ============================ */
 .countdown-band{
@@ -347,6 +211,7 @@ section{position:relative}
 .day .dow{
   font-family:var(--label);letter-spacing:.3em;text-transform:uppercase;
   color:var(--foam);font-size:1rem;
+  margin:0;
 }
 .day-head{display:flex;align-items:center;justify-content:space-between;gap:.6rem;min-height:1.9rem}
 .day-badge{
@@ -357,6 +222,7 @@ section{position:relative}
 }
 .day-badge.cumple{background:var(--gold);color:#2a2109}
 .day-badge.grande{background:var(--coral);color:#2a1109}
+.day-badge.resaca{background:rgba(79,189,187,.2);color:var(--foam);border:1px solid var(--line)}
 /* el sábado es el día fuerte: se lo marca con el borde coral */
 .day.destacado{border-color:rgba(255,122,89,.55)}
 .day.destacado:hover{border-color:var(--coral)}
@@ -369,106 +235,102 @@ section{position:relative}
   color:var(--ice);
   text-shadow:.04em .05em 0 rgba(6,44,48,.7);
 }
-.day .dmon{font-family:var(--label);letter-spacing:.24em;text-transform:uppercase;color:var(--muted);font-size:.95rem}
-.day .dvibe{margin:.9rem 0 1.1rem;font-size:.95rem;color:var(--ice);opacity:.88}
-.tba{
+.day .dmon{font-family:var(--label);letter-spacing:.24em;text-transform:uppercase;color:var(--muted);font-size:.95rem;margin:0}
+.day .dvibe{margin:.9rem 0 .2rem;font-size:.95rem;color:var(--ice);opacity:.88}
+
+/* Lo que pasa cada día, en renglones cortos */
+.plan{
+  list-style:none;margin:1rem 0 0;padding:1rem 0 0;
   border-top:1px dashed var(--line);
-  padding-top:1rem;
+  position:relative;z-index:1;
 }
-.tba .tba-label{
-  font-family:var(--label);letter-spacing:.2em;font-size:.78rem;text-transform:uppercase;color:var(--gold);
+.plan li{display:flex;gap:.6rem;align-items:flex-start;font-size:.94rem;margin-top:.55rem;color:var(--ice);opacity:.9}
+.plan li .ico{flex:none;width:1.5rem;text-align:center;font-size:1.05rem;line-height:1.5}
+.plan li.destaca{color:var(--gold);opacity:1}
+.plan a{text-decoration:underline;text-underline-offset:3px}
+.day-link{
+  display:inline-block;margin-top:1rem;position:relative;z-index:1;
+  font-family:var(--label);letter-spacing:.14em;text-transform:uppercase;
+  font-size:.92rem;color:var(--coral);text-decoration:none;
 }
+.day-link:hover{text-decoration:underline}
+
+/* ============================ KERMESSE ============================ */
+.kermesse{
+  background:
+    linear-gradient(180deg, rgba(255,122,89,.1), rgba(6,44,48,0) 40%),
+    var(--abyss);
+}
+.pruebas{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
+  gap:1rem;
+  margin-top:clamp(2rem,5vw,2.8rem);
+  text-align:left;
+}
+.prueba{
+  background:linear-gradient(165deg, rgba(11,60,73,.8), rgba(6,44,48,.9));
+  border:2px solid var(--line);
+  border-radius:var(--r);
+  padding:1.3rem 1.2rem 1.4rem;
+}
+.prueba .pico{font-size:1.9rem;line-height:1;display:block;margin-bottom:.6rem}
+.prueba h3{
+  font-family:var(--display);text-transform:uppercase;
+  font-size:1.35rem;line-height:1;margin:0 0 .5rem;color:var(--ice);
+}
+.prueba p{margin:0;font-size:.9rem;color:var(--muted)}
+.prueba.secreta{border-style:dashed;border-color:rgba(255,209,102,.45)}
+.prueba.secreta h3{color:var(--gold)}
 .blurline{
   font-family:var(--display);
   text-transform:uppercase;
-  font-size:clamp(1.1rem,3.4vw,1.5rem);
+  font-size:1.1rem;
   line-height:1.25;
   color:var(--ice);
-  filter:blur(6px);
-  opacity:.55;
+  filter:blur(5px);
+  opacity:.5;
   user-select:none;
-  margin-top:.45rem;
+  margin:.5rem 0 0;
 }
-.blurline.b2{font-size:clamp(.95rem,2.8vw,1.2rem);filter:blur(5px);opacity:.42}
 
-/* ============================ FORMULARIOS ============================ */
-.card{
-  background:linear-gradient(170deg, rgba(11,60,73,.82), rgba(6,44,48,.9));
+.puntaje{
+  display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;
+  margin-top:clamp(1.6rem,4vw,2.2rem);
+}
+.premio{
+  margin:clamp(1.6rem,4vw,2.2rem) auto 0;
+  max-width:46ch;
+  border:2px dashed rgba(255,209,102,.5);
+  border-radius:var(--r);
+  padding:1.2rem 1.3rem;
+  background:rgba(255,209,102,.07);
+}
+.premio b{color:var(--gold);font-weight:500}
+
+/* ============================ DÓNDE ============================ */
+.lugares{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:1rem;
+  margin-top:clamp(2rem,5vw,2.8rem);
+  text-align:left;
+}
+.lugar{
   border:2px solid var(--line);
-  border-radius:calc(var(--r) + 6px);
-  padding:clamp(1.5rem,4.5vw,2.6rem);
-  max-width:760px;margin:clamp(2rem,5vw,3rem) auto 0;
+  border-radius:var(--r);
+  padding:1.2rem 1.2rem 1.3rem;
+  background:rgba(11,60,73,.5);
 }
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
-.field{display:block;margin-bottom:1.1rem}
-.field > span.lb{
-  display:block;
-  font-family:var(--label);letter-spacing:.16em;text-transform:uppercase;
-  font-size:.85rem;color:var(--foam);margin-bottom:.4rem;
+.lugar .cuando{
+  font-family:var(--label);letter-spacing:.2em;text-transform:uppercase;
+  font-size:.8rem;color:var(--foam);margin:0 0 .3rem;
 }
-.field .hint{display:block;font-size:.8rem;color:var(--muted);margin-top:.35rem;letter-spacing:0;font-family:var(--body);text-transform:none}
-input[type=text],input[type=tel],input[type=email],input[type=number],select,textarea{
-  width:100%;
-  font-family:var(--body);font-size:1rem;color:var(--ink);
-  background:rgba(6,44,48,.72);
-  border:2px solid var(--line);
-  border-radius:12px;
-  padding:.75rem .9rem;
-  transition:border-color .15s ease, box-shadow .15s ease;
-}
-textarea{min-height:96px;resize:vertical}
-input:focus,select:focus,textarea:focus{
-  outline:none;border-color:var(--foam);box-shadow:0 0 0 4px rgba(79,189,187,.16);
-}
-input::placeholder,textarea::placeholder{color:rgba(143,191,194,.65)}
-select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--foam) 50%),linear-gradient(135deg,var(--foam) 50%,transparent 50%);background-position:calc(100% - 20px) 55%,calc(100% - 14px) 55%;background-size:6px 6px,6px 6px;background-repeat:no-repeat}
+.lugar h3{font-family:var(--display);text-transform:uppercase;font-size:1.5rem;line-height:1;margin:0 0 .5rem}
+.lugar p{margin:0 0 .8rem;font-size:.9rem;color:var(--muted)}
+.lugar .links{display:flex;gap:.8rem;flex-wrap:wrap;font-size:.88rem}
 
-.checks{display:flex;flex-wrap:wrap;gap:.6rem}
-.check{
-  position:relative;
-  flex:1 1 150px;
-}
-.check input{position:absolute;opacity:0;pointer-events:none}
-.check span{
-  display:block;text-align:center;cursor:pointer;
-  font-family:var(--label);letter-spacing:.14em;text-transform:uppercase;font-size:1rem;
-  padding:.7rem .6rem .5rem;
-  border:2px solid var(--line);border-radius:12px;
-  background:rgba(6,44,48,.55);
-  transition:all .16s ease;
-}
-.check input:checked + span{background:var(--foam);color:#04262a;border-color:var(--foam);transform:translateY(-2px)}
-.check input:focus-visible + span{box-shadow:0 0 0 4px rgba(79,189,187,.25)}
-
-.inline-check{display:flex;gap:.7rem;align-items:flex-start;font-size:.92rem;color:var(--muted);margin-bottom:1.2rem;padding:.35rem 0;cursor:pointer}
-.inline-check input{width:24px;height:24px;accent-color:var(--foam);margin-top:.05rem;flex:none}
-
-.hp{
-  position:absolute!important;
-  width:1px!important;height:1px!important;
-  padding:0!important;margin:-1px!important;
-  overflow:hidden!important;clip:rect(0 0 0 0)!important;clip-path:inset(50%)!important;
-  white-space:nowrap!important;border:0!important;opacity:0!important;
-  pointer-events:none!important;
-}
-
-.form-msg{
-  margin-top:1rem;padding:.9rem 1.1rem;border-radius:12px;font-size:.95rem;display:none;
-}
-.form-msg.show{display:block}
-.form-msg.ok{background:rgba(79,189,187,.16);border:1px solid var(--foam);color:var(--ice)}
-.form-msg.err{background:rgba(255,122,89,.14);border:1px solid var(--coral);color:#ffd9cf}
-
-.btn[disabled]{opacity:.6;cursor:progress;transform:none!important}
-
-.stats{
-  margin-top:1.4rem;font-family:var(--label);letter-spacing:.2em;
-  text-transform:uppercase;font-size:.9rem;color:var(--gold);
-  display:none;
-}
-.stats.show{display:block}
-
-/* ============================ AVISO LINEUP ============================ */
+/* ============================ AVISOS ============================ */
 .notify{
   background:
     linear-gradient(180deg, rgba(27,107,115,.35), rgba(6,44,48,0)),
@@ -478,49 +340,16 @@ select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,va
 .notify-row{display:flex;gap:.7rem;flex-wrap:wrap}
 .notify-row input{flex:1 1 220px}
 
-/* ============================ FOOTER ============================ */
-footer{
-  border-top:1px solid var(--line);
-  padding:clamp(2.5rem,7vw,4rem) 0 3rem;
-  text-align:center;
-}
-.icon-row{
-  font-size:clamp(1.3rem,4vw,1.9rem);
-  letter-spacing:.35em;
-  margin-bottom:1.2rem;
-  filter:saturate(.9);
-}
-.foot-word{
-  font-family:var(--display);text-transform:uppercase;
-  font-size:clamp(1.4rem,5vw,2.4rem);color:var(--coral);
-  line-height:.95;
-}
-.foot-note{color:var(--muted);font-size:.86rem;margin-top:.9rem}
-.share-row{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-top:1.6rem}
-
 /* ============================ MOBILE ============================ */
 @media (max-width:520px){
-  /* botones a lo ancho: más fáciles de tocar con el pulgar */
-  .cta-row .btn,
-  #btn-rsvp,
-  .notify-row .btn{flex:1 1 100%;width:100%;justify-content:center}
   .notify-row input{flex:1 1 100%}
-  /* dos días por fila en vez de cuatro apretados */
-  .check{flex:1 1 calc(50% - .3rem)}
   .clock{gap:.45rem}
   .day{padding:1.4rem 1.15rem 1.5rem}
-  .card{padding:1.35rem 1.15rem 1.6rem}
-  .wrap{width:min(100% - 1.75rem, var(--maxw))}
 }
 @media (max-width:360px){
   /* el contador pasa a 2x2 para que los números no queden minúsculos */
   .clock{grid-template-columns:repeat(2,minmax(0,1fr))}
   .date-chip{font-size:1rem;padding:.4rem .8rem .2rem}
-}
-
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
-  html{scroll-behavior:auto}
 }
 </style>
 </head>
@@ -559,7 +388,7 @@ footer{
       </svg>
     </div>
 
-    <p class="badge-top">Edición 2026</p>
+    <p class="badge-top">Lineup confirmado</p>
 
     <h1 class="wordmark">
       <span class="sr">Foka Palooza 2026</span>
@@ -577,11 +406,11 @@ footer{
 
     <p class="place">Miramar · Buenos Aires</p>
 
-    <p class="hero-tag">Tres días de foca. <b style="color:var(--ice);font-weight:500">Cumplo el viernes 25</b>, pero como sé que muchos llegan recién esa noche, el festejo grande va el sábado.</p>
+    <p class="hero-tag">Tres días de foca. <b style="color:var(--ice);font-weight:500">Cumplo el viernes 25</b> y lo arrancamos con pool en HISTER. El sábado 26 va el festejo grande: sanguches en el Oasis y <b style="color:var(--ice);font-weight:500">La Foka Kermesse</b>.</p>
 
     <div class="cta-row">
       <a class="btn btn-primary" href="#confirmar">Confirmar asistencia</a>
-      <a class="btn btn-ghost" href="#lineup">Avisame del lineup</a>
+      <a class="btn btn-ghost" href="#kermesse">Qué es la Kermesse</a>
     </div>
 
     <p class="scroll-hint">Bajá ↓</p>
@@ -595,9 +424,9 @@ footer{
 <!-- ============================ COUNTDOWN ============================ -->
 <section class="pad countdown-band center" id="lineup">
   <div class="wrap">
-    <p class="eyebrow">Artistas confirmados</p>
-    <h2 class="section-title">Lineup <em>por confirmarse</em></h2>
-    <p class="lead">Todavía estamos cerrando quién toca cada día. El anuncio oficial cae el <b style="color:var(--gold);font-weight:500">martes 15 de septiembre</b>.</p>
+    <p class="eyebrow">Falta poquito</p>
+    <h2 class="section-title">Arranca el <em>viernes 25</em></h2>
+    <p class="lead">El lineup ya está cerrado: pool, kermesse y playa. Lo único que falta sos vos, así que <b style="color:var(--gold);font-weight:500">confirmá</b> antes de que se llene el iceberg.</p>
 
     <div class="clock" id="clock" role="timer" aria-live="off">
       <div class="unit"><span class="num" id="cd-d">--</span><span class="lbl">Días</span></div>
@@ -606,16 +435,16 @@ footer{
       <div class="unit"><span class="num" id="cd-s">--</span><span class="lbl">Segundos</span></div>
     </div>
 
-    <p class="reveal-note" id="reveal-note">Faltan para el anuncio del lineup · <b>15/09/2026, 20:00 hs</b></p>
+    <p class="reveal-note" id="reveal-note">Faltan para la primera birra en HISTER · <b>25/09/2026, 21:00 hs</b></p>
 
     <div class="cta-row">
-      <a class="btn btn-gold" href="#avisame">Quiero que me avisen 🦭</a>
+      <a class="btn btn-gold" href="#cronograma">Ver el cronograma 🦭</a>
     </div>
   </div>
 </section>
 
 <!-- ============================ DÍAS ============================ -->
-<section class="pad">
+<section class="pad" id="cronograma">
   <div class="wrap center">
     <p class="eyebrow">Tres jornadas</p>
     <h2 class="section-title">El <em>cronograma</em></h2>
@@ -628,39 +457,39 @@ footer{
         <div class="day-head"><p class="dow">Viernes</p><span class="day-badge cumple">🎂 Cumple</span></div>
         <p class="dnum">25</p>
         <p class="dmon">Septiembre 2026</p>
-        <p class="dvibe">El día que cumplo años, oficialmente. Arranque tranqui, brindis a medianoche y a esperar a los que caen tarde.</p>
-        <div class="tba">
-          <p class="tba-label">Line up</p>
-          <p class="blurline" aria-hidden="true">Posible Grupazo</p>
-          <p class="blurline b2" aria-hidden="true">Nombre Sorpresa · Alguien Que Ya Sabés</p>
-          <p class="sr">Lineup por confirmarse.</p>
-        </div>
+        <p class="dvibe">El día que cumplo, oficialmente. Nos juntamos en <b>HISTER</b> a jugar al pool hasta que nos echen.</p>
+        <ul class="plan">
+          <li><span class="ico" aria-hidden="true">📍</span><span>HISTER, Miramar</span></li>
+          <li><span class="ico" aria-hidden="true">🎱</span><span>Torneo de pool</span></li>
+          <li class="destaca"><span class="ico" aria-hidden="true">🍺</span><span><b>La primera birra va por mi cuenta.</b> La segunda también, pero no lo digas fuerte.</span></li>
+          <li><span class="ico" aria-hidden="true">🍟</span><span>Papitas, picada y brindis a medianoche</span></li>
+        </ul>
       </article>
 
       <article class="day destacado">
         <div class="day-head"><p class="dow">Sábado</p><span class="day-badge grande">🎉 Festejo grande</span></div>
         <p class="dnum">26</p>
         <p class="dmon">Septiembre 2026</p>
-        <p class="dvibe">Con todos ya en el iceberg, acá va el festejo en serio. Si venís a uno solo, que sea este.</p>
-        <div class="tba">
-          <p class="tba-label">Line up</p>
-          <p class="blurline" aria-hidden="true">Headliner Secreto</p>
-          <p class="blurline b2" aria-hidden="true">Banda Misteriosa · Dj Foka · Invitade</p>
-          <p class="sr">Lineup por confirmarse.</p>
-        </div>
+        <p class="dvibe">Con todos ya en el iceberg, el festejo en serio: sanguches frente al mar y la kermesse. Si venís a uno solo, que sea este.</p>
+        <ul class="plan">
+          <li><span class="ico" aria-hidden="true">📍</span><span><a href="https://oasismiramar.com.ar/" target="_blank" rel="noopener">Balneario Oasis</a>, Miramar</span></li>
+          <li><span class="ico" aria-hidden="true">🥪</span><span>Sanguches para todos (y para los que repiten)</span></li>
+          <li class="destaca"><span class="ico" aria-hidden="true">🏆</span><span><b>La Foka Kermesse:</b> torneo por parejas</span></li>
+          <li><span class="ico" aria-hidden="true">🎁</span><span>Premio para la pareja ganadora</span></li>
+        </ul>
+        <a class="day-link" href="#kermesse">Cómo se juega →</a>
       </article>
 
       <article class="day">
-        <div class="day-head"><p class="dow">Domingo</p></div>
+        <div class="day-head"><p class="dow">Domingo</p><span class="day-badge resaca">🌊 Cierre</span></div>
         <p class="dnum">27</p>
         <p class="dmon">Septiembre 2026</p>
-        <p class="dvibe">Cierre en modo foca: sol, comida y cero apuro.</p>
-        <div class="tba">
-          <p class="tba-label">Line up</p>
-          <p class="blurline" aria-hidden="true">Resaca Set</p>
-          <p class="blurline b2" aria-hidden="true">Acústico Sorpresa · Los Que Quedan</p>
-          <p class="sr">Lineup por confirmarse.</p>
-        </div>
+        <p class="dvibe">Cierre en modo foca: playita, mates y cero apuro. Los campeones de la kermesse pueden traer el premio puesto.</p>
+        <ul class="plan">
+          <li><span class="ico" aria-hidden="true">📍</span><span>La playa, sin horario fijo</span></li>
+          <li><span class="ico" aria-hidden="true">🧉</span><span>Mates hasta que se acabe el agua</span></li>
+          <li><span class="ico" aria-hidden="true">🌊</span><span>Posible olita, si el mar se porta</span></li>
+        </ul>
       </article>
     </div>
   </div>
@@ -670,6 +499,59 @@ footer{
   <div class="marquee__track" id="mq2"></div>
 </div>
 
+<!-- ============================ KERMESSE ============================ -->
+<section class="pad kermesse center" id="kermesse">
+  <div class="wrap">
+    <p class="eyebrow">Sábado 26 · Balneario Oasis</p>
+    <h2 class="section-title">La Foka <em>Kermesse</em></h2>
+    <p class="lead">Un torneo <b style="color:var(--ice);font-weight:500">por parejas</b>. Las armo yo por sorteo entre todos los que confirmaron —así te toca con cualquiera y nadie arma el dream team—, se juegan las pruebas y la pareja que más puntos suma se lleva el premio. No hace falta saber jugar a nada: la mayoría no sabe.</p>
+
+    <div class="pruebas">
+      <article class="prueba">
+        <span class="pico" aria-hidden="true">⛳</span>
+        <h3>Mini golf</h3>
+        <p>Hoyos improvisados sobre la arena. El viento cuenta como obstáculo y no se puede patear la pelota.</p>
+      </article>
+      <article class="prueba">
+        <span class="pico" aria-hidden="true">🏎️</span>
+        <h3>Carrera de autos</h3>
+        <p>Largada, vuelta y podio. Prohibido chocar al de al lado (se va a chocar igual).</p>
+      </article>
+      <article class="prueba">
+        <span class="pico" aria-hidden="true">🏀</span>
+        <h3>21 de básket</h3>
+        <p>Con mini hoop. Se juega a 21 puntos y se pierde la dignidad bastante antes.</p>
+      </article>
+      <article class="prueba">
+        <span class="pico" aria-hidden="true">🎯</span>
+        <h3>Tiro a las botellas</h3>
+        <p>Con las Nerf. Cada botella que cae suma; cada dardo perdido en la arena lo buscás vos.</p>
+      </article>
+      <article class="prueba secreta">
+        <span class="pico" aria-hidden="true">❓</span>
+        <h3>Prueba sorpresa</h3>
+        <p>Hay una quinta prueba. No la vamos a contar.</p>
+        <p class="blurline" aria-hidden="true">Clasificado Foka</p>
+        <p class="sr">Se revela el sábado en el balneario.</p>
+      </article>
+    </div>
+
+    <div class="puntaje">
+      <span class="pill gold">🥇 10 puntos</span>
+      <span class="pill">🥈 7 puntos</span>
+      <span class="pill">🥉 5 puntos</span>
+      <span class="pill">Jugar y perder · 3</span>
+    </div>
+
+    <p class="premio">🎁 <b>El premio es secreto.</b> Existe, es bueno y entra en una mochila. Se lo lleva la pareja que termine primera en la tabla.</p>
+
+    <div class="cta-row">
+      <a class="btn btn-primary" href="torneo.html">Ver el torneo en vivo 🏆</a>
+      <a class="btn btn-ghost" href="#confirmar">Quiero jugar</a>
+    </div>
+  </div>
+</section>
+
 <!-- ============================ DÓNDE ============================ -->
 <section class="pad center" id="donde">
   <div class="wrap">
@@ -677,11 +559,31 @@ footer{
     <h2 class="section-title">En <em>Miramar</em></h2>
     <p class="lead">Buenos Aires, Argentina. Son tres días frente al mar: si venís de lejos, andá viendo dónde dormir — cualquier cosa escribime y lo vemos.</p>
 
-    <div class="cta-row">
-      <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&amp;query=Miramar%2C+Buenos+Aires%2C+Argentina" target="_blank" rel="noopener">Ver en el mapa 📍</a>
+    <div class="lugares">
+      <article class="lugar">
+        <p class="cuando">Viernes 25</p>
+        <h3>HISTER</h3>
+        <p>Pool, birra y papas. El punto de encuentro del cumple.</p>
+        <p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=HISTER+Miramar+Buenos+Aires" target="_blank" rel="noopener">Ver en el mapa 📍</a></p>
+      </article>
+      <article class="lugar">
+        <p class="cuando">Sábado 26</p>
+        <h3>Balneario Oasis</h3>
+        <p>Sanguches, sol y La Foka Kermesse, todo frente al mar.</p>
+        <p class="links">
+          <a href="https://oasismiramar.com.ar/" target="_blank" rel="noopener">oasismiramar.com.ar</a>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Balneario+Oasis+Miramar+Buenos+Aires" target="_blank" rel="noopener">Ver en el mapa 📍</a>
+        </p>
+      </article>
+      <article class="lugar">
+        <p class="cuando">Domingo 27</p>
+        <h3>La playa</h3>
+        <p>Sin horario y sin dirección exacta: mandamos el punto por WhatsApp esa mañana.</p>
+        <p class="links"><a href="#avisame">Anotate a los avisos →</a></p>
+      </article>
     </div>
 
-    <p class="reveal-note">La dirección exacta va junto con el lineup, el 15 de septiembre.</p>
+    <p class="reveal-note">Los horarios finos y el punto de encuentro exacto los mandamos por WhatsApp durante el finde.</p>
   </div>
 </section>
 
@@ -690,7 +592,7 @@ footer{
   <div class="wrap center">
     <p class="eyebrow">RSVP</p>
     <h2 class="section-title">Confirmá <em>tu lugar</em></h2>
-    <p class="lead">Necesito saber cuántas focas entran en el iceberg. Tardás 30 segundos.</p>
+    <p class="lead">Necesito saber cuántas focas entran en el iceberg —y quiénes juegan la kermesse, para armar las parejas. Tardás 30 segundos.</p>
   </div>
 
   <form class="card" id="form-rsvp" novalidate>
@@ -714,7 +616,7 @@ footer{
         <label class="check"><input type="checkbox" name="dias" value="Domingo 27"><span>Dom 27</span></label>
         <label class="check"><input type="checkbox" name="dias" value="Los tres" id="chk-todos"><span>Los 3 🦭</span></label>
       </div>
-      <span class="hint">Cumplo el viernes 25; el sábado 26 es el festejo grande.</span>
+      <span class="hint">Viernes: pool en HISTER. Sábado: sanguches y kermesse en el Oasis. Domingo: playa y mates.</span>
     </div>
 
     <div class="grid2">
@@ -741,30 +643,35 @@ footer{
     </label>
 
     <label class="inline-check">
+      <input type="checkbox" name="kermesse" value="si" checked>
+      <span>Juego <b style="color:var(--ice);font-weight:500">La Foka Kermesse</b> del sábado. Entro al sorteo de parejas 🏆</span>
+    </label>
+
+    <label class="inline-check">
       <input type="checkbox" name="avisar_lineup" value="si" checked>
-      <span>Avisame por WhatsApp cuando salga el lineup del Foka Palooza.</span>
+      <span>Avisame por WhatsApp las novedades del finde (horarios, punto de encuentro, cómo va el torneo).</span>
     </label>
 
     <input class="hp" type="text" name="apodo_foka" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-    <button class="btn btn-primary" type="submit" id="btn-rsvp">Confirmo, voy 🦭</button>
+    <button class="btn btn-primary btn-block" type="submit" id="btn-rsvp">Confirmo, voy 🦭</button>
 
     <p class="form-msg" id="msg-rsvp" role="status" aria-live="polite"></p>
     <p class="stats" id="stats"></p>
   </form>
 </section>
 
-<!-- ============================ AVISO LINEUP ============================ -->
+<!-- ============================ AVISOS ============================ -->
 <section class="pad notify center" id="avisame">
   <div class="wrap">
     <p class="eyebrow">Alerta WhatsApp</p>
-    <h2 class="section-title">No te lo <em>pierdas</em></h2>
-    <p class="lead">Dejame tu WhatsApp y sos de los primeros en enterarte cuando se confirme quién toca. Un solo mensaje, lo prometo.</p>
+    <h2 class="section-title">Novedades del <em>finde</em></h2>
+    <p class="lead">Dejame tu WhatsApp y te llegan los avisos de último momento: horarios, punto de encuentro y cómo va la kermesse. Sin spam, lo prometo.</p>
 
     <form class="card" id="form-lineup" novalidate>
       <div class="notify-row">
         <input type="tel" name="whatsapp" required autocomplete="tel" inputmode="tel" placeholder="Tu WhatsApp: 11 5555-5555" aria-label="Tu WhatsApp">
-        <button class="btn btn-gold" type="submit" id="btn-lineup">Avisame</button>
+        <button class="btn btn-gold btn-block" type="submit" id="btn-lineup">Avisame</button>
       </div>
       <input class="hp" type="text" name="apodo_foka" tabindex="-1" autocomplete="off" aria-hidden="true">
       <p class="form-msg" id="msg-lineup" role="status" aria-live="polite"></p>
@@ -780,12 +687,13 @@ footer{
 <!-- ============================ FOOTER ============================ -->
 <footer>
   <div class="wrap">
-    <p class="icon-row" aria-hidden="true">🦭 🎸 ✦ 🍻 ✦ 🎧 ✦ 🎂 🦭</p>
+    <p class="icon-row" aria-hidden="true">🦭 🎱 ✦ 🥪 ✦ 🏆 ✦ 🌊 🦭</p>
     <p class="foot-word">Foka Palooza<br>2026</p>
     <p class="foot-note">Miramar, Buenos Aires · 25, 26 y 27 de septiembre<br>Hecho con cariño y sin patrocinadores.</p>
     <div class="share-row">
       <a class="btn btn-ghost" href="#confirmar">Confirmar</a>
-      <a class="btn btn-ghost" href="#avisame">Avisame del lineup</a>
+      <a class="btn btn-ghost" href="torneo.html">El torneo</a>
+      <a class="btn btn-ghost" href="#avisame">Avisos del finde</a>
     </div>
   </div>
 </footer>
@@ -795,21 +703,23 @@ footer{
    CONFIG — lo único que tenés que tocar
    ================================================================== */
 const FOKA = {
-  /* Pegá acá la URL /exec que te da Google Apps Script al
-     "Implementar > Nueva implementación > Aplicación web".
-     Mientras esté vacío, los formularios avisan que falta configurarlo. */
-  endpoint: 'https://script.google.com/macros/s/AKfycbzdk-u22z5wR1hQgp7UXaKJAjWB35v8RwSlNU_70lkd2FXdIV7EDUH2XqfzK-kNmGrM/exec',
+  /* La URL /exec del Apps Script está en assets/config.js, que la
+     comparten las tres páginas. Si está vacía, los formularios avisan
+     que falta configurarla. */
+  endpoint: (window.FOKA_CONFIG || {}).endpoint || '',
 
-  /* Fecha en que se anuncia el lineup (hora de Argentina, UTC-3) */
-  revealISO: '2026-09-15T20:00:00-03:00',
+  /* Hacia dónde corre el contador: el arranque del finde
+     (hora de Argentina, UTC-3) */
+  arranqueISO: '2026-09-25T21:00:00-03:00',
 
-  /* Datos del evento para el archivo .ics */
+  /* Datos del evento para el archivo .ics.
+     Si cambian los horarios, se cambian acá (y nada más). */
   event: {
     title: 'FOKA PALOOZA 2026',
     days: [
-      { start: '20260925T200000', end: '20260926T050000' },
-      { start: '20260926T190000', end: '20260927T060000' },
-      { start: '20260927T140000', end: '20260927T235900' }
+      { start: '20260925T210000', end: '20260926T030000', lugar: 'HISTER, Miramar, Buenos Aires',           detalle: 'Torneo de pool, birra y papas. La primera birra va por cuenta del cumpleañero.' },
+      { start: '20260926T130000', end: '20260926T230000', lugar: 'Balneario Oasis, Miramar, Buenos Aires',  detalle: 'Sanguches + La Foka Kermesse: torneo por parejas con premio.' },
+      { start: '20260927T120000', end: '20260927T200000', lugar: 'La playa, Miramar, Buenos Aires',         detalle: 'Playa, mates y posible olita.' }
     ],
     url: 'https://fokapalooza.ar/'
   },
@@ -820,7 +730,7 @@ const FOKA = {
 
 /* ================= MARQUEE ================= */
 (function marquee(){
-  const items = ['FOKA PALOOZA 2026','25 · 26 · 27 SEPTIEMBRE','LINEUP POR CONFIRMARSE','🦭','TRES DÍAS DE FOKA','CONFIRMÁ TU LUGAR','🦭'];
+  const items = ['FOKA PALOOZA 2026','25 · 26 · 27 SEPTIEMBRE','POOL EN HISTER','🦭','LA FOKA KERMESSE','SANGUCHES EN EL OASIS','PLAYA Y MATES','🦭'];
   const build = (el, sep) => {
     if(!el) return;
     const chunk = items.map(t => `<span>${t}<span style="opacity:.45"> ${sep} </span></span>`).join('');
@@ -832,7 +742,7 @@ const FOKA = {
 
 /* ================= COUNTDOWN ================= */
 (function countdown(){
-  const target = new Date(FOKA.revealISO).getTime();
+  const target = new Date(FOKA.arranqueISO).getTime();
   const el = {
     d: document.getElementById('cd-d'),
     h: document.getElementById('cd-h'),
@@ -846,7 +756,7 @@ const FOKA = {
     const diff = target - Date.now();
     if(diff <= 0){
       el.d.textContent = el.h.textContent = el.m.textContent = el.s.textContent = '00';
-      note.innerHTML = '¡Se viene! El lineup ya tendría que estar acá. <b>Refrescá la página.</b>';
+      note.innerHTML = '¡Arrancó el Foka Palooza! 🦭 <b>Nos vemos en Miramar.</b>';
       clearInterval(timer);
       return;
     }
@@ -939,6 +849,8 @@ document.getElementById('form-rsvp').addEventListener('submit', async e => {
   if(!whatsappValido(whatsapp)) return feedback('msg-rsvp','err','Revisá el WhatsApp: característica + número, sin el 0 ni el 15 (10 dígitos en total).');
   if(dias.length === 0) return feedback('msg-rsvp','err','Marcá al menos un día.');
 
+  const juegaKermesse = fd.get('kermesse') ? 'Sí' : 'No';
+
   btn.disabled = true; btn.textContent = 'Guardando...';
   try{
     await enviar({
@@ -951,11 +863,15 @@ document.getElementById('form-rsvp').addEventListener('submit', async e => {
       dieta: fd.get('dieta') || '',
       mensaje: (fd.get('mensaje')||'').trim(),
       avisar_lineup: fd.get('avisar_lineup') ? 'Sí' : 'No',
+      kermesse: juegaKermesse,
       trampa: fd.get('apodo_foka') || '',
       origen: location.href
     });
     form.querySelectorAll('input, textarea, select, button').forEach(i => i.disabled = true);
-    feedback('msg-rsvp','ok','¡Listo, ' + nombre.split(' ')[0] + '! Quedaste confirmade para ' + dias.join(', ') + '. Nos vemos en el iceberg 🦭');
+    const extra = juegaKermesse === 'Sí'
+      ? ' Estás en el sorteo de parejas de la Kermesse 🏆'
+      : '';
+    feedback('msg-rsvp','ok','¡Listo, ' + nombre.split(' ')[0] + '! Quedaste confirmade para ' + dias.join(', ') + '.' + extra + ' Nos vemos en el iceberg 🦭');
     try{ localStorage.setItem('foka2026_rsvp', whatsapp); }catch(_){}
     cargarStats();
   }catch(err){
@@ -964,7 +880,7 @@ document.getElementById('form-rsvp').addEventListener('submit', async e => {
   }
 });
 
-/* ================= FORM: AVISO DE LINEUP ================= */
+/* ================= FORM: AVISOS DEL FINDE ================= */
 document.getElementById('form-lineup').addEventListener('submit', async e => {
   e.preventDefault();
   const form = e.target;
@@ -983,7 +899,7 @@ document.getElementById('form-lineup').addEventListener('submit', async e => {
       trampa: new FormData(form).get('apodo_foka') || '',
       origen: location.href
     });
-    feedback('msg-lineup','ok','Anotado. Te escribimos por WhatsApp el 15/09 con el lineup completo 🦭');
+    feedback('msg-lineup','ok','Anotado. Te escribimos por WhatsApp con los horarios y las novedades del finde 🦭');
     form.reset();
   }catch(err){
     feedback('msg-lineup','err', err.message);
@@ -1010,16 +926,17 @@ cargarStats();
 /* ================= AGENDAR (.ics) ================= */
 document.getElementById('btn-ics').addEventListener('click', () => {
   const stamp = new Date().toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z';
-  const nombres = ['Día 1 — Viernes (el cumple)','Día 2 — Sábado (festejo grande)','Día 3 — Domingo'];
+  const nombres = ['Día 1 — Viernes: pool en HISTER (el cumple)','Día 2 — Sábado: Kermesse en el Oasis (festejo grande)','Día 3 — Domingo: playa y mates'];
+  const esc = t => String(t).replace(/([,;\\])/g, '\\$1');
   const eventos = FOKA.event.days.map((d,i) => [
     'BEGIN:VEVENT',
     'UID:fokapalooza-2026-' + (i+1) + '@fokapalooza',
     'DTSTAMP:' + stamp,
     'DTSTART;TZID=America/Argentina/Buenos_Aires:' + d.start,
     'DTEND;TZID=America/Argentina/Buenos_Aires:' + d.end,
-    'SUMMARY:' + FOKA.event.title + ' — ' + nombres[i],
-    'LOCATION:Miramar\\, Buenos Aires\\, Argentina',
-    'DESCRIPTION:Lineup por confirmarse. Más info: ' + FOKA.event.url,
+    'SUMMARY:' + esc(FOKA.event.title + ' — ' + nombres[i]),
+    'LOCATION:' + esc(d.lugar),
+    'DESCRIPTION:' + esc(d.detalle + ' Más info: ' + FOKA.event.url),
     'URL:' + FOKA.event.url,
     'END:VEVENT'
   ].join('\r\n')).join('\r\n');
@@ -1035,7 +952,7 @@ document.getElementById('btn-ics').addEventListener('click', () => {
 /* ================= COMPARTIR ================= */
 document.getElementById('btn-share').addEventListener('click', async () => {
   const url = FOKA.event.url;
-  const text = '🦭 FOKA PALOOZA 2026 — Miramar, 25, 26 y 27 de septiembre. Lineup por confirmarse. Confirmá acá: ';
+  const text = '🦭 FOKA PALOOZA 2026 — Miramar, 25, 26 y 27 de septiembre. Viernes pool en HISTER, sábado La Foka Kermesse en el Oasis y domingo playa. Confirmá acá: ';
   if(navigator.share){
     try{ await navigator.share({ title:'FOKA PALOOZA 2026', text, url }); return; }catch(_){}
   }

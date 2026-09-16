@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<title>La Foka Kermesse — Torneo por parejas · Foka Palooza 2026</title>
+<meta name="description" content="La tabla de posiciones de La Foka Kermesse, el torneo por parejas del sábado 26 en el Balneario Oasis de Miramar. Parejas, pruebas y cómo va todo, en vivo.">
+
+<link rel="canonical" href="https://fokapalooza.ar/torneo.html">
+<meta property="og:site_name" content="Foka Palooza">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:url" content="https://fokapalooza.ar/torneo.html">
+<meta property="og:title" content="La Foka Kermesse 🏆 — Torneo por parejas">
+<meta property="og:description" content="Sábado 26 en el Balneario Oasis. Cinco pruebas, parejas sorteadas y un premio. Mirá cómo va la tabla en vivo.">
+<meta property="og:image" content="https://fokapalooza.ar/assets/og.png?v=6">
+<meta property="og:image:secure_url" content="https://fokapalooza.ar/assets/og.png?v=6">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="La Foka Kermesse 🏆">
+<meta name="twitter:description" content="El torneo por parejas del Foka Palooza, en vivo.">
+<meta name="twitter:image" content="https://fokapalooza.ar/assets/og.png?v=6">
+<meta name="theme-color" content="#062C30">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icon-512.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/foka.css">
+<script src="assets/config.js"></script>
+
+<style>
+/* ============================ CABECERA ============================ */
+.cabecera{
+  background:
+    linear-gradient(180deg, rgba(11,60,73,.92), rgba(6,44,48,.92)),
+    radial-gradient(60% 100% at 50% 0%, rgba(255,209,102,.18), transparent 70%);
+  border-bottom:1px solid var(--line);
+  padding:clamp(2.2rem,7vw,4rem) 0 clamp(2rem,5vw,3rem);
+  text-align:center;
+}
+.estado-row{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-top:1.2rem}
+.datos{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(.5rem,2vw,1rem);
+  max-width:620px;margin:clamp(1.6rem,4vw,2.2rem) auto 0;
+}
+.dato{
+  background:rgba(6,44,48,.7);
+  border:2px solid var(--line);
+  border-radius:var(--r);
+  padding:.9rem .4rem .7rem;
+}
+.dato b{
+  display:block;font-family:var(--display);font-size:clamp(1.8rem,7vw,2.8rem);
+  line-height:1;color:var(--gold);font-variant-numeric:tabular-nums;
+}
+.dato span{
+  display:block;margin-top:.35rem;
+  font-family:var(--label);letter-spacing:.16em;text-transform:uppercase;
+  font-size:.75rem;color:var(--muted);
+}
+.actualizado{margin-top:1.2rem;font-size:.85rem;color:var(--muted)}
+.actualizado button{
+  background:none;border:0;color:var(--foam);cursor:pointer;
+  font-family:var(--body);font-size:.85rem;text-decoration:underline;padding:.2rem .3rem;
+}
+
+/* ============================ AVISO DEL ADMIN ============================ */
+.aviso{
+  max-width:720px;margin:clamp(1.6rem,4vw,2.2rem) auto 0;
+  border:2px solid var(--coral);
+  background:rgba(255,122,89,.12);
+  border-radius:var(--r);
+  padding:1.1rem 1.3rem;
+  text-align:left;
+  display:none;
+}
+.aviso.show{display:block}
+.aviso .quien{
+  font-family:var(--label);letter-spacing:.2em;text-transform:uppercase;
+  font-size:.75rem;color:var(--coral);margin:0 0 .35rem;
+}
+.aviso p.texto{margin:0;white-space:pre-wrap}
+
+/* ============================ CAMPEONES ============================ */
+.campeon{
+  display:none;
+  max-width:620px;margin:clamp(2rem,5vw,2.6rem) auto 0;
+  border:3px solid var(--gold);
+  border-radius:var(--r);
+  background:linear-gradient(165deg, rgba(255,209,102,.2), rgba(6,44,48,.7));
+  padding:1.6rem 1.3rem 1.8rem;
+}
+.campeon.show{display:block}
+.campeon .copa{font-size:2.6rem;line-height:1}
+.campeon h2{font-family:var(--display);text-transform:uppercase;font-size:clamp(1.8rem,7vw,2.8rem);line-height:1;margin:.5rem 0 .3rem;color:var(--gold)}
+.campeon p{margin:0;color:var(--ice)}
+
+/* ============================ POSICIONES ============================ */
+.posiciones{list-style:none;margin:clamp(1.5rem,4vw,2.2rem) 0 0;padding:0;display:grid;gap:.6rem}
+.fila{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:.8rem;
+  background:linear-gradient(120deg, rgba(11,60,73,.8), rgba(6,44,48,.85));
+  border:2px solid var(--line);
+  border-radius:var(--r);
+  padding:.85rem 1rem;
+}
+.fila.p1{border-color:var(--gold);background:linear-gradient(120deg, rgba(255,209,102,.16), rgba(6,44,48,.85))}
+.fila.p2{border-color:rgba(224,247,245,.45)}
+.fila.p3{border-color:rgba(255,122,89,.5)}
+.fila .puesto{
+  font-family:var(--display);font-size:1.7rem;line-height:1;
+  min-width:2.1rem;text-align:center;color:var(--muted);
+}
+.fila.p1 .puesto{color:var(--gold)}
+.fila.p2 .puesto,.fila.p3 .puesto{color:var(--ice)}
+.fila .quien b{
+  display:block;font-family:var(--display);text-transform:uppercase;
+  font-size:1.15rem;line-height:1.1;color:var(--ice);font-weight:400;
+}
+.fila .quien span{display:block;font-size:.85rem;color:var(--muted)}
+.fila .pts{
+  font-family:var(--display);font-size:1.9rem;line-height:1;color:var(--foam);
+  font-variant-numeric:tabular-nums;text-align:right;
+}
+.fila .pts small{display:block;font-family:var(--label);font-size:.62rem;letter-spacing:.2em;color:var(--muted)}
+.fila .medallero{
+  grid-column:1 / -1;
+  display:flex;gap:.35rem;flex-wrap:wrap;
+  border-top:1px dashed var(--line);padding-top:.6rem;margin-top:.1rem;
+}
+.medallita{
+  font-size:.78rem;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;
+  padding:.2rem .55rem;white-space:nowrap;
+  display:inline-flex;align-items:center;gap:.25rem;
+}
+.medallita.oro{border-color:var(--gold);color:var(--gold)}
+.medallita.plata{border-color:rgba(224,247,245,.6);color:var(--ice)}
+.medallita.bronce{border-color:rgba(255,122,89,.6);color:#ffb59f}
+.medallita.vacia{opacity:.45}
+
+/* ============================ PAREJAS ============================ */
+.parejas{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:.9rem;margin-top:clamp(1.5rem,4vw,2.2rem);
+}
+.pareja{
+  border:2px solid var(--line);border-radius:var(--r);
+  background:rgba(11,60,73,.55);
+  padding:1rem 1.1rem 1.1rem;
+}
+.pareja h3{font-family:var(--display);text-transform:uppercase;font-size:1.2rem;line-height:1.05;margin:0 0 .5rem;font-weight:400}
+.pareja ul{list-style:none;margin:0;padding:0}
+.pareja li{font-size:.95rem;color:var(--ice);opacity:.9;display:flex;gap:.45rem}
+.pareja li::before{content:'🦭';flex:none;opacity:.7}
+
+/* ============================ PRUEBAS ============================ */
+.lista-pruebas{display:grid;gap:.7rem;margin-top:clamp(1.5rem,4vw,2.2rem)}
+.prueba-fila{
+  display:flex;align-items:center;gap:.9rem;
+  border:2px solid var(--line);border-radius:var(--r);
+  background:rgba(11,60,73,.5);
+  padding:.9rem 1.1rem;
+}
+.prueba-fila .pico{font-size:1.6rem;line-height:1;flex:none}
+.prueba-fila .txt{flex:1 1 auto;min-width:0}
+.prueba-fila h3{font-family:var(--display);text-transform:uppercase;font-size:1.2rem;line-height:1.1;margin:0;font-weight:400}
+.prueba-fila p{margin:.15rem 0 0;font-size:.85rem;color:var(--muted)}
+.prueba-fila.jugando{border-color:var(--coral)}
+.prueba-fila.jugada{opacity:.72}
+.prueba-fila.tapada h3{filter:blur(5px);user-select:none}
+.prueba-fila.tapada p{font-style:italic}
+
+/* ============================ BITÁCORA ============================ */
+.bitacora{list-style:none;margin:clamp(1.5rem,4vw,2.2rem) 0 0;padding:0 0 0 1.4rem;border-left:2px solid var(--line)}
+.bitacora li{position:relative;padding:0 0 1.1rem .4rem}
+.bitacora li::before{
+  content:'';position:absolute;left:-1.85rem;top:.45rem;
+  width:.7rem;height:.7rem;border-radius:50%;
+  background:var(--foam);border:2px solid var(--abyss);
+}
+.bitacora li:first-child::before{background:var(--coral)}
+.bitacora time{
+  display:block;font-family:var(--label);letter-spacing:.16em;text-transform:uppercase;
+  font-size:.75rem;color:var(--muted);
+}
+.bitacora p{margin:.1rem 0 0;white-space:pre-wrap}
+
+/* ============================ VARIOS ============================ */
+.vacio{
+  border:2px dashed var(--line);border-radius:var(--r);
+  padding:2rem 1.4rem;text-align:center;color:var(--muted);
+  margin-top:clamp(1.5rem,4vw,2.2rem);
+}
+.bloque{margin-top:clamp(2.6rem,7vw,4rem)}
+.bloque > h2{
+  font-family:var(--display);text-transform:uppercase;
+  font-size:clamp(1.7rem,5.5vw,2.6rem);line-height:1;margin:0;
+}
+.bloque > .sub{margin:.5rem 0 0;color:var(--muted);font-size:.95rem}
+.oculto{display:none!important}
+
+@media (max-width:520px){
+  .datos{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .fila{padding:.8rem .8rem}
+  .fila .quien b{font-size:1.05rem}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <a class="marca" href="index.html">🦭 Foka <b>Palooza</b></a>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="torneo.html" aria-current="page">El torneo</a>
+      <a href="index.html#confirmar">Confirmar</a>
+    </nav>
+  </div>
+</div>
+
+<header class="cabecera">
+  <div class="wrap">
+    <p class="eyebrow">Sábado 26 · Balneario Oasis</p>
+    <h1 class="section-title">La Foka <em>Kermesse</em></h1>
+    <p class="lead">Torneo por parejas. Cinco pruebas, puntos por puesto y un premio para la pareja que termine primera.</p>
+
+    <div class="estado-row" id="estado-row"></div>
+
+    <div class="datos">
+      <div class="dato"><b id="d-parejas">–</b><span>Parejas</span></div>
+      <div class="dato"><b id="d-jugadas">–</b><span>Pruebas jugadas</span></div>
+      <div class="dato"><b id="d-jugadores">–</b><span>Jugadores</span></div>
+    </div>
+
+    <div class="aviso" id="aviso">
+      <p class="quien">Parte oficial de la foca</p>
+      <p class="texto" id="aviso-texto"></p>
+    </div>
+
+    <div class="campeon" id="campeon">
+      <p class="copa" aria-hidden="true">🏆</p>
+      <h2 id="campeon-nombre"></h2>
+      <p id="campeon-gente"></p>
+    </div>
+
+    <p class="actualizado" id="actualizado">Cargando el torneo…</p>
+  </div>
+</header>
+
+<main class="wrap" style="padding-bottom:clamp(3rem,8vw,5rem)">
+
+  <section class="bloque" id="bloque-tabla">
+    <h2>Tabla de <span style="color:var(--coral)">posiciones</span></h2>
+    <p class="sub">🥇 10 puntos · 🥈 7 · 🥉 5 · jugar y perder 3.</p>
+    <ol class="posiciones" id="posiciones"></ol>
+    <div class="vacio oculto" id="vacio-tabla">
+      Todavía no se sortearon las parejas.<br>
+      <a href="index.html#confirmar">Confirmá tu lugar</a> y entrás al sorteo 🦭
+    </div>
+  </section>
+
+  <section class="bloque">
+    <h2>Las <span style="color:var(--coral)">parejas</span></h2>
+    <p class="sub">Salen por sorteo entre todos los que confirmaron. Si sos impar, te toca trío: la foca no deja a nadie afuera.</p>
+    <div class="parejas" id="parejas"></div>
+    <div class="vacio oculto" id="vacio-parejas">El sorteo se hace el sábado, antes de arrancar.</div>
+  </section>
+
+  <section class="bloque">
+    <h2>Las <span style="color:var(--coral)">pruebas</span></h2>
+    <p class="sub">Se juegan una atrás de la otra. La última no se cuenta hasta que se juega.</p>
+    <div class="lista-pruebas" id="pruebas"></div>
+  </section>
+
+  <section class="bloque" id="bloque-bitacora">
+    <h2>Cómo <span style="color:var(--coral)">viene</span></h2>
+    <p class="sub">El minuto a minuto, contado por la organización (o sea, por mí).</p>
+    <ul class="bitacora" id="bitacora"></ul>
+    <div class="vacio oculto" id="vacio-bitacora">Todavía no pasó nada digno de contarse.</div>
+  </section>
+
+  <section class="bloque">
+    <h2>Las <span style="color:var(--coral)">reglas</span></h2>
+    <div class="panel" style="margin-top:1.4rem">
+      <ul style="margin:0;padding-left:1.2rem;color:var(--ice);opacity:.92">
+        <li>Se juega <b>por parejas</b>, sorteadas. No se eligen: te toca quien te toca.</li>
+        <li>En cada prueba se reparten <b>10, 7 y 5 puntos</b> para las tres primeras parejas. El resto, por jugar, suma <b>3</b>.</li>
+        <li>La pareja con más puntos al final se lleva el <b>premio</b>. El premio es secreto.</li>
+        <li>Si dos parejas empatan, define quién ganó más pruebas.</li>
+        <li>Las quejas se aceptan por escrito y se archivan en el mar.</li>
+      </ul>
+    </div>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="index.html#confirmar">Anotarme al torneo</a>
+      <a class="btn btn-ghost" href="index.html#kermesse">Ver las pruebas</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="icon-row" aria-hidden="true">🦭 🏆 ✦ ⛳ ✦ 🏀 ✦ 🎯 🦭</p>
+    <p class="foot-word">La Foka<br>Kermesse</p>
+    <p class="foot-note">Sábado 26 de septiembre · Balneario Oasis, Miramar<br>Parte del Foka Palooza 2026.</p>
+    <div class="share-row">
+      <a class="btn btn-ghost" href="index.html">Volver al inicio</a>
+      <a class="btn btn-ghost" href="index.html#confirmar">Confirmar</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/torneo-core.js"></script>
+<script>
+/* ==================================================================
+   Página pública del torneo: lee el estado del Apps Script y lo dibuja.
+   No escribe nada; todo lo carga el admin desde admin.html.
+   ================================================================== */
+const ENDPOINT = (window.FOKA_CONFIG || {}).endpoint || '';
+const T = window.FokaTorneo;
+const REFRESCO = 25000; /* cada cuánto vuelve a pedir el estado */
+
+const $ = id => document.getElementById(id);
+const esc = t => String(t == null ? '' : t).replace(/[&<>"']/g, c => (
+  { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]
+));
+
+let ultimo = null;
+
+/* ================= FECHAS ================= */
+function hace(iso){
+  const t = Date.parse(iso);
+  if(isNaN(t)) return '';
+  const seg = Math.max(0, Math.round((Date.now() - t) / 1000));
+  if(seg < 60) return 'recién';
+  if(seg < 3600) return 'hace ' + Math.floor(seg/60) + ' min';
+  if(seg < 86400) return 'hace ' + Math.floor(seg/3600) + ' h';
+  return 'el ' + new Date(t).toLocaleDateString('es-AR', { day:'numeric', month:'long' });
+}
+function hora(iso){
+  const t = Date.parse(iso);
+  if(isNaN(t)) return '';
+  /* hour12:false para que muestre 18:40 y no "06:40 P. M." */
+  return new Date(t).toLocaleTimeString('es-AR', { hour:'2-digit', minute:'2-digit', hour12:false });
+}
+
+/* ================= DIBUJADO ================= */
+function pintarEstado(e){
+  const r = T.resumen(e);
+  const fase = T.FASES.filter(f => f.id === e.fase)[0] || T.FASES[0];
+
+  const pills = ['<span class="pill ' + (e.fase === 'jugando' ? 'vivo' : e.fase === 'terminado' ? 'gold' : 'foam') + '">' + esc(fase.label) + '</span>'];
+  if(r.enJuego){
+    const nombre = r.enJuego.secreta ? 'Prueba sorpresa' : r.enJuego.nombre;
+    pills.push('<span class="pill coral">Ahora: ' + esc(r.enJuego.emoji + ' ' + nombre) + '</span>');
+  }
+  $('estado-row').innerHTML = pills.join('');
+
+  $('d-parejas').textContent   = r.parejas;
+  $('d-jugadas').textContent   = r.jugadas + '/' + r.pruebas;
+  $('d-jugadores').textContent = r.participantes;
+
+  const aviso = $('aviso');
+  if(e.mensaje){
+    $('aviso-texto').textContent = e.mensaje;
+    aviso.classList.add('show');
+  }else{
+    aviso.classList.remove('show');
+  }
+}
+
+function pintarCampeon(e, filas){
+  const caja = $('campeon');
+  if(e.fase !== 'terminado' || !filas.length || filas[0].puntos <= 0){
+    caja.classList.remove('show');
+    return;
+  }
+  const ganadoras = filas.filter(f => f.pos === 1);
+  $('campeon-nombre').textContent = ganadoras.map(f => f.pareja.emoji + ' ' + f.pareja.nombre).join('  +  ');
+  $('campeon-gente').textContent = ganadoras.map(f => f.integrantes.join(' y ')).join(' · ') +
+    ' — ' + filas[0].puntos + ' puntos. El premio ya tiene dueño 🏆';
+  caja.classList.add('show');
+}
+
+function medallitas(e, fila){
+  return e.pruebas.map(pr => {
+    const m = fila.detalle[pr.id];
+    const tapada = pr.secreta && pr.estado === 'pendiente';
+    const nombre = tapada ? '¿?' : pr.nombre;
+    if(!m) return '<span class="medallita vacia" title="' + esc(nombre) + '">' + pr.emoji + ' –</span>';
+    const med = T.medalla(m);
+    return '<span class="medallita ' + m + '" title="' + esc(nombre) + '">' + pr.emoji + ' ' + med.emoji + ' ' + med.puntos + '</span>';
+  }).join('');
+}
+
+function pintarTabla(e, filas){
+  const ol = $('posiciones');
+  const vacio = $('vacio-tabla');
+  if(!filas.length){
+    ol.innerHTML = '';
+    vacio.classList.remove('oculto');
+    return;
+  }
+  vacio.classList.add('oculto');
+  ol.innerHTML = filas.map(f => {
+    const clase = f.puntos > 0 && f.pos <= 3 ? ' p' + f.pos : '';
+    const bonus = f.bonus ? ' <span class="medallita">✨ bonus ' + (f.bonus > 0 ? '+' : '') + f.bonus + '</span>' : '';
+    return '<li class="fila' + clase + '">' +
+      '<span class="puesto">' + f.pos + '</span>' +
+      '<div class="quien"><b>' + esc(f.pareja.emoji + ' ' + f.pareja.nombre) + '</b>' +
+        '<span>' + esc(f.integrantes.join(' · ')) + '</span></div>' +
+      '<span class="pts">' + f.puntos + '<small>puntos</small></span>' +
+      '<div class="medallero">' + medallitas(e, f) + bonus + '</div>' +
+    '</li>';
+  }).join('');
+}
+
+function pintarParejas(e){
+  const caja = $('parejas');
+  const vacio = $('vacio-parejas');
+  if(!e.parejas.length){
+    caja.innerHTML = '';
+    vacio.classList.remove('oculto');
+    return;
+  }
+  vacio.classList.add('oculto');
+  caja.innerHTML = e.parejas.map(d =>
+    '<article class="pareja"><h3>' + esc(d.emoji + ' ' + d.nombre) + '</h3><ul>' +
+    d.integrantes.map(id => '<li>' + esc(T.nombreDe(e, id)) + '</li>').join('') +
+    '</ul></article>'
+  ).join('');
+}
+
+function pintarPruebas(e){
+  $('pruebas').innerHTML = e.pruebas.map(pr => {
+    const tapada = pr.secreta && pr.estado === 'pendiente';
+    const clases = ['prueba-fila', pr.estado];
+    if(tapada) clases.push('tapada');
+    const etiqueta = pr.estado === 'jugando'
+      ? '<span class="pill vivo">Jugando</span>'
+      : pr.estado === 'jugada'
+        ? '<span class="pill">Jugada</span>'
+        : '<span class="pill">Falta</span>';
+    return '<div class="' + clases.join(' ') + '">' +
+      '<span class="pico" aria-hidden="true">' + (tapada ? '❓' : pr.emoji) + '</span>' +
+      '<div class="txt"><h3>' + esc(tapada ? 'Prueba secreta' : pr.nombre) + '</h3>' +
+      '<p>' + esc(tapada ? 'Se destapa cuando le toque.' : (pr.detalle || '')) + '</p></div>' +
+      etiqueta +
+    '</div>';
+  }).join('');
+}
+
+function pintarBitacora(e){
+  const ul = $('bitacora');
+  const vacio = $('vacio-bitacora');
+  const lineas = e.bitacora.slice().reverse();
+  if(!lineas.length){
+    ul.innerHTML = '';
+    vacio.classList.remove('oculto');
+    return;
+  }
+  vacio.classList.add('oculto');
+  ul.innerHTML = lineas.map(b =>
+    '<li><time>' + esc(hora(b.ts) || '') + '</time><p>' + esc(b.texto) + '</p></li>'
+  ).join('');
+}
+
+function pintar(e){
+  const filas = T.tabla(e);
+  pintarEstado(e);
+  pintarCampeon(e, filas);
+  pintarTabla(e, filas);
+  pintarParejas(e);
+  pintarPruebas(e);
+  pintarBitacora(e);
+  $('actualizado').innerHTML = 'Actualizado ' + esc(hace(e.actualizado)) +
+    ' · <button type="button" id="btn-refrescar">actualizar ahora</button>';
+  $('btn-refrescar').addEventListener('click', () => cargar(true));
+}
+
+/* ================= CARGA ================= */
+async function cargar(manual){
+  if(!ENDPOINT){
+    pintar(T.estadoInicial());
+    $('actualizado').textContent = 'Falta conectar la planilla (assets/config.js).';
+    return;
+  }
+  if(manual) $('actualizado').textContent = 'Buscando novedades…';
+  try{
+    const res = await fetch(ENDPOINT + '?action=torneo&t=' + Date.now());
+    const data = await res.json();
+    if(!data.ok) throw new Error(data.error || 'No se pudo leer el torneo');
+    ultimo = T.normalizar(data.torneo || {});
+    pintar(ultimo);
+  }catch(err){
+    if(ultimo){
+      $('actualizado').textContent = 'Sin conexión — mostrando lo último que llegó (' + hace(ultimo.actualizado) + ').';
+    }else{
+      pintar(T.estadoInicial());
+      $('actualizado').textContent = 'No se pudo cargar el torneo. Probá de nuevo en un rato.';
+    }
+  }
+}
+
+cargar();
+setInterval(() => { if(!document.hidden) cargar(); }, REFRESCO);
+document.addEventListener('visibilitychange', () => { if(!document.hidden) cargar(); });
+</script>
+</body>
+</html>

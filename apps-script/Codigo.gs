@@ -1,8 +1,9 @@
 /**
  * FOKA PALOOZA 2026 — backend de confirmaciones
  * ------------------------------------------------------------------
- * Google Apps Script que expone un endpoint HTTP y guarda cada
- * confirmación / suscripción al lineup en una hoja de cálculo.
+ * Google Apps Script que expone un endpoint HTTP y guarda en una
+ * planilla las confirmaciones, los avisos de WhatsApp y el estado de
+ * La Foka Kermesse (el torneo por parejas del sábado).
  *
  * Cómo se usa (paso a paso en el README del repo):
  *   1. Crear una planilla nueva en Google Sheets.
@@ -10,7 +11,8 @@
  *   3. Implementar > Nueva implementación > Aplicación web
  *      - Ejecutar como: Yo
  *      - Quién tiene acceso: Cualquier usuario
- *   4. Copiar la URL /exec y pegarla en FOKA.endpoint de index.html
+ *   4. Copiar la URL /exec y pegarla en assets/config.js
+ *   5. Para el torneo: poner el PIN del admin (ver configurarPin).
  *
  * Acepta POST con JSON en el body, y también GET con parámetros
  * (ej: ?tipo=lineup&whatsapp=5491155555555) por si querés probar desde
@@ -20,6 +22,7 @@
 
 var HOJA_CONFIRMACIONES = 'Confirmaciones';
 var HOJA_LINEUP = 'Avisos Lineup';
+var HOJA_TORNEO = 'Torneo';
 
 // Sitio del evento: va dentro de los mensajes de WhatsApp que arma la
 // planilla. Cambialo acá si el dominio cambia (y acordate de volver a
@@ -27,7 +30,7 @@ var HOJA_LINEUP = 'Avisos Lineup';
 var URL_SITIO = 'https://fokapalooza.ar';
 
 var COLUMNAS = {
-  confirmacion: ['Fecha', 'Nombre', 'WhatsApp', 'Escribirle', 'Días', 'Personas', 'Dieta', 'Mensaje', 'Quiere aviso lineup', 'Origen'],
+  confirmacion: ['Fecha', 'Nombre', 'WhatsApp', 'Escribirle', 'Días', 'Personas', 'Dieta', 'Mensaje', 'Quiere aviso lineup', 'Origen', 'Juega Kermesse'],
   lineup:       ['Fecha', 'WhatsApp', 'Escribirle', 'Origen']
 };
 
@@ -53,6 +56,12 @@ function doGet(e) {
     // ?action=stats -> devuelve el conteo para el contador de la web
     if (params.action === 'stats') {
       return json(estadisticas());
+    }
+
+    // ?action=torneo -> estado de La Foka Kermesse (lo lee torneo.html).
+    // Es público a propósito: la tabla se mira sin contraseña.
+    if (params.action === 'torneo') {
+      return json(torneoLeer());
     }
 
     // Sin parámetros útiles: ping de salud
@@ -87,6 +96,12 @@ function procesar(d) {
   }
 
   var tipo = String(d.tipo || 'confirmacion').toLowerCase();
+
+  // Las acciones del torneo no tienen WhatsApp: se atienden antes de
+  // validar el número. Todas piden PIN menos la lectura, que va por GET.
+  if (tipo.indexOf('torneo') === 0) {
+    return torneoAccion(tipo, d);
+  }
 
   // La web ya manda el número normalizado (solo dígitos, con código de país).
   // Acá igual lo limpiamos, por si el endpoint se llama a mano por GET.
@@ -135,10 +150,16 @@ function mensajeGracias(nombre) {
        + 'Toda la info está en ' + URL_SITIO;
 }
 
-/** Mensaje para avisar que salió el lineup. */
+/** Mensaje de los avisos del finde (antes era el del lineup). */
 function mensajeLineup() {
-  return '🦭 ¡El lineup del Foka Palooza ya está confirmado! '
-       + 'Entrá a ' + URL_SITIO;
+  return '🦭 Foka Palooza: viernes pool en HISTER, sábado sanguches y '
+       + 'La Foka Kermesse en el Oasis, domingo playa. Todo en ' + URL_SITIO;
+}
+
+/** 'Sí' / 'No' a partir de lo que mande el formulario. */
+function siONo(valor) {
+  var v = String(valor || '').toLowerCase();
+  return (v === 'si' || v === 'sí' || v === 'true' || v === '1') ? 'Sí' : 'No';
 }
 
 function guardarConfirmacion(whatsapp, d) {
@@ -147,8 +168,11 @@ function guardarConfirmacion(whatsapp, d) {
 
   var hoja = hojaCon(HOJA_CONFIRMACIONES, COLUMNAS.confirmacion, COLUMNAS_TEXTO.confirmacion);
   var personas = Math.max(1, Math.min(20, parseInt(d.acompaniantes, 10) || 1));
-  var quiereLineup = String(d.avisar_lineup || '').toLowerCase();
-  quiereLineup = (quiereLineup === 'si' || quiereLineup === 'sí' || quiereLineup === 'true') ? 'Sí' : 'No';
+  var quiereLineup = siONo(d.avisar_lineup);
+  // Si el campo no viene (confirmaciones viejas o un GET a mano), damos
+  // por hecho que juega: es más fácil destildarlo desde la consola que
+  // andar preguntando uno por uno.
+  var juegaKermesse = d.kermesse === undefined ? 'Sí' : siONo(d.kermesse);
 
   var fila = actualizarOAgregar(hoja, 2 /* col WhatsApp */, whatsapp, [
     new Date(),
@@ -160,7 +184,8 @@ function guardarConfirmacion(whatsapp, d) {
     String(d.dieta || ''),
     String(d.mensaje || ''),
     quiereLineup,
-    String(d.origen || '')
+    String(d.origen || ''),
+    juegaKermesse
   ]);
 
   // Si además pidió el aviso del lineup, lo sumamos a la otra hoja
@@ -216,6 +241,12 @@ function hojaCon(nombre, encabezados, columnasTexto) {
   if (!hoja) {
     hoja = ss.insertSheet(nombre);
   }
+  if (hoja.getLastRow() > 0) {
+    // La hoja ya existía de antes: si le agregamos columnas nuevas al
+    // final (por ejemplo "Juega Kermesse"), le escribimos el encabezado
+    // que le falta en vez de dejar una columna sin título.
+    agregarEncabezadosQueFalten(hoja, encabezados);
+  }
   if (hoja.getLastRow() === 0) {
     hoja.appendRow(encabezados);
     hoja.getRange(1, 1, 1, encabezados.length)
@@ -247,6 +278,189 @@ function estadisticas() {
   return { ok: true, confirmados: personasCol.length, personas: total };
 }
 
+/**
+ * Escribe los encabezados que falten a la derecha. Agregar columnas al
+ * final es seguro; cambiarlas de orden no (hay que tocar COLUMNAS).
+ */
+function agregarEncabezadosQueFalten(hoja, encabezados) {
+  var ancho = hoja.getLastColumn();
+  if (ancho >= encabezados.length) return;
+  var faltan = encabezados.slice(ancho);
+  hoja.getRange(1, ancho + 1, 1, faltan.length)
+      .setValues([faltan])
+      .setFontWeight('bold')
+      .setBackground('#0B3C49')
+      .setFontColor('#E0F7F5');
+}
+
+/* ====================== LA FOKA KERMESSE ====================== */
+/*
+ * El torneo entero es un solo objeto JSON (parejas, pruebas, puntos y
+ * bitácora) guardado en una celda de la hoja "Torneo".
+ *
+ *   - Leerlo es público:   GET  ?action=torneo        -> lo usa torneo.html
+ *   - Escribirlo pide PIN: POST {tipo:'torneo_guardar', pin, torneo}
+ *
+ * El PIN se guarda en las propiedades del script, NO en el código ni en
+ * el repositorio. Ver configurarPin() acá abajo.
+ */
+
+var CELDA_TORNEO = 'B2';        // donde vive el JSON
+var CELDA_ACTUALIZADO = 'B3';   // la misma fecha, legible para humanos
+var MAXIMO_JSON = 45000;        // una celda de Sheets aguanta 50.000 caracteres
+
+function torneoAccion(tipo, d) {
+  if (tipo === 'torneo_ping') {           // el admin probando el PIN
+    verificarPin(d.pin);
+    return { ok: true, tipo: 'torneo_ping' };
+  }
+  if (tipo === 'torneo_leer') {
+    return torneoLeer();
+  }
+  if (tipo === 'torneo_confirmados') {
+    return torneoConfirmados(d);
+  }
+  if (tipo === 'torneo_guardar') {
+    var lock = LockService.getScriptLock();
+    lock.waitLock(20000);                 // que no publiquen dos a la vez
+    try {
+      return torneoGuardar(d);
+    } finally {
+      lock.releaseLock();
+    }
+  }
+  return { ok: false, error: 'Acción de torneo desconocida: ' + tipo };
+}
+
+function hojaTorneo() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var hoja = ss.getSheetByName(HOJA_TORNEO);
+  if (!hoja) {
+    hoja = ss.insertSheet(HOJA_TORNEO);
+  }
+  if (hoja.getLastRow() === 0) {
+    hoja.getRange('A1:B1').setValues([['Qué', 'Valor']])
+        .setFontWeight('bold').setBackground('#0B3C49').setFontColor('#E0F7F5');
+    hoja.getRange('A2').setValue('Estado del torneo (JSON — no editar a mano)');
+    hoja.getRange('A3').setValue('Última publicación');
+    hoja.setColumnWidth(1, 260);
+    hoja.getRange(CELDA_TORNEO).setNumberFormat('@'); // texto, no fórmula
+  }
+  return hoja;
+}
+
+/** Estado actual del torneo. Si no hay nada guardado, devuelve null. */
+function torneoLeer() {
+  var hoja = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(HOJA_TORNEO);
+  if (!hoja) return { ok: true, torneo: null };
+  var crudo = String(hoja.getRange(CELDA_TORNEO).getValue() || '').trim();
+  if (!crudo) return { ok: true, torneo: null };
+  try {
+    return { ok: true, torneo: JSON.parse(crudo) };
+  } catch (err) {
+    return { ok: false, error: 'El torneo guardado no es un JSON válido' };
+  }
+}
+
+/** Guarda el torneo que manda admin.html. Pisa lo que hubiera. */
+function torneoGuardar(d) {
+  verificarPin(d.pin);
+
+  var torneo = d.torneo;
+  if (typeof torneo === 'string') {
+    torneo = JSON.parse(torneo);
+  }
+  if (!torneo || typeof torneo !== 'object') {
+    return { ok: false, error: 'No vino el torneo' };
+  }
+
+  torneo.actualizado = new Date().toISOString();
+  var texto = JSON.stringify(torneo);
+  if (texto.length > MAXIMO_JSON) {
+    return { ok: false, error: 'El torneo no entra en una celda (' + texto.length + ' caracteres). Borrá bitácora vieja.' };
+  }
+
+  var hoja = hojaTorneo();
+  hoja.getRange(CELDA_TORNEO).setValue(texto);
+  hoja.getRange(CELDA_ACTUALIZADO).setValue(new Date());
+  return { ok: true, tipo: 'torneo_guardar', torneo: { actualizado: torneo.actualizado } };
+}
+
+/**
+ * Los nombres de la hoja Confirmaciones, para que el admin los sume al
+ * sorteo sin tipearlos. No devuelve teléfonos: la página del torneo es
+ * pública y no hace falta que ande dando vueltas ningún número.
+ */
+function torneoConfirmados(d) {
+  verificarPin(d.pin);
+
+  var hoja = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(HOJA_CONFIRMACIONES);
+  if (!hoja || hoja.getLastRow() < 2) {
+    return { ok: true, confirmados: [] };
+  }
+  var ancho = Math.max(hoja.getLastColumn(), 1);
+  var filas = hoja.getRange(2, 1, hoja.getLastRow() - 1, ancho).getValues();
+
+  var iNombre   = COLUMNAS.confirmacion.indexOf('Nombre');
+  var iDias     = COLUMNAS.confirmacion.indexOf('Días');
+  var iKermesse = COLUMNAS.confirmacion.indexOf('Juega Kermesse');
+
+  var confirmados = [];
+  for (var i = 0; i < filas.length; i++) {
+    var nombre = String(filas[i][iNombre] || '').trim();
+    if (!nombre) continue;
+    confirmados.push({
+      nombre: nombre,
+      dias: String(filas[i][iDias] || ''),
+      // Si la columna no existe todavía (planilla vieja), asumimos que sí.
+      kermesse: String(filas[i][iKermesse] || 'Sí')
+    });
+  }
+  return { ok: true, confirmados: confirmados };
+}
+
+/* ---------------------- PIN del admin ---------------------- */
+
+function pinGuardado() {
+  return String(PropertiesService.getScriptProperties().getProperty('PIN_TORNEO') || '');
+}
+
+function verificarPin(pin) {
+  var guardado = pinGuardado();
+  if (!guardado) {
+    throw new Error('Falta configurar el PIN del torneo (ver configurarPin en Codigo.gs).');
+  }
+  if (String(pin || '') !== guardado) {
+    throw new Error('PIN incorrecto');
+  }
+}
+
+/**
+ * Poner el PIN que abre admin.html. Dos formas:
+ *
+ *   A) (recomendada) Configuración del proyecto ⚙ > Propiedades del script
+ *      > Agregar propiedad:   PIN_TORNEO  =  elPinQueQuieras
+ *
+ *   B) Escribilo acá abajo, ejecutá configurarPin() una vez desde el
+ *      editor, y después borralo del código así no queda escrito.
+ */
+function configurarPin(pin) {
+  var NUEVO = pin || '';   // ← o poné el PIN acá: 'focaXXXX'
+  NUEVO = String(NUEVO).trim();
+  if (NUEVO.length < 4) {
+    throw new Error('Poné un PIN de 4 caracteres o más.');
+  }
+  PropertiesService.getScriptProperties().setProperty('PIN_TORNEO', NUEVO);
+  Logger.log('PIN del torneo guardado ✓ (%s caracteres)', NUEVO.length);
+}
+
+/** Para chequear desde el editor que el PIN está puesto, sin mostrarlo. */
+function hayPin() {
+  var hay = !!pinGuardado();
+  Logger.log(hay ? 'Hay PIN configurado ✓' : 'NO hay PIN: admin.html no va a dejar entrar a nadie.');
+  return hay;
+}
+
 /* ====================== UTILIDADES ====================== */
 
 function json(obj) {
@@ -262,7 +476,9 @@ function json(obj) {
 function inicializar() {
   hojaCon(HOJA_CONFIRMACIONES, COLUMNAS.confirmacion, COLUMNAS_TEXTO.confirmacion);
   hojaCon(HOJA_LINEUP, COLUMNAS.lineup, COLUMNAS_TEXTO.lineup);
+  hojaTorneo();
   Logger.log('Hojas listas 🦭');
+  hayPin();
 }
 
 /**
