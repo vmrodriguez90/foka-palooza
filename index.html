@@ -346,6 +346,23 @@
 .lugar .dir b{color:var(--gold);font-weight:500}
 
 /* ============================ AVISOS ============================ */
+.grupo-nota{margin:1rem auto 0;max-width:44ch;color:var(--muted);font-size:.9rem}
+.grupo-nota b{color:var(--ice);font-weight:500}
+.alternativa{
+  max-width:620px;margin:clamp(1.8rem,4vw,2.4rem) auto 0;
+  text-align:left;
+  border:2px solid var(--line);border-radius:var(--r);
+  background:rgba(6,44,48,.4);
+  padding:0 clamp(1rem,3vw,1.3rem);
+}
+.alternativa summary{
+  cursor:pointer;padding:.95rem 0;
+  font-family:var(--label);letter-spacing:.14em;text-transform:uppercase;
+  font-size:.95rem;color:var(--foam);
+}
+.alternativa[open] summary{border-bottom:1px dashed var(--line);margin-bottom:1rem}
+.alternativa > p{color:var(--muted);font-size:.9rem;margin:0 0 .9rem}
+.alternativa form{margin:0 0 1.2rem}
 .notify{
   background:
     linear-gradient(180deg, rgba(27,107,115,.35), rgba(6,44,48,0)),
@@ -685,16 +702,25 @@
   <div class="wrap">
     <p class="eyebrow">Alerta WhatsApp</p>
     <h2 class="section-title">Novedades del <em>finde</em></h2>
-    <p class="lead">Dejame tu WhatsApp y te llegan los avisos de último momento: horarios, punto de encuentro y cómo va la kermesse. Sin spam, lo prometo.</p>
+    <p class="lead">Todo lo de último momento —horarios, punto de encuentro, cómo viene la kermesse— sale por el grupo. Es el único lugar donde hace falta estar.</p>
 
-    <form class="card" id="form-lineup" novalidate>
-      <div class="notify-row">
-        <input type="tel" name="whatsapp" required autocomplete="tel" inputmode="tel" placeholder="Tu WhatsApp: 11 5555-5555" aria-label="Tu WhatsApp">
-        <button class="btn btn-gold btn-block" type="submit" id="btn-lineup">Avisame</button>
-      </div>
-      <input class="hp" type="text" name="apodo_foka" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <p class="form-msg" id="msg-lineup" role="status" aria-live="polite"></p>
-    </form>
+    <div class="cta-row">
+      <a class="btn btn-gold btn-block" href="https://chat.whatsapp.com/JV6Nd6GpgEjBdTMVPJ9eah" target="_blank" rel="noopener">Sumate al grupo 💬</a>
+    </div>
+    <p class="grupo-nota">Grupo <b>Foka Palooza 2026</b> · entrás con un toque, sin pedirle permiso a nadie.</p>
+
+    <details class="alternativa">
+      <summary>¿No sos de grupos? Dale, hay otra</summary>
+      <p>Te escribo a vos solo, por privado, y nada más que lo importante. Dejame el número:</p>
+      <form id="form-lineup" novalidate>
+        <div class="notify-row">
+          <input type="tel" name="whatsapp" required autocomplete="tel" inputmode="tel" placeholder="Tu WhatsApp: 11 5555-5555" aria-label="Tu WhatsApp">
+          <button class="btn btn-gold btn-block" type="submit" id="btn-lineup">Avisame</button>
+        </div>
+        <input class="hp" type="text" name="apodo_foka" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p class="form-msg" id="msg-lineup" role="status" aria-live="polite"></p>
+      </form>
+    </details>
 
     <div class="cta-row">
       <button class="btn btn-ghost" type="button" id="btn-ics">Agendar los 3 días 📅</button>
@@ -712,7 +738,7 @@
     <div class="share-row">
       <a class="btn btn-ghost" href="#confirmar">Confirmar</a>
       <a class="btn btn-ghost" href="torneo.html">El torneo</a>
-      <a class="btn btn-ghost" href="#avisame">Avisos del finde</a>
+      <a class="btn btn-ghost" href="https://chat.whatsapp.com/JV6Nd6GpgEjBdTMVPJ9eah" target="_blank" rel="noopener">Grupo de WhatsApp</a>
     </div>
   </div>
 </footer>
@@ -726,6 +752,9 @@ const FOKA = {
      comparten las tres páginas. Si está vacía, los formularios avisan
      que falta configurarla. */
   endpoint: (window.FOKA_CONFIG || {}).endpoint || '',
+
+  /* Grupo de WhatsApp con las novedades (también en assets/config.js) */
+  grupo: (window.FOKA_CONFIG || {}).grupo || '',
 
   /* Hacia dónde corre el contador: el arranque del finde
      (hora de Argentina, UTC-3) */
@@ -960,7 +989,7 @@ document.getElementById('btn-ics').addEventListener('click', () => {
     'DTEND;TZID=America/Argentina/Buenos_Aires:' + d.end,
     'SUMMARY:' + esc(FOKA.event.title + ' — ' + nombres[i]),
     'LOCATION:' + esc(d.lugar),
-    'DESCRIPTION:' + esc(d.detalle + ' Más info: ' + FOKA.event.url),
+    'DESCRIPTION:' + esc(d.detalle + ' Más info: ' + FOKA.event.url + (FOKA.grupo ? ' · Grupo: ' + FOKA.grupo : '')),
     'URL:' + FOKA.event.url,
     'END:VEVENT'
   ].join('\r\n')).join('\r\n');

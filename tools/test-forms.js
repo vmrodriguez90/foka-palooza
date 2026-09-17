@@ -39,7 +39,9 @@ const path = require('path');
   console.log('3. ok        →', await p.textContent('#msg-rsvp'));
   console.log('   stats     →', await p.textContent('#stats'));
 
-  // 4. alta al lineup
+  // 4. alta al lineup (el formulario está detrás del "¿no sos de grupos?")
+  await p.click('.alternativa summary');
+  console.log('   grupo     →', await p.getAttribute('.notify .btn-gold', 'href'));
   await p.fill('#form-lineup input[name=whatsapp]', '+54 9 351 123-4567');
   await p.click('#btn-lineup');
   await p.waitForTimeout(400);

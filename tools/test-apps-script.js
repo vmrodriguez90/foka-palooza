@@ -183,7 +183,11 @@ titulo('El recordatorio de las sábanas');
   ok(!/sábanas/.test(texto(2)), 'al que viene sólo el viernes no le dice nada');
   ok(/sábanas/.test(texto(3)), 'al del sábado sí');
   ok(/sábanas/.test(texto(4)), 'y al de los tres días también');
-  ok(/está en https:\/\/fokapalooza\.ar$/.test(texto(3)), 'el link queda al final, para que WhatsApp no lo corte');
+  /* Los dos links van al final y sin puntuación pegada atrás: si no,
+     WhatsApp se come el último carácter al hacerlos clickeables. */
+  ok(/https:\/\/chat\.whatsapp\.com\/\w+$/.test(texto(3)), 'el mensaje termina en el link del grupo');
+  ok(!/fokapalooza\.ar[.,]/.test(texto(3)), 'la URL del sitio no queda pegada a un punto');
+  ok(/fokapalooza\.ar/.test(texto(3)) && /chat\.whatsapp\.com/.test(texto(3)), 'van los dos links');
 }
 
 titulo('Planilla vieja, sin la columna de la kermesse');

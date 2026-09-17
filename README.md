@@ -16,6 +16,7 @@ assets/foka.css        → estilos compartidos por las tres páginas
 assets/config.js       → la URL del Apps Script, en un solo lugar
 assets/torneo-core.js  → sorteo, puntajes y tabla (lo usan las 3 páginas y los tests)
 assets/og.png          → imagen de preview para WhatsApp (1200×630)
+assets/grupo.png       → foto de perfil del grupo de WhatsApp (1000×1000)
 assets/favicon.svg     → la foca
 assets/icon-512.png    → ícono para iOS / accesos directos
 apps-script/Codigo.gs  → backend: confirmaciones y estado del torneo en Google Sheets
@@ -154,6 +155,43 @@ Arrastrá la carpeta a [app.netlify.com/drop](https://app.netlify.com/drop). Sal
 
 ---
 
+## 2 bis. El grupo de WhatsApp
+
+Las novedades del finde salen por el grupo **Foka Palooza 2026**. El link de
+invitación está escrito en **cuatro** lugares (no hay forma de compartir una
+constante entre el HTML, el JS y el Apps Script):
+
+| Dónde | Para qué |
+|---|---|
+| `assets/config.js` | la fuente de verdad; de ahí sale el `.ics` |
+| `index.html` | el botón de la sección *Novedades del finde* y el del pie |
+| `torneo.html` | el botón abajo de la bitácora y el del pie |
+| `apps-script/Codigo.gs` (`URL_GRUPO`) | los mensajes de WhatsApp que arma la planilla |
+
+Si regenerás el link (WhatsApp deja resetearlo desde *Info del grupo →
+Invitar por link → Restablecer*), cambialo en los cuatro.
+**`node tools/test-links.js` compara las cuatro copias y avisa si alguna
+quedó distinta**, así que no hace falta acordarse: correlo y listo.
+
+> ⚠️ El link está en una página pública: cualquiera que entre a
+> fokapalooza.ar puede sumarse al grupo. Si se llena de gente que no
+> invitaste, resetealo desde WhatsApp y actualizá los cuatro lugares.
+
+### La foto del grupo
+
+`assets/grupo.png` es la foto de perfil, pensada para el recorte **circular**
+de WhatsApp: la cara de la foca ocupa casi todo, porque en la lista de chats
+se ve a 48-64 px y a ese tamaño un cuerpo entero o un texto chico no se
+entienden. El nombre no va escrito en la imagen: WhatsApp ya lo muestra al
+lado.
+
+```bash
+node tools/render-grupo.js                 # regenera assets/grupo.png
+node tools/render-grupo.js /tmp/previa     # además, cómo se ve a 48/64/128/240 px
+```
+
+---
+
 ## 3. El torneo (La Foka Kermesse)
 
 El sábado se juega un torneo **por parejas**: se sortean entre los que confirmaron,
@@ -276,6 +314,7 @@ node tools/render-og.js   # edita tools/og-source.html y vuelve a correr esto
 | Qué | Dónde |
 |---|---|
 | URL del Apps Script | `assets/config.js` |
+| Link del grupo de WhatsApp | `assets/config.js`, `index.html`, `torneo.html` y `URL_GRUPO` en `Codigo.gs` (ver sección 2 bis) |
 | Hacia dónde corre el contador | `arranqueISO` en el bloque `const FOKA` de `index.html` |
 | Horarios y lugares de cada día (botón "Agendar") | `event.days` en `index.html` |
 | Mostrar/ocultar el contador de confirmados | `showStats` en `index.html` |
@@ -296,13 +335,14 @@ npm test                        # todo junto
 npm run test:rapido             # solo los que no necesitan navegador
 
 node tools/test-whatsapp.js     # normalización de números
-node tools/test-links.js        # los links de WhatsApp que arma la planilla
+node tools/test-links.js        # los mensajes de WhatsApp y las 4 copias del link del grupo
 node tools/test-torneo.js       # sorteo, tabla de posiciones y desempates
 node tools/test-apps-script.js  # el backend entero, contra una planilla de mentira
 node tools/test-forms.js        # los formularios de index.html, con endpoint simulado
 node tools/test-torneo-web.js   # torneo.html y admin.html, con endpoint simulado
 node tools/audit-mobile.js      # desborde y tamaños táctiles en 320–768px
 node tools/page-shot.js carpeta # capturas de index.html en desktop y mobile
+node tools/render-grupo.js      # la foto del grupo de WhatsApp
 ```
 
 Los últimos cuatro necesitan `npm i playwright`. `test-apps-script.js` corre

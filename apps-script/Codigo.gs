@@ -29,6 +29,11 @@ var HOJA_TORNEO = 'Torneo';
 // implementar el script para que tome el cambio).
 var URL_SITIO = 'https://fokapalooza.ar';
 
+// Grupo de WhatsApp con las novedades del finde. Va dentro de los
+// mensajes que arma la planilla. Si regenerás el link de invitación,
+// cambialo acá y también en assets/config.js, index.html y torneo.html.
+var URL_GRUPO = 'https://chat.whatsapp.com/JV6Nd6GpgEjBdTMVPJ9eah';
+
 var COLUMNAS = {
   confirmacion: ['Fecha', 'Nombre', 'WhatsApp', 'Escribirle', 'Días', 'Personas', 'Dieta', 'Mensaje', 'Quiere aviso lineup', 'Origen', 'Juega Kermesse'],
   lineup:       ['Fecha', 'WhatsApp', 'Escribirle', 'Origen']
@@ -156,14 +161,16 @@ function mensajeGracias(nombre, dias) {
     ? 'Si parás en La Foka House, traé sábanas 🛏️. '
     : '';
   return saludo + '🦭 Gracias por confirmar al Foka Palooza. ' + sabanas
-       + 'Toda la info está en ' + URL_SITIO;
+       + 'Toda la info está en ' + URL_SITIO
+       + ' y las novedades salen por el grupo: ' + URL_GRUPO;
 }
 
 /** Mensaje de los avisos del finde (antes era el del lineup). */
 function mensajeLineup() {
   return '🦭 Foka Palooza: viernes pool en HISTER Beer Garden, sábado '
        + 'sanguches y La Foka Kermesse en La Foka House, domingo playa en '
-       + 'El Náutico. Todo en ' + URL_SITIO;
+       + 'El Náutico. Toda la info en ' + URL_SITIO
+       + ' y el grupo del finde es ' + URL_GRUPO;
 }
 
 /** 'Sí' / 'No' a partir de lo que mande el formulario. */
