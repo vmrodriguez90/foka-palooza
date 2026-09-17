@@ -152,8 +152,9 @@ function mensajeGracias(nombre) {
 
 /** Mensaje de los avisos del finde (antes era el del lineup). */
 function mensajeLineup() {
-  return '🦭 Foka Palooza: viernes pool en HISTER, sábado sanguches y '
-       + 'La Foka Kermesse en el Oasis, domingo playa. Todo en ' + URL_SITIO;
+  return '🦭 Foka Palooza: viernes pool en HISTER Beer Garden, sábado '
+       + 'sanguches y La Foka Kermesse en La Foka House, domingo playa en '
+       + 'El Náutico. Todo en ' + URL_SITIO;
 }
 
 /** 'Sí' / 'No' a partir de lo que mande el formulario. */

@@ -4,9 +4,9 @@ Landing del cumpleaños. **Miramar, Buenos Aires · Viernes 25, sábado 26 y dom
 
 | Día | Qué | Dónde |
 |---|---|---|
-| **Viernes 25** 🎂 | El cumple. Torneo de pool, birra y papas. La primera birra la paga el cumpleañero. | HISTER |
-| **Sábado 26** 🎉 | El festejo grande: sanguches + **La Foka Kermesse**, torneo por parejas con premio. | [Balneario Oasis](https://oasismiramar.com.ar/) |
-| **Domingo 27** 🌊 | Cierre: playa, mates y posible olita. | La playa |
+| **Viernes 25** 🎂 | El cumple. Torneo de pool, birra y papas. La primera birra la paga el cumpleañero. | HISTER Beer Garden |
+| **Sábado 26** 🎉 | El festejo grande: sanguches + **La Foka Kermesse**, torneo por parejas con premio. | La Foka House |
+| **Domingo 27** 🌊 | Cierre: playa, mates y posible olita. | El Náutico Miramar |
 
 ```
 index.html             → la landing (cronograma, kermesse, RSVP)
@@ -213,7 +213,7 @@ Todo desde el teléfono, en `fokapalooza.ar/admin.html`:
 5. **Publicar 🦭** → recién ahí se sube todo. Hasta que no toques ese botón, nadie ve
    los cambios.
 
-**Sin señal en el balneario:** todo lo que tocás queda guardado en el teléfono. Si se
+**Sin señal:** todo lo que tocás queda guardado en el teléfono. Si se
 corta internet, seguís cargando igual y publicás cuando vuelva. Si publicaste desde
 otro teléfono en el medio, la consola te avisa antes de pisar nada.
 

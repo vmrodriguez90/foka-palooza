@@ -46,11 +46,11 @@
      la destape: es la intriga. */
   function pruebasPorDefecto() {
     return [
-      { id: 'golf',      nombre: 'Mini golf',          emoji: '⛳', estado: 'pendiente', secreta: false, detalle: 'Hoyos improvisados sobre la arena.' },
+      { id: 'golf',      nombre: 'Mini golf',          emoji: '⛳', estado: 'pendiente', secreta: false, detalle: 'Hoyos improvisados por toda la casa.' },
       { id: 'autos',     nombre: 'Carrera de autos',   emoji: '🏎️', estado: 'pendiente', secreta: false, detalle: 'Largada, vuelta y podio.' },
       { id: 'basket',    nombre: '21 de básket',       emoji: '🏀', estado: 'pendiente', secreta: false, detalle: 'Con mini hoop, a 21 puntos.' },
       { id: 'botellas',  nombre: 'Tiro a las botellas', emoji: '🎯', estado: 'pendiente', secreta: false, detalle: 'Con las Nerf. Cada botella que cae, suma.' },
-      { id: 'sorpresa',  nombre: 'Prueba sorpresa',    emoji: '❓', estado: 'pendiente', secreta: true,  detalle: 'Se revela en el balneario.' }
+      { id: 'sorpresa',  nombre: 'Prueba sorpresa',    emoji: '❓', estado: 'pendiente', secreta: true,  detalle: 'Se revela en La Foka House.' }
     ];
   }
 
