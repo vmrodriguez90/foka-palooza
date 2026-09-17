@@ -45,6 +45,19 @@ titulo('Normalización de basura');
 }
 
 /* ------------------------------------------------------------------ */
+titulo('Una prueba sin nombre no se pierde');
+{
+  const e = T.normalizar({
+    participantes: gente(2),
+    parejas: [{ id: 'd1', nombre: 'Uno', integrantes: ['p1', 'p2'] }],
+    pruebas: [{ id: 'golf', nombre: 'Mini golf' }, { id: 'x', nombre: '' }],
+    resultados: { x: { d1: 'oro' } }
+  });
+  ok(e.pruebas.length === 2, 'la prueba a la que le borraron el nombre sigue ahí');
+  ok(!!e.pruebas[1].nombre, 'le pone un nombre provisorio');
+  ok(e.resultados.x && e.resultados.x.d1 === 'oro', 'y no se lleva los puntos puestos');
+}
+
 titulo('Nadie en dos parejas a la vez');
 {
   const e = T.normalizar({

@@ -73,7 +73,12 @@ main{padding:clamp(1.5rem,5vw,2.5rem) 0 8rem}
 .prueba-admin + .prueba-admin{margin-top:.8rem}
 .prueba-admin.jugando{border-color:var(--coral)}
 .prueba-admin header{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.4rem}
-.prueba-admin header h3{font-family:var(--display);text-transform:uppercase;font-size:1.25rem;line-height:1;margin:0;font-weight:400;flex:1 1 auto}
+.prueba-admin header input.nombre-prueba{
+  flex:1 1 140px;min-width:0;
+  font-family:var(--display);text-transform:uppercase;
+  font-size:1.15rem;padding:.4rem .55rem;
+}
+.prueba-admin input.detalle-prueba{margin-top:.55rem;font-size:.85rem;padding:.45rem .6rem}
 .prueba-admin header select{width:auto;padding:.35rem 2rem .35rem .6rem;font-size:.85rem}
 .puntos-fila{
   display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;
@@ -636,14 +641,19 @@ function pintarPruebas(){
     return '<section class="prueba-admin ' + pr.estado + '">' +
       '<header>' +
         '<span style="font-size:1.4rem">' + esc(pr.emoji) + '</span>' +
-        '<h3>' + esc(pr.nombre) + (pr.secreta ? ' 🤫' : '') + '</h3>' +
+        '<input type="text" class="nombre-prueba" value="' + esc(pr.nombre) + '"' +
+          ' data-accion="nombre-prueba" data-id="' + pr.id + '" aria-label="Nombre de la prueba">' +
+        (pr.secreta ? '<span title="Prueba secreta" aria-label="Prueba secreta">🤫</span>' : '') +
         '<select data-accion="estado-prueba" data-id="' + pr.id + '" aria-label="Estado de la prueba">' +
           ['pendiente','jugando','jugada'].map(v =>
             '<option value="' + v + '"' + (pr.estado === v ? ' selected' : '') + '>' +
             ({ pendiente:'Falta', jugando:'Jugando', jugada:'Jugada' })[v] + '</option>').join('') +
         '</select>' +
       '</header>' +
-      (pr.secreta ? '<p class="nota" style="margin:.2rem 0 0">Tapada en la web hasta que la pongas en "Jugando" o "Jugada".</p>' : '') +
+      '<input type="text" class="detalle-prueba" value="' + esc(pr.detalle) + '"' +
+        ' data-accion="detalle-prueba" data-id="' + pr.id + '"' +
+        ' placeholder="Un renglón que explique de qué va" aria-label="Descripción de la prueba">' +
+      (pr.secreta ? '<p class="nota" style="margin:.5rem 0 0">🤫 En la web sale tapada —ni el nombre se ve— hasta que la pongas en "Jugando" o "Jugada". Ahí recién se revela lo que escribas acá arriba.</p>' : '') +
       filas +
     '</section>';
   }).join('');
@@ -657,6 +667,18 @@ $('pruebas').addEventListener('click', e => {
   if(m) E.resultados[prueba][pareja] = m;
   else delete E.resultados[prueba][pareja];
   tocado();
+});
+
+/* Nombre y descripción: se escriben directo en el estado y NO se
+   redibuja, si no el cursor se escapa del campo a cada tecla. */
+$('pruebas').addEventListener('input', e => {
+  const campo = e.target.closest('input[data-accion="nombre-prueba"], input[data-accion="detalle-prueba"]');
+  if(!campo) return;
+  const pr = E.pruebas.filter(p => p.id === campo.dataset.id)[0];
+  if(!pr) return;
+  if(campo.dataset.accion === 'nombre-prueba') pr.nombre = campo.value;
+  else pr.detalle = campo.value;
+  tocado(false);
 });
 
 $('pruebas').addEventListener('change', e => {

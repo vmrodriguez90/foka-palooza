@@ -156,12 +156,18 @@ async function nuevaPagina(browser, guardadas) {
     await p.waitForFunction(() => /10/.test(document.querySelector('#preview .pt').textContent));
     ok(/10/.test(await p.textContent('#preview li:first-child .pt')), 'el oro suma 10 en la vista previa');
 
-    /* 7. anotar en la bitácora */
+    /* 7. ponerle nombre real a la prueba secreta */
+    const secreta = p.locator('.prueba-admin').last();
+    await secreta.locator('input.nombre-prueba').fill('Trivia del cumpleañero');
+    await secreta.locator('input.detalle-prueba').fill('Diez preguntas sobre la foca.');
+    ok(true, 'se le puede cambiar el nombre a una prueba desde la consola');
+
+    /* 8. anotar en la bitácora */
     await p.fill('#nueva-nota', 'Se picó el mini golf');
     await p.click('#btn-anotar');
     ok(/Se picó el mini golf/.test(await p.textContent('#bitacora')), 'anota en la bitácora');
 
-    /* 8. publicar */
+    /* 9. publicar */
     await p.click('#btn-publicar');
     await p.waitForSelector('#sync.ok');
     const publicado = guardadas.filter(g => g.tipo === 'torneo_guardar').pop();
@@ -169,6 +175,8 @@ async function nuevaPagina(browser, guardadas) {
     ok(publicado.pin === '1234', 'con el PIN');
     ok(publicado.torneo.parejas.length === 3, 'con las 3 parejas');
     ok(publicado.torneo.resultados.golf && Object.keys(publicado.torneo.resultados.golf).length === 1, 'con el puesto cargado');
+    const sorpresa = publicado.torneo.pruebas.filter(pr => pr.secreta)[0];
+    ok(sorpresa && sorpresa.nombre === 'Trivia del cumpleañero', 'y con el nombre nuevo de la prueba secreta');
     ok(/Publicado/.test(await p.textContent('#sync')), 'avisa que se publicó');
     await p.close();
   }

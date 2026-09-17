@@ -201,8 +201,9 @@
     var pruebas = Array.isArray(e.pruebas) && e.pruebas.length ? e.pruebas : pruebasPorDefecto();
     pruebas.forEach(function (pr) {
       if (!esObjeto(pr)) return;
-      var nombre = texto(pr.nombre);
-      if (!nombre) return;
+      /* El nombre se edita desde la consola: si queda vacío a mitad de
+         tipear, la prueba NO se borra (se llevaría los puntos puestos). */
+      var nombre = texto(pr.nombre) || 'Prueba ' + (idsPr.length + 1);
       var id = texto(pr.id);
       if (!id || idsPr.indexOf(id) !== -1) id = idNuevo('pr', idsPr);
       idsPr.push(id);
