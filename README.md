@@ -5,7 +5,7 @@ Landing del cumpleaños. **Miramar, Buenos Aires · Viernes 25, sábado 26 y dom
 | Día | Qué | Dónde |
 |---|---|---|
 | **Viernes 25** 🎂 | El cumple. Torneo de pool, birra y papas. La primera birra la paga el cumpleañero. | HISTER Beer Garden |
-| **Sábado 26** 🎉 | El festejo grande: sanguches + **La Foka Kermesse**, torneo por parejas con premio. | La Foka House |
+| **Sábado 26** 🎉 | El festejo grande: sanguches + **La Foka Kermesse**, torneo por parejas con premio. El que se queda a dormir trae sábanas. | La Foka House — Calle 28 nº 1824 (entre 35 y 37) |
 | **Domingo 27** 🌊 | Cierre: playa, mates y posible olita. | El Náutico Miramar |
 
 ```

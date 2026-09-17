@@ -142,11 +142,20 @@ function linkWhatsapp(numero, mensaje) {
   return url;
 }
 
-/** Mensaje que se abre al tocar el link de alguien que ya confirmó. */
-function mensajeGracias(nombre) {
+/**
+ * Mensaje que se abre al tocar el link de alguien que ya confirmó.
+ * Si viene el sábado (o los tres días), le sumamos el recordatorio de las
+ * sábanas: ese día es en La Foka House y ahí duerme el que se queda.
+ * El link va SIEMPRE al final, para que WhatsApp no se coma la URL.
+ */
+function mensajeGracias(nombre, dias) {
   var primero = String(nombre || '').trim().split(/\s+/)[0];
   var saludo = primero ? '¡Hola ' + primero + '! ' : '¡Hola! ';
-  return saludo + '🦭 Gracias por confirmar al Foka Palooza. '
+  var duerme = String(dias || '');
+  var sabanas = (duerme.indexOf('Sábado') !== -1 || duerme.indexOf('Los tres') !== -1)
+    ? 'Si parás en La Foka House, traé sábanas 🛏️. '
+    : '';
+  return saludo + '🦭 Gracias por confirmar al Foka Palooza. ' + sabanas
        + 'Toda la info está en ' + URL_SITIO;
 }
 
@@ -179,7 +188,7 @@ function guardarConfirmacion(whatsapp, d) {
     new Date(),
     nombre,
     whatsapp,
-    linkWhatsapp(whatsapp, mensajeGracias(nombre)),
+    linkWhatsapp(whatsapp, mensajeGracias(nombre, d.dias)),
     String(d.dias || ''),
     personas,
     String(d.dieta || ''),

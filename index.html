@@ -308,6 +308,19 @@
 }
 .premio b{color:var(--gold);font-weight:500}
 
+/* Recordatorio grande (las sábanas) */
+.recordatorio{
+  margin:clamp(1.6rem,4vw,2.2rem) auto 0;
+  max-width:52ch;
+  border:2px dashed var(--foam);
+  border-radius:var(--r);
+  padding:1.1rem 1.3rem;
+  background:rgba(79,189,187,.08);
+  color:var(--ice);
+  font-size:.98rem;
+}
+.recordatorio b{color:var(--foam);font-weight:500}
+
 /* ============================ DÓNDE ============================ */
 .lugares{
   display:grid;
@@ -328,7 +341,9 @@
 }
 .lugar h3{font-family:var(--display);text-transform:uppercase;font-size:1.5rem;line-height:1;margin:0 0 .5rem}
 .lugar p{margin:0 0 .8rem;font-size:.9rem;color:var(--muted)}
-.lugar .links{display:flex;gap:.8rem;flex-wrap:wrap;font-size:.88rem}
+.lugar .links{display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;font-size:.88rem}
+.lugar .dir{color:var(--ice);opacity:.9;font-size:.9rem;margin:0 0 .6rem}
+.lugar .dir b{color:var(--gold);font-weight:500}
 
 /* ============================ AVISOS ============================ */
 .notify{
@@ -472,10 +487,11 @@
         <p class="dmon">Septiembre 2026</p>
         <p class="dvibe">Con todos ya en el iceberg, el festejo en serio: nos metemos todos en <b>La Foka House</b>, sanguches y kermesse. Si venís a uno solo, que sea este.</p>
         <ul class="plan">
-          <li><span class="ico" aria-hidden="true">📍</span><span>La Foka House, Miramar <em style="font-style:normal;color:var(--muted)">(la dirección va por WhatsApp)</em></span></li>
+          <li><span class="ico" aria-hidden="true">📍</span><span>La Foka House · <a href="https://www.google.com/maps/search/?api=1&amp;query=Calle+28+1824+Miramar+Buenos+Aires" target="_blank" rel="noopener">Calle 28 nº 1824</a>, entre 35 y 37</span></li>
           <li><span class="ico" aria-hidden="true">🥪</span><span>Sanguches para todos (y para los que repiten)</span></li>
           <li class="destaca"><span class="ico" aria-hidden="true">🏆</span><span><b>La Foka Kermesse:</b> torneo por parejas</span></li>
           <li><span class="ico" aria-hidden="true">🎁</span><span>Premio para la pareja ganadora</span></li>
+          <li><span class="ico" aria-hidden="true">🛏️</span><span>El que se queda a dormir, que traiga <b>sábanas</b></span></li>
         </ul>
         <a class="day-link" href="#kermesse">Cómo se juega →</a>
       </article>
@@ -557,7 +573,7 @@
   <div class="wrap">
     <p class="eyebrow">Dónde</p>
     <h2 class="section-title">En <em>Miramar</em></h2>
-    <p class="lead">Buenos Aires, Argentina. Son tres días frente al mar: si venís de lejos, andá viendo dónde dormir — cualquier cosa escribime y lo vemos.</p>
+    <p class="lead">Buenos Aires, Argentina. Son tres días frente al mar. En La Foka House hay lugar para unos cuantos; si preferís cama propia, andá viendo dónde parar — cualquier cosa escribime y lo vemos.</p>
 
     <div class="lugares">
       <article class="lugar">
@@ -569,8 +585,12 @@
       <article class="lugar">
         <p class="cuando">Sábado 26</p>
         <h3>La Foka House</h3>
+        <p class="dir"><b>Calle 28 nº 1824</b>, entre 35 y 37 · Miramar</p>
         <p>La base de operaciones: sanguches, kermesse y la casa entera convertida en cancha.</p>
-        <p class="links"><a href="#avisame">La dirección va por WhatsApp →</a></p>
+        <p class="links">
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Calle+28+1824+Miramar+Buenos+Aires" target="_blank" rel="noopener">Ver en el mapa 📍</a>
+          <span class="pill foam">🛏️ Traé sábanas</span>
+        </p>
       </article>
       <article class="lugar">
         <p class="cuando">Domingo 27</p>
@@ -579,6 +599,8 @@
         <p class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=El+N%C3%A1utico+Miramar+Buenos+Aires" target="_blank" rel="noopener">Ver en el mapa 📍</a></p>
       </article>
     </div>
+
+    <p class="recordatorio">🛏️ <b>Importante para los que paran en La Foka House: traigan sábanas</b> (y toalla, si pueden). Hay lugar para todos, lo que no hay es ropa de cama para todos.</p>
 
     <p class="reveal-note">Los horarios finos y el punto de encuentro exacto los mandamos por WhatsApp durante el finde.</p>
   </div>
@@ -715,7 +737,7 @@ const FOKA = {
     title: 'FOKA PALOOZA 2026',
     days: [
       { start: '20260925T210000', end: '20260926T030000', lugar: 'HISTER Beer Garden, Miramar, Buenos Aires', detalle: 'Torneo de pool, birra y papas. La primera birra va por cuenta del cumpleañero.' },
-      { start: '20260926T130000', end: '20260926T230000', lugar: 'La Foka House, Miramar, Buenos Aires',      detalle: 'Sanguches + La Foka Kermesse: torneo por parejas con premio. La dirección va por WhatsApp.' },
+      { start: '20260926T130000', end: '20260926T230000', lugar: 'La Foka House, Calle 28 1824 (entre 35 y 37), Miramar, Buenos Aires', detalle: 'Sanguches + La Foka Kermesse: torneo por parejas con premio. Si te quedás a dormir, traé sábanas.' },
       { start: '20260927T120000', end: '20260927T200000', lugar: 'El Náutico, Miramar, Buenos Aires',         detalle: 'Punto de encuentro en El Náutico: playa, mates y posible olita.' }
     ],
     url: 'https://fokapalooza.ar/'
@@ -727,7 +749,7 @@ const FOKA = {
 
 /* ================= MARQUEE ================= */
 (function marquee(){
-  const items = ['FOKA PALOOZA 2026','25 · 26 · 27 SEPTIEMBRE','POOL EN HISTER BEER GARDEN','🦭','LA FOKA KERMESSE','SANGUCHES EN LA FOKA HOUSE','PLAYA EN EL NÁUTICO','🦭'];
+  const items = ['FOKA PALOOZA 2026','25 · 26 · 27 SEPTIEMBRE','POOL EN HISTER BEER GARDEN','🦭','LA FOKA KERMESSE','SANGUCHES EN LA FOKA HOUSE','TRAÉ SÁBANAS','PLAYA EN EL NÁUTICO','🦭'];
   const build = (el, sep) => {
     if(!el) return;
     const chunk = items.map(t => `<span>${t}<span style="opacity:.45"> ${sep} </span></span>`).join('');
@@ -868,7 +890,12 @@ document.getElementById('form-rsvp').addEventListener('submit', async e => {
     const extra = juegaKermesse === 'Sí'
       ? ' Estás en el sorteo de parejas de la Kermesse 🏆'
       : '';
-    feedback('msg-rsvp','ok','¡Listo, ' + nombre.split(' ')[0] + '! Quedaste confirmade para ' + dias.join(', ') + '.' + extra + ' Nos vemos en el iceberg 🦭');
+    /* Al que viene el sábado le recordamos lo de las sábanas acá mismo,
+       que es cuando está prestando atención. */
+    const sabanas = dias.some(d => d.indexOf('Sábado') === 0 || d === 'Los tres')
+      ? ' Si parás en La Foka House, no te olvides las sábanas 🛏️'
+      : '';
+    feedback('msg-rsvp','ok','¡Listo, ' + nombre.split(' ')[0] + '! Quedaste confirmade para ' + dias.join(', ') + '.' + extra + sabanas + ' Nos vemos en el iceberg 🦭');
     try{ localStorage.setItem('foka2026_rsvp', whatsapp); }catch(_){}
     cargarStats();
   }catch(err){

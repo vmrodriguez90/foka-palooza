@@ -6,10 +6,11 @@ for (const re of [/var URL_SITIO = .*?;/, /function linkWhatsapp[\s\S]*?\n}/, /f
   eval(gs.match(re)[0]);
 }
 const casos = [
-  ['Confirmación', linkWhatsapp('5492291456789', mensajeGracias('Victor Manuel Rodríguez'))],
-  ['Sin apellido',  linkWhatsapp('5491155555555', mensajeGracias('Fede'))],
-  ['Sin nombre',    linkWhatsapp('5491155555555', mensajeGracias(''))],
-  ['Aviso lineup',  linkWhatsapp('5493511234567', mensajeLineup())],
+  ['Confirmación',        linkWhatsapp('5492291456789', mensajeGracias('Victor Manuel Rodríguez', 'Viernes 25'))],
+  ['Viene el sábado',     linkWhatsapp('5491155555555', mensajeGracias('Fede', 'Sábado 26'))],
+  ['Viene los tres días', linkWhatsapp('5491155555555', mensajeGracias('Juli', 'Los tres'))],
+  ['Sin nombre',          linkWhatsapp('5491155555555', mensajeGracias(''))],
+  ['Aviso lineup',        linkWhatsapp('5493511234567', mensajeLineup())],
 ];
 for (const [q, url] of casos) {
   console.log('\n' + q + ':');

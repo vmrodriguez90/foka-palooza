@@ -158,6 +158,7 @@ titulo('Confirmaciones');
   ok(fila[1] === 'Ana Pérez', 'guarda el nombre');
   ok(fila[2] === '5492291456789', 'guarda el número normalizado');
   ok(/^https:\/\/wa\.me\/5492291456789\?text=/.test(fila[3]), 'arma el link de WhatsApp');
+  ok(/sábanas/.test(decodeURIComponent(fila[3])), 'al que viene el sábado le recuerda las sábanas');
   ok(fila[10] === 'Sí', 'marca que juega la kermesse');
   ok(b.hojas.get('Avisos Lineup').getLastRow() === 2, 'lo suma también a los avisos');
 
@@ -170,6 +171,19 @@ titulo('Confirmaciones');
   ok(b.post({ tipo: 'confirmacion', nombre: 'Bot', whatsapp: '5491155555555', trampa: 'x' }).ignorado === true, 'el honeypot descarta al bot');
   ok(b.post({ tipo: 'confirmacion', nombre: 'Sin tel', whatsapp: '123' }).ok === false, 'rechaza un número inválido');
   ok(b.post({ tipo: 'confirmacion', whatsapp: '5491155555555' }).ok === false, 'rechaza si falta el nombre');
+}
+
+titulo('El recordatorio de las sábanas');
+{
+  const b = cargarBackend();
+  b.post({ tipo: 'confirmacion', nombre: 'Solo Viernes', whatsapp: '5491144444444', dias: 'Viernes 25' });
+  b.post({ tipo: 'confirmacion', nombre: 'Sabadero', whatsapp: '5491155555555', dias: 'Sábado 26' });
+  b.post({ tipo: 'confirmacion', nombre: 'Los Tres', whatsapp: '5493511234567', dias: 'Los tres' });
+  const texto = f => decodeURIComponent(b.hojas.get('Confirmaciones').getRange(f, 4).getValue());
+  ok(!/sábanas/.test(texto(2)), 'al que viene sólo el viernes no le dice nada');
+  ok(/sábanas/.test(texto(3)), 'al del sábado sí');
+  ok(/sábanas/.test(texto(4)), 'y al de los tres días también');
+  ok(/está en https:\/\/fokapalooza\.ar$/.test(texto(3)), 'el link queda al final, para que WhatsApp no lo corte');
 }
 
 titulo('Planilla vieja, sin la columna de la kermesse');
