@@ -197,6 +197,42 @@
 }
 .bitacora p{margin:.1rem 0 0;white-space:pre-wrap}
 
+/* ============================ REGLAMENTO ============================ */
+.regla{
+  border:2px solid var(--line);border-radius:var(--r);
+  background:rgba(11,60,73,.5);
+  padding:0 clamp(1rem,3vw,1.3rem);
+}
+.regla + .regla{margin-top:.6rem}
+.regla summary{
+  cursor:pointer;padding:1rem 0;
+  display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;
+  font-family:var(--display);text-transform:uppercase;
+  font-size:1.1rem;line-height:1;color:var(--ice);
+}
+.regla summary .dura{
+  margin-left:auto;font-family:var(--label);font-size:.8rem;
+  letter-spacing:.14em;color:var(--muted);
+}
+.regla[open] summary{border-bottom:1px dashed var(--line)}
+.regla ul{margin:.9rem 0 1.2rem;padding-left:1.2rem;color:var(--ice);opacity:.92}
+.regla li{margin-bottom:.45rem}
+.regla li:last-child{margin-bottom:0}
+.regla .ojo{
+  margin:0 0 1.2rem;padding:.7rem .9rem;
+  border-left:3px solid var(--gold);background:rgba(255,209,102,.08);
+  font-size:.9rem;color:var(--ice);
+}
+.regla .ojo b{color:var(--gold);font-weight:500}
+.casa{
+  border:2px dashed var(--foam);border-radius:var(--r);
+  background:rgba(79,189,187,.07);
+  padding:1.1rem 1.3rem;margin-top:1.4rem;
+}
+.casa ul{margin:0;padding-left:1.2rem;color:var(--ice);opacity:.95}
+.casa li{margin-bottom:.4rem}
+.casa li:last-child{margin-bottom:0}
+
 /* ============================ VARIOS ============================ */
 .vacio{
   border:2px dashed var(--line);border-radius:var(--r);
@@ -297,18 +333,91 @@
 
   <section class="bloque">
     <h2>Las <span style="color:var(--coral)">reglas</span></h2>
-    <div class="panel" style="margin-top:1.4rem">
-      <ul style="margin:0;padding-left:1.2rem;color:var(--ice);opacity:.92">
-        <li>Se juega <b>por parejas</b>, sorteadas. No se eligen: te toca quien te toca.</li>
-        <li>En cada prueba se reparten <b>10, 7 y 5 puntos</b> para las tres primeras parejas. El resto, por jugar, suma <b>3</b>.</li>
-        <li>La pareja con más puntos al final se lleva el <b>premio</b>. El premio es secreto.</li>
-        <li>Si dos parejas empatan, define quién ganó más pruebas.</li>
+    <p class="sub">Tocá cada prueba para ver cómo se juega. Se juegan en este orden.</p>
+
+    <div class="casa">
+      <ul>
+        <li>Se juega <b>por turnos</b>: cada equipo hace su tanda, se anota y pasa el siguiente. Nadie corre contra nadie.</li>
+        <li>Las parejas son <b>sorteadas</b>. No se eligen: te toca quien te toca.</li>
+        <li>El <b>trío juega lo mismo que una pareja</b> —mismos dardos, mismo tiempo—, solo que rotan de a tres.</li>
+        <li>En cada prueba: <b>🥇 10 · 🥈 7 · 🥉 5</b>, y <b>3</b> por jugar.</li>
+        <li>La <b>última prueba vale doble</b>.</li>
+        <li>Si dos equipos empatan en la tabla, define quién ganó más pruebas.</li>
         <li>Las quejas se aceptan por escrito y se archivan en el mar.</li>
       </ul>
     </div>
+
+    <div style="margin-top:1.4rem">
+      <details class="regla">
+        <summary>🍾 1 · Tiro a las botellas <span class="dura">~12 min</span></summary>
+        <ul>
+          <li>Seis botellas en fila y una línea de tiro marcada con cinta.</li>
+          <li><b>10 dardos y 60 segundos</b> por equipo.</li>
+          <li>Se tira <b>alternado</b>: uno dispara, el otro recarga.</li>
+          <li>Botella común <b>1 punto</b>; las dos del fondo, <b>2</b>.</li>
+          <li>Se reponen recién cuando termina el turno.</li>
+          <li><b>Ranking:</b> total de puntos. Si hay empate arriba, muerte súbita a un dardo por equipo.</li>
+        </ul>
+      </details>
+
+      <details class="regla">
+        <summary>🎯 2 · Dardos, la escalera <span class="dura">~15 min</span></summary>
+        <ul>
+          <li>Hay que clavar <b>20, 19, 18, 17, 16 y 15</b>, en ese orden. Hasta que no sale el 20, no existe el 19.</li>
+          <li>Doble y triple cuentan igual que el número simple.</li>
+          <li>El <b>bull es comodín</b>: te saltea el número en el que estés.</li>
+          <li><b>2 minutos</b> por equipo, tirando alternado.</li>
+          <li><b>Ranking:</b> quién llegó más abajo. Si dos quedan en el mismo número, gana el que usó menos dardos.</li>
+        </ul>
+        <p class="ojo"><b>Ojo:</b> con gente que no juega seguido, la mayoría no pasa del 19 o el 18. Ahí el desempate por dardos usados es el que ordena de verdad la tabla: anotá cuántos tiró cada uno.</p>
+      </details>
+
+      <details class="regla">
+        <summary>🏀 3 · 21 de básket <span class="dura">~18 min</span></summary>
+        <ul>
+          <li>Con mini hoop. <b>Con tablero vale 1, limpio vale 2.</b></li>
+          <li>Hay que quedar en <b>21 exacto</b>. Si te pasás, <b>restás 10</b> y seguís.</li>
+          <li>Se puede <b>plantar</b> en cualquier momento y congelar el número.</li>
+          <li><b>2 minutos</b> por equipo, tiros alternados.</li>
+          <li><b>Ranking:</b> 21 exacto gana. Si nadie llega, el más cercano sin pasarse.</li>
+        </ul>
+        <p class="ojo"><b>La gracia está en el 20:</b> ahí el tiro que sirve es el feo, el del tablero. El limpio te funde. Decidir si tirás o te plantás es todo el juego.</p>
+      </details>
+
+      <details class="regla">
+        <summary>⛳ 4 · Mini golf <span class="dura">~28 min</span></summary>
+        <ul>
+          <li><b>Cuatro hoyos</b> repartidos por la casa.</li>
+          <li>Los golpes se <b>alternan</b> entre los dos integrantes. Obligatorio.</li>
+          <li><b>Máximo 6 golpes por hoyo:</b> si no entró, anotás <b>7</b> y pasás al siguiente.</li>
+          <li><b>Ranking:</b> gana el que sume <b>menos golpes</b> en total.</li>
+        </ul>
+        <p class="ojo"><b>Acá al revés:</b> es la única prueba donde menos es mejor. Ojo al anotar. Y si el reloj apura, se juegan 3 hoyos y nadie se entera.</p>
+      </details>
+
+      <details class="regla">
+        <summary>🏎️ 5 · Carrera de autos <span class="dura">~15 min</span></summary>
+        <ul>
+          <li>Circuito armado con conos, botellas y lo que haya.</li>
+          <li>Primero, <b>una vuelta contrarreloj</b> por equipo, <b>todos con el mismo auto</b>.</li>
+          <li>Uno maneja y el otro lo endereza si vuelca: <b>+3 segundos</b> de penalización.</li>
+          <li>Los <b>tres mejores tiempos</b> van a la final: dos vueltas, autos sorteados.</li>
+          <li><b>Ranking:</b> el podio sale de la final; del cuarto para abajo, por tiempo.</li>
+        </ul>
+        <p class="ojo"><b>Probá los autos antes.</b> Los de radio control baratos comparten frecuencia y es común que dos respondan al mismo control. Si corren de a uno contra el reloj, además, no hace falta ningún handicap: el auto es el mismo para todos.</p>
+      </details>
+
+      <details class="regla">
+        <summary>❓ 6 · Prueba sorpresa <span class="dura">vale doble</span></summary>
+        <ul>
+          <li>Existe. Es la última. <b>Vale el doble</b> que las demás.</li>
+          <li>Se revela en La Foka House, cuando le toque.</li>
+        </ul>
+      </details>
+    </div>
+
     <div class="cta-row">
-      <a class="btn btn-primary" href="index.html#confirmar">Anotarme al torneo</a>
-      <a class="btn btn-ghost" href="index.html#kermesse">Ver las pruebas</a>
+      <a class="btn btn-ghost" href="index.html">Volver al inicio</a>
     </div>
   </section>
 
