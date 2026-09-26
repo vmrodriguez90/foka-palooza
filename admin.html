@@ -106,6 +106,43 @@ main{padding:clamp(1.5rem,5vw,2.5rem) 0 8rem}
 .preview .pt{font-family:var(--display);font-size:1.3rem;color:var(--foam)}
 
 .nota{font-size:.85rem;color:var(--muted);margin:.6rem 0 0}
+
+/* ---- aviso de que estamos sin planilla ---- */
+.banda-local{
+  display:none;
+  border:2px dashed var(--gold);background:rgba(255,209,102,.1);
+  border-radius:var(--r);padding:.9rem 1.1rem;margin-bottom:1.2rem;font-size:.9rem;
+}
+.banda-local.show{display:block}
+.banda-local b{color:var(--gold);font-weight:500}
+
+/* ---- sorteo en vivo: pantalla completa para mostrarle a todos ---- */
+.sorteo{
+  position:fixed;inset:0;z-index:60;
+  background:
+    radial-gradient(70% 55% at 50% 38%, rgba(79,189,187,.25), transparent 70%),
+    rgba(6,44,48,.98);
+  display:none;place-items:center;text-align:center;padding:1.5rem;
+}
+.sorteo.show{display:grid}
+.sorteo-paso{
+  font-family:var(--label);letter-spacing:.3em;text-transform:uppercase;
+  font-size:.95rem;color:var(--foam);margin:0 0 1rem;
+}
+.sorteo-emoji{font-size:clamp(3.5rem,14vw,6rem);line-height:1;margin-bottom:.4rem}
+.sorteo-nombre{
+  font-family:var(--display);text-transform:uppercase;
+  font-size:clamp(2.2rem,9vw,4.5rem);line-height:.95;margin:0;
+  color:var(--ice);text-shadow:.04em .05em 0 var(--teal);
+}
+.sorteo-gente{
+  font-family:var(--display);text-transform:uppercase;
+  font-size:clamp(1.4rem,6vw,2.6rem);line-height:1.2;
+  color:var(--gold);margin:.8rem 0 0;min-height:1.2em;
+}
+.sorteo.girando .sorteo-gente{opacity:.65}
+.sorteo.girando .sorteo-nombre,.sorteo.girando .sorteo-emoji{opacity:.35}
+.sorteo-acciones{margin-top:clamp(1.8rem,6vw,3rem)}
 .oculto{display:none!important}
 #login{max-width:420px;margin:clamp(2rem,8vw,4rem) auto}
 textarea.chico{min-height:70px}
@@ -137,11 +174,24 @@ textarea.chico{min-height:70px}
       </label>
       <button class="btn btn-primary btn-block" type="submit" id="btn-entrar">Entrar</button>
       <p class="form-msg" id="msg-pin" role="status" aria-live="polite"></p>
+      <p class="nota" style="text-align:center">
+        ¿La planilla no responde?
+        <button type="button" id="btn-local" style="background:none;border:0;color:var(--foam);text-decoration:underline;cursor:pointer;font:inherit;padding:.3rem">
+          Entrar en modo local
+        </button><br>
+        Sorteás y anotás igual, guardado en este teléfono.
+      </p>
     </form>
   </section>
 
   <!-- ============================ CONSOLA ============================ -->
   <div id="consola" class="oculto">
+
+    <p class="banda-local" id="banda-local">
+      <b>Modo local.</b> No hay conexión con la planilla, así que esto vive
+      solo en este teléfono: la página del torneo no se actualiza. Podés
+      trabajar igual y publicar después, o bajarte una copia en JSON.
+    </p>
 
     <!-- ---------- estado ---------- -->
     <section class="bloque">
@@ -185,6 +235,7 @@ textarea.chico{min-height:70px}
       <div class="panel">
         <div class="acciones">
           <button class="btn btn-primary btn-sm" type="button" id="btn-sortear">🎲 Sortear parejas</button>
+          <button class="btn btn-ghost btn-sm" type="button" id="btn-mostrar-sorteo">📺 Mostrar a todos</button>
           <button class="btn btn-ghost btn-sm" type="button" id="btn-vaciar-parejas">Borrar todas</button>
         </div>
         <p class="nota" id="nota-sorteo">Cada sorteo usa una semilla al azar: si la anotás, podés repetir el mismo sorteo y demostrar que no hubo trampa.</p>
@@ -242,6 +293,20 @@ textarea.chico{min-height:70px}
   </div>
 </main>
 
+<!-- ============================ SORTEO EN VIVO ============================ -->
+<div class="sorteo" id="sorteo" role="dialog" aria-modal="true" aria-label="Sorteo de parejas">
+  <div class="wrap">
+    <p class="sorteo-paso" id="sorteo-paso"></p>
+    <div class="sorteo-emoji" id="sorteo-emoji" aria-hidden="true">🎲</div>
+    <h2 class="sorteo-nombre" id="sorteo-nombre"></h2>
+    <p class="sorteo-gente" id="sorteo-gente" aria-live="polite"></p>
+    <div class="cta-row sorteo-acciones">
+      <button class="btn btn-primary" type="button" id="sorteo-siguiente">Siguiente</button>
+      <button class="btn btn-ghost" type="button" id="sorteo-cerrar">Cerrar</button>
+    </div>
+  </div>
+</div>
+
 <!-- ============================ BARRA DE PUBLICAR ============================ -->
 <div class="barra oculto" id="barra">
   <div class="wrap">
@@ -273,6 +338,10 @@ let E = T.estadoInicial();   // estado que se está editando
 let pin = '';
 let baseActualizado = '';    // el "actualizado" que tenía el servidor cuando cargamos
 let sucio = false;           // hay cambios sin publicar
+/* Modo local: el torneo funciona entero sin planilla. Existe porque el
+   día del evento no se puede depender de que el Apps Script esté bien
+   implementado: sortear y anotar tiene que andar igual. */
+let modoLocal = false;
 
 /* ================= GUARDADO LOCAL ================= */
 /* En localStorage vive únicamente lo que todavía NO se publicó. Si hay
@@ -339,10 +408,17 @@ $('form-pin').addEventListener('submit', async e => {
     try{ sessionStorage.setItem(CLAVE_PIN, pin); }catch(_){}
     abrirConsola();
   }catch(err){
-    msgPin('err', err.message);
+    const falta = /PIN|configurar|Apps Script|fetch|Failed|NetworkError/i.test(err.message);
+    msgPin('err', err.message + (falta ? ' — si no llegás a arreglarlo ahora, entrá en modo local acá abajo.' : ''));
   }finally{
     btn.disabled = false; btn.textContent = 'Entrar';
   }
+});
+
+$('btn-local').addEventListener('click', () => {
+  modoLocal = true;
+  pin = '';
+  abrirConsola();
 });
 
 function msgPin(tipo, texto){
@@ -355,6 +431,14 @@ async function abrirConsola(){
   $('login').classList.add('oculto');
   $('consola').classList.remove('oculto');
   $('barra').classList.remove('oculto');
+  $('banda-local').classList.toggle('show', modoLocal);
+  if(modoLocal){
+    E = leerLocal() || T.estadoInicial();
+    sucio = true;
+    pintarTodo();
+    estadoSync('Modo local: nada se publica todavía', '');
+    return;
+  }
   await traerDelServidor(true);
 }
 
@@ -411,6 +495,19 @@ async function traerDelServidor(alEntrar){
 /* ================= PUBLICAR ================= */
 $('btn-publicar').addEventListener('click', async () => {
   const btn = $('btn-publicar');
+  if(modoLocal){
+    const seguir = confirm(
+      'Estás en modo local: no hay PIN cargado, así que esto no se puede publicar.\n\n' +
+      'Aceptar: probar igual, por si la planilla ya está andando.\n' +
+      'Cancelar: seguir trabajando local (después podés bajar el JSON).'
+    );
+    if(!seguir) return;
+    const nuevo = prompt('PIN del torneo:');
+    if(!nuevo) return;
+    pin = nuevo.trim();
+    modoLocal = false;
+    $('banda-local').classList.remove('show');
+  }
   btn.disabled = true; btn.textContent = 'Publicando...';
   estadoSync('Publicando...', '');
   try{
@@ -557,7 +654,76 @@ $('btn-sortear').addEventListener('click', () => {
   tocado();
   $('nota-sorteo').textContent = 'Sorteo hecho con la semilla ' + res.semilla +
     '. Anotala si querés poder repetirlo igual.';
+  mostrarSorteo(E.parejas);
 });
+
+/* ================= SORTEO EN VIVO =================
+   El sorteo ya está hecho cuando esto arranca: la ruleta es puro teatro
+   para que la pareja no aparezca de una en una lista, sino de a una y
+   con suspenso, mirando todos la misma pantalla. */
+function mostrarSorteo(parejas){
+  if(!parejas.length) return;
+  const caja = $('sorteo');
+  const nombres = E.participantes.map(p => p.nombre);
+  let i = 0;
+  let ruleta = null;
+
+  function pintar(d){
+    $('sorteo-paso').textContent = 'Pareja ' + (i + 1) + ' de ' + parejas.length;
+    $('sorteo-emoji').textContent = d.emoji;
+    $('sorteo-nombre').textContent = d.nombre;
+    $('sorteo-gente').textContent = d.integrantes.map(id => T.nombreDe(E, id)).join('  ·  ');
+  }
+
+  function revelar(){
+    const d = parejas[i];
+    if(!d) return cerrar();
+    $('sorteo-siguiente').disabled = true;
+    caja.classList.add('girando');
+    $('sorteo-paso').textContent = 'Pareja ' + (i + 1) + ' de ' + parejas.length;
+    $('sorteo-emoji').textContent = '🎲';
+    $('sorteo-nombre').textContent = 'Sorteando...';
+
+    /* nombres al azar hasta frenar en los de verdad */
+    const cuantos = d.integrantes.length;
+    let vueltas = 0;
+    clearInterval(ruleta);
+    ruleta = setInterval(() => {
+      const azar = [];
+      for(let k = 0; k < cuantos; k++){
+        azar.push(nombres[Math.floor(Math.random() * nombres.length)] || '¿?');
+      }
+      $('sorteo-gente').textContent = azar.join('  ·  ');
+      if(++vueltas > 13){
+        clearInterval(ruleta);
+        caja.classList.remove('girando');
+        pintar(d);
+        $('sorteo-siguiente').disabled = false;
+        $('sorteo-siguiente').textContent = (i + 1 >= parejas.length) ? 'Listo 🦭' : 'Siguiente';
+      }
+    }, 75);
+  }
+
+  function cerrar(){
+    clearInterval(ruleta);
+    caja.classList.remove('show', 'girando');
+    document.body.style.overflow = '';
+  }
+
+  $('sorteo-siguiente').onclick = () => {
+    i++;
+    if(i >= parejas.length) return cerrar();
+    revelar();
+  };
+  $('sorteo-cerrar').onclick = cerrar;
+
+  document.body.style.overflow = 'hidden';
+  caja.classList.add('show');
+  revelar();
+}
+
+/* Por si querés volver a mostrarlo sin re-sortear. */
+$('btn-mostrar-sorteo').addEventListener('click', () => mostrarSorteo(E.parejas));
 
 $('btn-vaciar-parejas').addEventListener('click', () => {
   if(!E.parejas.length) return;

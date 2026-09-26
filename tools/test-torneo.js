@@ -17,9 +17,11 @@ titulo('Estado inicial');
 {
   const e = T.estadoInicial();
   ok(e.fase === 'inscripcion', 'arranca en inscripción');
-  ok(e.pruebas.length === 5, 'trae las 5 pruebas de la kermesse');
+  ok(e.pruebas.length === 6, 'trae las 6 pruebas de la kermesse');
   ok(e.pruebas.filter(p => p.secreta).length === 1, 'una sola prueba secreta');
-  ok(T.normalizar(e).pruebas.length === 5, 'normalizar no las pierde');
+  ok(T.normalizar(e).pruebas.length === 6, 'normalizar no las pierde');
+  ok(e.pruebas[0].id === 'botellas' && e.pruebas[4].id === 'autos', 'en el orden en que se juegan');
+  ok(e.pruebas[5].secreta === true, 'la última es la tapada');
 }
 
 /* ------------------------------------------------------------------ */

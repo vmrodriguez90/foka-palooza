@@ -494,28 +494,58 @@ function pintar(e){
   $('btn-refrescar').addEventListener('click', () => cargar(true));
 }
 
-/* ================= CARGA ================= */
+/* ================= CARGA =================
+   El torneo puede venir de dos lados:
+     · la planilla (lo que publica admin.html), y
+     · assets/torneo.json, un archivo del repositorio.
+   Se piden los dos y gana el que tenga la fecha más nueva. Así el torneo
+   anda aunque la planilla no esté configurada —alcanza con actualizar el
+   archivo y publicar el sitio— y sigue andando igual si se carga todo
+   desde la consola. */
+async function leerPlanilla(){
+  if(!ENDPOINT) return null;
+  const res = await fetch(ENDPOINT + '?action=torneo&t=' + Date.now());
+  const data = await res.json();
+  if(!data.ok) throw new Error(data.error || 'No se pudo leer el torneo');
+  return data.torneo ? T.normalizar(data.torneo) : null;
+}
+
+async function leerArchivo(){
+  const res = await fetch('assets/torneo.json?t=' + Date.now());
+  if(!res.ok) return null;
+  const crudo = await res.json();
+  const e = T.normalizar(crudo);
+  /* Un archivo sin parejas ni bitácora es el molde vacío: no pisa nada. */
+  return (e.parejas.length || e.bitacora.length || e.mensaje) ? e : null;
+}
+
+function masNuevo(a, b){
+  if(!a) return b;
+  if(!b) return a;
+  return Date.parse(b.actualizado) > Date.parse(a.actualizado) ? b : a;
+}
+
 async function cargar(manual){
-  if(!ENDPOINT){
-    pintar(T.estadoInicial());
-    $('actualizado').textContent = 'Falta conectar la planilla (assets/config.js).';
+  if(manual) $('actualizado').textContent = 'Buscando novedades…';
+  const resultados = await Promise.allSettled([leerPlanilla(), leerArchivo()]);
+  const encontrados = resultados
+    .filter(r => r.status === 'fulfilled' && r.value)
+    .map(r => r.value);
+
+  if(encontrados.length){
+    ultimo = encontrados.reduce(masNuevo, null);
+    pintar(ultimo);
     return;
   }
-  if(manual) $('actualizado').textContent = 'Buscando novedades…';
-  try{
-    const res = await fetch(ENDPOINT + '?action=torneo&t=' + Date.now());
-    const data = await res.json();
-    if(!data.ok) throw new Error(data.error || 'No se pudo leer el torneo');
-    ultimo = T.normalizar(data.torneo || {});
-    pintar(ultimo);
-  }catch(err){
-    if(ultimo){
-      $('actualizado').textContent = 'Sin conexión — mostrando lo último que llegó (' + hace(ultimo.actualizado) + ').';
-    }else{
-      pintar(T.estadoInicial());
-      $('actualizado').textContent = 'No se pudo cargar el torneo. Probá de nuevo en un rato.';
-    }
+  if(ultimo){
+    $('actualizado').textContent = 'Sin novedades — esto es lo último que llegó (' + hace(ultimo.actualizado) + ').';
+    return;
   }
+  /* Nada en ningún lado: la pantalla de "todavía no arrancó". */
+  pintar(T.estadoInicial());
+  $('actualizado').textContent = resultados.every(r => r.status === 'rejected')
+    ? 'No se pudo cargar el torneo. Probá de nuevo en un rato.'
+    : 'El torneo todavía no arrancó.';
 }
 
 cargar();

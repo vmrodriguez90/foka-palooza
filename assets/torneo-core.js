@@ -42,15 +42,16 @@
     { id: 'terminado',   label: 'Terminado',           ayuda: 'Ya hay campeones.' }
   ];
 
-  /* Las cinco pruebas del sábado. La quinta va tapada hasta que el admin
-     la destape: es la intriga. */
+  /* Las pruebas del sábado, en el orden en que se juegan. La última va
+     tapada hasta que el admin la destape: es la intriga. */
   function pruebasPorDefecto() {
     return [
-      { id: 'golf',      nombre: 'Mini golf',          emoji: '⛳', estado: 'pendiente', secreta: false, detalle: 'Hoyos improvisados por toda la casa.' },
-      { id: 'autos',     nombre: 'Carrera de autos',   emoji: '🏎️', estado: 'pendiente', secreta: false, detalle: 'Largada, vuelta y podio.' },
-      { id: 'basket',    nombre: '21 de básket',       emoji: '🏀', estado: 'pendiente', secreta: false, detalle: 'Con mini hoop, a 21 puntos.' },
-      { id: 'botellas',  nombre: 'Tiro a las botellas', emoji: '🎯', estado: 'pendiente', secreta: false, detalle: 'Con las Nerf. Cada botella que cae, suma.' },
-      { id: 'sorpresa',  nombre: 'Prueba sorpresa',    emoji: '❓', estado: 'pendiente', secreta: true,  detalle: 'Se revela en La Foka House.' }
+      { id: 'botellas', nombre: 'Tiro a las botellas', emoji: '🎯', estado: 'pendiente', secreta: false, detalle: 'Con las Nerf. Arranca la kermesse.' },
+      { id: 'dardos', nombre: 'Dardos', emoji: '🎯', estado: 'pendiente', secreta: false, detalle: 'La escalera: 20, 19, 18... el que baje más lejos.' },
+      { id: 'basket', nombre: '21 de básket', emoji: '🏀', estado: 'pendiente', secreta: false, detalle: 'Con mini hoop. Llegar a 21 exacto, sin pasarse.' },
+      { id: 'golf', nombre: 'Mini golf', emoji: '⛳', estado: 'pendiente', secreta: false, detalle: 'Cuatro hoyos por la casa. Se alternan los golpes.' },
+      { id: 'autos', nombre: 'Carrera de autos', emoji: '🏎️', estado: 'pendiente', secreta: false, detalle: 'A radio control. Contrarreloj y final.' },
+      { id: 'sorpresa', nombre: 'Prueba sorpresa', emoji: '❓', estado: 'pendiente', secreta: true, detalle: 'Se revela en La Foka House. Vale doble.' }
     ];
   }
 

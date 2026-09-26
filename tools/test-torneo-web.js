@@ -2,9 +2,29 @@
    Correlo con: node tools/test-torneo-web.js */
 const { chromium } = require('playwright');
 const path = require('path');
+const http = require('http');
+const fs = require('fs');
 
 const ENDPOINT = 'https://fake.endpoint/exec';
-const archivo = n => 'file://' + path.resolve(__dirname, '..', n);
+const RAIZ = path.resolve(__dirname, '..');
+
+/* Las páginas se sirven por HTTP y no por file://, porque torneo.html hace
+   fetch('assets/torneo.json') y el navegador no deja hacer fetch a file://
+   (además así se parece más a cómo corre de verdad en GitHub Pages). */
+const TIPOS = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css',
+                '.json':'application/json', '.svg':'image/svg+xml', '.png':'image/png' };
+const servidor = http.createServer((req, res) => {
+  const limpio = decodeURIComponent(req.url.split('?')[0]).replace(/^\/+/, '');
+  const destino = path.join(RAIZ, limpio);
+  if (!destino.startsWith(RAIZ) || !fs.existsSync(destino) || fs.statSync(destino).isDirectory()) {
+    res.writeHead(404); return res.end('no');
+  }
+  res.writeHead(200, { 'Content-Type': TIPOS[path.extname(destino)] || 'application/octet-stream' });
+  fs.createReadStream(destino).pipe(res);
+});
+
+let BASE = '';
+const archivo = n => BASE + '/' + n;
 
 /* Estado de ejemplo que "devuelve el servidor" */
 const ESTADO = {
@@ -61,6 +81,9 @@ async function nuevaPagina(browser, guardadas) {
 }
 
 (async () => {
+  await new Promise(r => servidor.listen(0, '127.0.0.1', r));
+  BASE = 'http://127.0.0.1:' + servidor.address().port;
+
   const b = await chromium.launch();
 
   /* ============================ torneo.html ============================ */
@@ -101,10 +124,48 @@ async function nuevaPagina(browser, guardadas) {
     await p.route(ENDPOINT + '*', route => route.fulfill({
       status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true, torneo: null })
     }));
-    await p.goto(archivo('torneo.html'));
+    await p.goto(archivo('torneo.html'));   // assets/torneo.json está vacío: no pisa nada
     await p.waitForFunction(() => !document.getElementById('vacio-tabla').classList.contains('oculto'));
     ok(await p.isVisible('#vacio-tabla'), 'avisa que todavía no hay parejas');
     ok((await p.textContent('#d-parejas')) === '0', 'cuenta 0 parejas');
+    await p.close();
+  }
+
+  /* ---- sin planilla: el torneo sale del archivo del repositorio ---- */
+  console.log('\ntorneo.html leyendo assets/torneo.json (sin planilla)');
+  {
+    const p = await b.newPage();
+    p.on('pageerror', e => { console.log('  ✗ ERROR JS: ' + e.message); fallos++; });
+    await p.addInitScript(ep => { window.FOKA_CONFIG = { endpoint: ep }; }, ENDPOINT);
+    await p.route(ENDPOINT + '*', route => route.abort());          // la planilla no existe
+    await p.route('**/assets/torneo.json*', route => route.fulfill({
+      status: 200, contentType: 'application/json',
+      body: JSON.stringify({ ...ESTADO, mensaje: 'Cargado desde el repositorio' })
+    }));
+    await p.goto(archivo('torneo.html'));
+    await p.waitForFunction(() => document.querySelectorAll('#posiciones .fila').length > 0);
+    ok((await p.textContent('#d-parejas')) === '2', 'muestra las parejas del archivo');
+    ok(/repositorio/.test(await p.textContent('#aviso-texto')), 'y el mensaje que trae');
+    await p.close();
+  }
+
+  /* ---- si los dos responden, gana el más nuevo ---- */
+  console.log('\ntorneo.html con planilla y archivo a la vez');
+  {
+    const p = await b.newPage();
+    p.on('pageerror', e => { console.log('  ✗ ERROR JS: ' + e.message); fallos++; });
+    await p.addInitScript(ep => { window.FOKA_CONFIG = { endpoint: ep }; }, ENDPOINT);
+    await p.route(ENDPOINT + '*', route => route.fulfill({
+      status: 200, contentType: 'application/json',
+      body: JSON.stringify({ ok: true, torneo: { ...ESTADO, mensaje: 'De la planilla, vieja', actualizado: '2026-09-26T18:00:00.000Z' } })
+    }));
+    await p.route('**/assets/torneo.json*', route => route.fulfill({
+      status: 200, contentType: 'application/json',
+      body: JSON.stringify({ ...ESTADO, mensaje: 'Del archivo, más nueva', actualizado: '2026-09-26T21:00:00.000Z' })
+    }));
+    await p.goto(archivo('torneo.html'));
+    await p.waitForSelector('#aviso.show');
+    ok(/más nueva/.test(await p.textContent('#aviso-texto')), 'gana la versión con fecha más nueva');
     await p.close();
   }
 
@@ -148,6 +209,20 @@ async function nuevaPagina(browser, guardadas) {
     const parejas = await p.locator('#parejas .item').count();
     ok(parejas === 3, '6 que juegan → 3 parejas (Elsa queda afuera)', parejas);
     ok(/semilla \d+/.test(await p.textContent('#nota-sorteo')), 'avisa con qué semilla se sorteó');
+
+    /* 5 bis. el sorteo se muestra en vivo, de a una pareja */
+    await p.waitForSelector('#sorteo.show');
+    ok(await p.isVisible('#sorteo'), 'abre el sorteo en pantalla completa');
+    ok(/Pareja 1 de 3/.test(await p.textContent('#sorteo-paso')), 'arranca por la primera');
+    await p.waitForSelector('#sorteo-siguiente:not([disabled])');   // termina la ruleta
+    ok(/\w/.test(await p.textContent('#sorteo-nombre')), 'revela el nombre de la pareja');
+    ok((await p.textContent('#sorteo-gente')).includes('·'), 'y quiénes la forman');
+    await p.click('#sorteo-siguiente');
+    await p.waitForSelector('#sorteo-siguiente:not([disabled])');
+    ok(/Pareja 2 de 3/.test(await p.textContent('#sorteo-paso')), 'pasa a la siguiente');
+    await p.click('#sorteo-cerrar');
+    await p.waitForSelector('#sorteo', { state: 'hidden' });
+    ok(!(await p.isVisible('#sorteo')), 'y se cierra');
 
     /* 6. cargar un puesto */
     await p.locator('.prueba-admin').first()
@@ -230,17 +305,21 @@ async function nuevaPagina(browser, guardadas) {
     await p.click('#btn-sumar');
     await p.click('#btn-sortear');
     await p.waitForFunction(() => document.querySelectorAll('#parejas .item').length === 2);
+    await p.waitForSelector('#sorteo.show');
+    await p.click('#sorteo-cerrar');                  // el sorteo se muestra en pantalla completa
+    await p.waitForSelector('#sorteo', { state: 'hidden' });
 
     await p.click('#btn-publicar');
     await p.waitForSelector('#sync.ok');
     ok(!dialogos.some(m => /otro lado/.test(m)), 'no inventa un conflicto que no existe', dialogos);
     const publicado = guardadas.filter(g => g.tipo === 'torneo_guardar').pop();
     ok(!!publicado && publicado.torneo.parejas.length === 2, 'publica las 2 parejas');
-    ok((await p.locator('#pruebas .prueba-admin').count()) === 5, 'arranca con las 5 pruebas de la kermesse');
+    ok((await p.locator('#pruebas .prueba-admin').count()) === 6, 'arranca con las 6 pruebas de la kermesse');
     await p.close();
   }
 
   await b.close();
+  servidor.close();
   console.log('\n' + (fallos ? fallos + ' prueba(s) fallaron ✗' : 'Todo bien 🦭'));
   process.exit(fallos ? 1 : 0);
 })();
