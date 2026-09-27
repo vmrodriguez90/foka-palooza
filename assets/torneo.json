@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "actualizado": "2026-09-27T03:40:09.511Z",
+  "actualizado": "2026-09-27T04:06:08.641Z",
   "fase": "jugando",
-  "mensaje": "Terminó el 21 de básket y lo dio vuelta todo: Las Gaviotas 🕊️ venían últimas y ganaron la prueba con 22. Saltaron del último puesto al podio.",
+  "mensaje": "Terminó el mini golf y cambió el líder: Las Focas Bravas 🦭 lo ganaron con 2 golpes y pasaron a la punta. Marea Alta se hundió con 12 y perdió el primer puesto.",
   "semilla": 361566,
   "participantes": [
     {
@@ -177,7 +177,7 @@
       "id": "golf",
       "nombre": "Mini golf",
       "emoji": "⛳",
-      "estado": "pendiente",
+      "estado": "jugada",
       "secreta": false,
       "detalle": "Dos hoyos difíciles. Golpes alternados y un mulligan."
     },
@@ -225,6 +225,15 @@
       "d5": "jugo",
       "d6": "jugo",
       "d7": "oro"
+    },
+    "golf": {
+      "d1": "oro",
+      "d2": "jugo",
+      "d3": "jugo",
+      "d4": "jugo",
+      "d5": "jugo",
+      "d6": "bronce",
+      "d7": "plata"
     }
   },
   "bonus": {},
@@ -252,6 +261,14 @@
     {
       "ts": "2026-09-27T03:40:09.511Z",
       "texto": "Números del 21: Gaviotas 22 · Focas 19 · Marea Alta 18 · Lobos 16 · Dinamita 15 · Sanguches 11 · Iceberg 4"
+    },
+    {
+      "ts": "2026-09-27T04:06:08.641Z",
+      "texto": "Terminó ⛳ Mini golf. 1º Las Focas Bravas (2 golpes) · 2º Las Gaviotas (6) · 3º Dúo Dinamita (7)"
+    },
+    {
+      "ts": "2026-09-27T04:06:08.641Z",
+      "texto": "Tarjetas del golf: Focas 2 · Gaviotas 6 · Dinamita 7 · Sanguches 8 · Lobos 9 · Iceberg 12 · Marea Alta 12"
     }
   ]
 }
