@@ -1,11 +1,153 @@
 {
   "version": 1,
-  "actualizado": "2026-09-26T00:00:00.000Z",
-  "fase": "inscripcion",
-  "mensaje": "",
-  "semilla": 0,
-  "participantes": [],
-  "parejas": [],
+  "actualizado": "2026-09-27T01:52:37.257Z",
+  "fase": "sorteo",
+  "mensaje": "Parejas sorteadas: 7 equipos. Arrancamos con el tiro a las botellas 🍾",
+  "semilla": 361566,
+  "participantes": [
+    {
+      "id": "p1",
+      "nombre": "Rodri Bristol",
+      "juega": true
+    },
+    {
+      "id": "p2",
+      "nombre": "Rodri Pelado",
+      "juega": true
+    },
+    {
+      "id": "p3",
+      "nombre": "Fini Feney",
+      "juega": true
+    },
+    {
+      "id": "p4",
+      "nombre": "Rama Bermejo",
+      "juega": true
+    },
+    {
+      "id": "p5",
+      "nombre": "Seba Menendez",
+      "juega": true
+    },
+    {
+      "id": "p6",
+      "nombre": "Juan Pablo",
+      "juega": true
+    },
+    {
+      "id": "p7",
+      "nombre": "Doc",
+      "juega": true
+    },
+    {
+      "id": "p8",
+      "nombre": "Sofi",
+      "juega": true
+    },
+    {
+      "id": "p9",
+      "nombre": "Angie",
+      "juega": true
+    },
+    {
+      "id": "p10",
+      "nombre": "Nela",
+      "juega": true
+    },
+    {
+      "id": "p11",
+      "nombre": "Malencha",
+      "juega": true
+    },
+    {
+      "id": "p12",
+      "nombre": "Tabi",
+      "juega": true
+    },
+    {
+      "id": "p13",
+      "nombre": "Goni",
+      "juega": true
+    },
+    {
+      "id": "p14",
+      "nombre": "Jaque",
+      "juega": true
+    }
+  ],
+  "parejas": [
+    {
+      "id": "d1",
+      "nombre": "Las Focas Bravas",
+      "emoji": "🦭",
+      "integrantes": [
+        "p6",
+        "p5"
+      ],
+      "fija": false
+    },
+    {
+      "id": "d2",
+      "nombre": "Lobos de Mar",
+      "emoji": "🌊",
+      "integrantes": [
+        "p3",
+        "p13"
+      ],
+      "fija": false
+    },
+    {
+      "id": "d3",
+      "nombre": "Iceberg FC",
+      "emoji": "🧊",
+      "integrantes": [
+        "p10",
+        "p14"
+      ],
+      "fija": false
+    },
+    {
+      "id": "d4",
+      "nombre": "Marea Alta",
+      "emoji": "🌀",
+      "integrantes": [
+        "p11",
+        "p4"
+      ],
+      "fija": false
+    },
+    {
+      "id": "d5",
+      "nombre": "Los Sanguches",
+      "emoji": "🥪",
+      "integrantes": [
+        "p9",
+        "p8"
+      ],
+      "fija": false
+    },
+    {
+      "id": "d6",
+      "nombre": "Dúo Dinamita",
+      "emoji": "🧨",
+      "integrantes": [
+        "p7",
+        "p2"
+      ],
+      "fija": false
+    },
+    {
+      "id": "d7",
+      "nombre": "Las Gaviotas",
+      "emoji": "🕊️",
+      "integrantes": [
+        "p1",
+        "p12"
+      ],
+      "fija": false
+    }
+  ],
   "pruebas": [
     {
       "id": "botellas",
@@ -58,5 +200,10 @@
   ],
   "resultados": {},
   "bonus": {},
-  "bitacora": []
+  "bitacora": [
+    {
+      "ts": "2026-09-27T01:52:37.257Z",
+      "texto": "Se sortearon las parejas: 7 equipos en juego 🎲 (semilla 361566)"
+    }
+  ]
 }
