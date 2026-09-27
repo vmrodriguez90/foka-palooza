@@ -150,37 +150,15 @@ Arrastrá la carpeta a [app.netlify.com/drop](https://app.netlify.com/drop). Sal
 
 ## 2 bis. El grupo de WhatsApp
 
-Las novedades del finde salen por el grupo **Foka Palooza 2026**. El link de
-invitación está escrito en **tres** lugares (no hay forma de compartir una
-constante entre el HTML, el JS y el Apps Script):
+Durante el finde las novedades salieron por el grupo **Foka Palooza 2026**.
+Cuando terminó, los botones que llevaban al grupo se sacaron del sitio: no había
+nada más que seguir.
 
-| Dónde | Para qué |
-|---|---|
-| `index.html` | el botón de *Gracias por venir* y el del pie |
-| `torneo.html` | el botón abajo de la bitácora y el del pie |
-| `apps-script/Codigo.gs` (`URL_GRUPO`) | los mensajes de WhatsApp que arma la planilla |
-
-Si regenerás el link (WhatsApp deja resetearlo desde *Info del grupo →
-Invitar por link → Restablecer*), cambialo en los cuatro.
-**`node tools/test-links.js` compara las tres copias y avisa si alguna
-quedó distinta**, así que no hace falta acordarse: correlo y listo.
-
-> ⚠️ El link está en una página pública: cualquiera que entre a
-> fokapalooza.ar puede sumarse al grupo. Si se llena de gente que no
-> invitaste, resetealo desde WhatsApp y actualizá los cuatro lugares.
-
-### La foto del grupo
-
-`assets/grupo.png` es la foto de perfil, pensada para el recorte **circular**
-de WhatsApp: la cara de la foca ocupa casi todo, porque en la lista de chats
-se ve a 48-64 px y a ese tamaño un cuerpo entero o un texto chico no se
-entienden. El nombre no va escrito en la imagen: WhatsApp ya lo muestra al
-lado.
-
-```bash
-node tools/render-grupo.js                 # regenera assets/grupo.png
-node tools/render-grupo.js /tmp/previa     # además, cómo se ve a 48/64/128/240 px
-```
+El único lugar donde queda el link es `URL_GRUPO`, en
+[`apps-script/Codigo.gs`](apps-script/Codigo.gs), dentro de los mensajes de
+WhatsApp que arma la planilla — que tampoco se usan más. Si alguna vez hay que
+regenerarlo (WhatsApp lo deja resetear desde *Info del grupo → Invitar por link
+→ Restablecer*), se cambia ahí y listo.
 
 ---
 
@@ -269,7 +247,7 @@ node tools/render-og.js   # edita tools/og-source.html y vuelve a correr esto
 
 | Qué | Dónde |
 |---|---|
-| Link del grupo de WhatsApp | `index.html`, `torneo.html` y `URL_GRUPO` en `Codigo.gs` (ver sección 2 bis) |
+| Link del grupo de WhatsApp | `URL_GRUPO` en `Codigo.gs` |
 | Hacia dónde corre el contador | `arranqueISO` en el bloque `const FOKA` de `index.html` |
 | Horarios y lugares de cada día (botón "Agendar") | `event.days` en `index.html` |
 | Mostrar/ocultar el contador de confirmados | `showStats` en `index.html` |
@@ -290,7 +268,7 @@ npm test                        # todo junto
 npm run test:rapido             # solo los que no necesitan navegador
 
 node tools/test-whatsapp.js     # normalización de números
-node tools/test-links.js        # los mensajes de WhatsApp y las 3 copias del link del grupo
+node tools/test-links.js        # los mensajes de WhatsApp que arma la planilla
 node tools/test-torneo.js       # sorteo, tabla de posiciones y desempates
 node tools/test-apps-script.js  # el backend entero, contra una planilla de mentira
 node tools/test-forms.js        # los formularios de index.html, con endpoint simulado
