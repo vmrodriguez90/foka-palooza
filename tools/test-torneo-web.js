@@ -124,7 +124,13 @@ async function nuevaPagina(browser, guardadas) {
     await p.route(ENDPOINT + '*', route => route.fulfill({
       status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true, torneo: null })
     }));
-    await p.goto(archivo('torneo.html'));   // assets/torneo.json está vacío: no pisa nada
+    /* El archivo del repo tiene el torneo de verdad, así que acá lo
+       vaciamos: esta prueba es la de "no hay nada en ningún lado". */
+    await p.route('**/assets/torneo.json*', route => route.fulfill({
+      status: 200, contentType: 'application/json',
+      body: JSON.stringify({ participantes: [], parejas: [], bitacora: [] })
+    }));
+    await p.goto(archivo('torneo.html'));
     await p.waitForFunction(() => !document.getElementById('vacio-tabla').classList.contains('oculto'));
     ok(await p.isVisible('#vacio-tabla'), 'avisa que todavía no hay parejas');
     ok((await p.textContent('#d-parejas')) === '0', 'cuenta 0 parejas');
