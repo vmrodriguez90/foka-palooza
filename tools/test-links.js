@@ -2,7 +2,7 @@
    Correlo con: node tools/test-links.js */
 const fs = require('fs');
 const gs = fs.readFileSync(require('path').resolve(__dirname, '..', 'apps-script', 'Codigo.gs'),'utf8');
-for (const re of [/var URL_SITIO = .*?;/, /var URL_GRUPO = .*?;/, /function linkWhatsapp[\s\S]*?\n}/, /function mensajeGracias[\s\S]*?\n}/, /function mensajeLineup[\s\S]*?\n}/]) {
+for (const re of [/var URL_SITIO = .*?;/, /function linkWhatsapp[\s\S]*?\n}/, /function mensajeGracias[\s\S]*?\n}/, /function mensajeLineup[\s\S]*?\n}/]) {
   eval(gs.match(re)[0]);
 }
 const casos = [

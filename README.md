@@ -14,7 +14,6 @@ torneo.html            → el torneo 2026, con el resultado escrito adentro
 assets/foka.css        → estilos compartidos por las dos páginas
 assets/torneo-core.js  → sorteo, puntajes y tabla (los usan torneo.html y los tests)
 assets/og.png          → imagen de preview para WhatsApp (1200×630)
-assets/grupo.png       → foto de perfil del grupo de WhatsApp (1000×1000)
 assets/favicon.svg     → la foca
 assets/icon-512.png    → ícono para iOS / accesos directos
 apps-script/Codigo.gs  → backend: confirmaciones y estado del torneo en Google Sheets
@@ -94,7 +93,6 @@ Detalles útiles:
   el número nacional son **siempre 10 dígitos**: si llegan 12, sobra el `15` y se saca;
   si llegan 10, no se toca nada. Eso evita romper abonados que arrancan con 15
   (`11 1512-3456` es un número válido, no un `15` de más).
-  Los casos están cubiertos en `tools/test-whatsapp.js` (`node tools/test-whatsapp.js`).
 - Si alguien confirma **dos veces con el mismo número**, se **actualiza** su fila en lugar de duplicarla (así puede corregirse).
 - Hay un *honeypot* (campo oculto `apodo_foka`): si un bot lo completa, el envío se descarta en silencio.
 - `?action=stats` devuelve el total de confirmados; la web lo usa para mostrar el contador de "focas confirmadas".
@@ -145,20 +143,6 @@ Si cambiás de dominio otra vez, hay que tocar las URLs absolutas del `<head>` d
 ### Opción B — Netlify / Vercel
 
 Arrastrá la carpeta a [app.netlify.com/drop](https://app.netlify.com/drop). Sale en 10 segundos.
-
----
-
-## 2 bis. El grupo de WhatsApp
-
-Durante el finde las novedades salieron por el grupo **Foka Palooza 2026**.
-Cuando terminó, los botones que llevaban al grupo se sacaron del sitio: no había
-nada más que seguir.
-
-El único lugar donde queda el link es `URL_GRUPO`, en
-[`apps-script/Codigo.gs`](apps-script/Codigo.gs), dentro de los mensajes de
-WhatsApp que arma la planilla — que tampoco se usan más. Si alguna vez hay que
-regenerarlo (WhatsApp lo deja resetear desde *Info del grupo → Invitar por link
-→ Restablecer*), se cambia ahí y listo.
 
 ---
 
@@ -247,14 +231,10 @@ node tools/render-og.js   # edita tools/og-source.html y vuelve a correr esto
 
 | Qué | Dónde |
 |---|---|
-| Link del grupo de WhatsApp | `URL_GRUPO` en `Codigo.gs` |
-| Hacia dónde corre el contador | `arranqueISO` en el bloque `const FOKA` de `index.html` |
-| Horarios y lugares de cada día (botón "Agendar") | `event.days` en `index.html` |
-| Mostrar/ocultar el contador de confirmados | `showStats` en `index.html` |
-| Cómo se normalizan los números | `normalizarWhatsapp()` en `index.html` |
 | Cuántos puntos vale cada puesto | `MEDALLAS` en `assets/torneo-core.js` |
 | Cuáles son las pruebas de la kermesse | `pruebasPorDefecto()` en `assets/torneo-core.js` (y las tarjetas de la sección *Kermesse* en `index.html`) |
 | Nombres de fantasía de las parejas | `NOMBRES` en `assets/torneo-core.js` |
+| El resultado del torneo | `const TORNEO`, adentro de `torneo.html` |
 | Colores y tipografías | `assets/foka.css` |
 
 ---
@@ -267,18 +247,15 @@ Sin CI ni frameworks: son scripts que se corren a mano y cuentan lo que ven.
 npm test                        # todo junto
 npm run test:rapido             # solo los que no necesitan navegador
 
-node tools/test-whatsapp.js     # normalización de números
 node tools/test-links.js        # los mensajes de WhatsApp que arma la planilla
 node tools/test-torneo.js       # sorteo, tabla de posiciones y desempates
 node tools/test-apps-script.js  # el backend entero, contra una planilla de mentira
-node tools/test-forms.js        # los formularios de index.html, con endpoint simulado
 node tools/test-torneo-web.js   # que torneo.html se dibuje entero sin red
 node tools/audit-mobile.js      # desborde y tamaños táctiles en 320–768px
 node tools/page-shot.js carpeta # capturas de index.html en desktop y mobile
-node tools/render-grupo.js      # la foto del grupo de WhatsApp
 ```
 
-Los últimos cuatro necesitan `npm i playwright`. `test-apps-script.js` corre
+Los últimos tres necesitan `npm i playwright`. `test-apps-script.js` corre
 `Codigo.gs` en node con una planilla simulada: sirve para probar cambios del
 backend sin tener que implementar en Google cada vez.
 

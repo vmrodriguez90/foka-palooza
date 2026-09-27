@@ -7,8 +7,7 @@
     "test": "npm run test:rapido && node tools/test-torneo-web.js",
     "test:rapido": "node tools/test-links.js && node tools/test-torneo.js && node tools/test-apps-script.js",
     "audit": "node tools/audit-mobile.js",
-    "og": "node tools/render-og.js",
-    "grupo": "node tools/render-grupo.js"
+    "og": "node tools/render-og.js"
   },
   "devDependencies": {
     "playwright": "^1.56.0"
