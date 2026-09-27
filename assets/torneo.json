@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "actualizado": "2026-09-27T03:38:28.289Z",
+  "actualizado": "2026-09-27T03:40:09.511Z",
   "fase": "jugando",
-  "mensaje": "Terminó el 21 de básket. Las Focas Bravas 🦭 se quedaron a dos del 21 exacto y ganaron la prueba. Las Gaviotas se pasaron a 22 y se comieron los −10.",
+  "mensaje": "Terminó el 21 de básket y lo dio vuelta todo: Las Gaviotas 🕊️ venían últimas y ganaron la prueba con 22. Saltaron del último puesto al podio.",
   "semilla": 361566,
   "participantes": [
     {
@@ -218,13 +218,13 @@
       "d7": "jugo"
     },
     "basket": {
-      "d1": "oro",
-      "d2": "bronce",
+      "d1": "plata",
+      "d2": "jugo",
       "d3": "jugo",
-      "d4": "plata",
+      "d4": "bronce",
       "d5": "jugo",
       "d6": "jugo",
-      "d7": "jugo"
+      "d7": "oro"
     }
   },
   "bonus": {},
@@ -246,12 +246,12 @@
       "texto": "Terminó 🎯 Dardos. 1º Marea Alta · 2º Las Focas Bravas · el resto suma sus 3 por jugar."
     },
     {
-      "ts": "2026-09-27T03:38:28.288Z",
-      "texto": "Terminó 🏀 21 de básket. 1º Las Focas Bravas (19) · 2º Marea Alta (18) · 3º Lobos de Mar (16)"
+      "ts": "2026-09-27T03:40:09.511Z",
+      "texto": "Terminó 🏀 21 de básket. ¡Ganaron Las Gaviotas con 22! 2º Las Focas Bravas (19) · 3º Marea Alta (18)"
     },
     {
-      "ts": "2026-09-27T03:38:28.289Z",
-      "texto": "Números finales del 21, para desempates: Focas 19 · Marea Alta 18 · Lobos 16 · Dinamita 15 · Gaviotas 12 (22 −10) · Sanguches 11 · Iceberg 4"
+      "ts": "2026-09-27T03:40:09.511Z",
+      "texto": "Números del 21: Gaviotas 22 · Focas 19 · Marea Alta 18 · Lobos 16 · Dinamita 15 · Sanguches 11 · Iceberg 4"
     }
   ]
 }
