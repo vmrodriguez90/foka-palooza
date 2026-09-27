@@ -9,12 +9,10 @@ Landing del cumpleaños. **Miramar, Buenos Aires · Viernes 25, sábado 26 y dom
 | **Domingo 27** 🌊 | Cierre: playa, mates y posible olita. | El Náutico Miramar |
 
 ```
-index.html             → la landing (cronograma, kermesse, RSVP)
+index.html             → la landing: los tres días, la kermesse y cómo terminó
 torneo.html            → el torneo 2026, con el resultado escrito adentro
-admin.html             → la consola para manejar el torneo (con PIN)
-assets/foka.css        → estilos compartidos por las tres páginas
-assets/config.js       → la URL del Apps Script (la usa admin.html)
-assets/torneo-core.js  → sorteo, puntajes y tabla (lo usan las 3 páginas y los tests)
+assets/foka.css        → estilos compartidos por las dos páginas
+assets/torneo-core.js  → sorteo, puntajes y tabla (los usan torneo.html y los tests)
 assets/og.png          → imagen de preview para WhatsApp (1200×630)
 assets/grupo.png       → foto de perfil del grupo de WhatsApp (1000×1000)
 assets/favicon.svg     → la foca
@@ -40,18 +38,12 @@ Toma 5 minutos y no requiere servidor ni pagar nada.
    - *Ejecutar como*: **Yo**
    - *Quién tiene acceso*: **Cualquier usuario** ← importante, si no el formulario da error
 6. **Implementar** y copiá la **URL de la aplicación web** (termina en `/exec`).
-7. Abrí [`assets/config.js`](assets/config.js) y pegá la URL ahí. Es el **único** lugar donde va:
-   las tres páginas la leen de ese archivo.
+7. Pegá la URL donde la vaya a usar quien la necesite.
 
-```js
-window.FOKA_CONFIG = window.FOKA_CONFIG || {
-  endpoint: 'https://script.google.com/macros/s/AKfy..../exec'
-};
-```
-
-8. Para que ande la consola del torneo, poné el PIN (ver [sección 3](#3-el-torneo-la-foka-kermesse)).
-
-Listo. Cada confirmación cae como una fila en la planilla, en vivo.
+> ℹ️ **Hoy nada del sitio llama a este endpoint.** Los formularios de
+> confirmación y la consola del torneo se borraron cuando terminó el Foka
+> Palooza 2026. El script y la planilla siguen acá porque guardan las
+> confirmaciones de esa edición y porque sirven de base para la próxima.
 
 **Probarlo sin llenar el formulario:** abrí en el navegador
 `https://script.google.com/macros/s/..../exec?tipo=lineup&whatsapp=5491155555555`
@@ -85,13 +77,8 @@ el torneo). El mensaje precargado sale de `mensajeLineup()` y el de las confirma
 `node tools/test-links.js`.
 
 Hoja **`Torneo`**: una sola celda con todo el estado de la kermesse en JSON. No se
-edita a mano (lo escribe `admin.html`); ver la sección 3.
+edita a mano; la escribía la consola del torneo, que ya no existe.
 
-> ℹ️ **La edición 2026 ya terminó.** Su resultado dejó de bajarse por red y quedó
-> escrito dentro de `torneo.html`, en la constante `TORNEO`: la página abre con
-> todo dibujado, sin fetch, sin esperas y sin depender de la planilla. La consola
-> sigue funcionando para la próxima edición, pero lo que publique no se va a ver
-> hasta volver a conectar `torneo.html` a la planilla.
 
 > ⚠️ Si cambiás el **orden** de las columnas, hay que actualizar `COLUMNAS` en
 > `Codigo.gs` (y el índice de la columna `Personas` que usa `estadisticas()`).
@@ -164,19 +151,18 @@ Arrastrá la carpeta a [app.netlify.com/drop](https://app.netlify.com/drop). Sal
 ## 2 bis. El grupo de WhatsApp
 
 Las novedades del finde salen por el grupo **Foka Palooza 2026**. El link de
-invitación está escrito en **cuatro** lugares (no hay forma de compartir una
+invitación está escrito en **tres** lugares (no hay forma de compartir una
 constante entre el HTML, el JS y el Apps Script):
 
 | Dónde | Para qué |
 |---|---|
-| `assets/config.js` | la fuente de verdad; de ahí sale el `.ics` |
-| `index.html` | el botón de la sección *Novedades del finde* y el del pie |
+| `index.html` | el botón de *Gracias por venir* y el del pie |
 | `torneo.html` | el botón abajo de la bitácora y el del pie |
 | `apps-script/Codigo.gs` (`URL_GRUPO`) | los mensajes de WhatsApp que arma la planilla |
 
 Si regenerás el link (WhatsApp deja resetearlo desde *Info del grupo →
 Invitar por link → Restablecer*), cambialo en los cuatro.
-**`node tools/test-links.js` compara las cuatro copias y avisa si alguna
+**`node tools/test-links.js` compara las tres copias y avisa si alguna
 quedó distinta**, así que no hace falta acordarse: correlo y listo.
 
 > ⚠️ El link está en una página pública: cualquiera que entre a
@@ -200,81 +186,45 @@ node tools/render-grupo.js /tmp/previa     # además, cómo se ve a 48/64/128/24
 
 ## 3. El torneo (La Foka Kermesse)
 
-El sábado se juega un torneo **por parejas**: se sortean entre los que confirmaron,
-se juegan cinco pruebas y la pareja con más puntos se lleva el premio.
+La edición 2026 **ya se jugó y está cerrada**. Catorce personas, siete parejas
+sorteadas, cinco pruebas. Campeonas: **Las Focas Bravas** (Juan Pablo + Seba
+Menendez) con 36 puntos.
 
-- **[`torneo.html`](torneo.html)** — pública. Tabla de posiciones, parejas, pruebas y
-  bitácora. Se refresca sola cada 25 segundos; no hace falta que nadie recargue nada.
-- **[`admin.html`](admin.html)** — privada (PIN). Desde ahí se arma todo.
+El resultado completo —tabla, parejas, pruebas, crónica y bitácora— está en
+[`torneo.html`](torneo.html), escrito adentro de la página en la constante
+`TORNEO`. No se baja por red: la página abre con todo dibujado, sin fetch y sin
+depender de nada. Editar esa constante es editar el torneo.
 
-### Poner el PIN (una vez)
+### Cómo se jugó
 
-El PIN **no está en el repositorio**: vive en las propiedades del proyecto de Apps Script.
+| # | Prueba | Formato | Ganador |
+|---|---|---|---|
+| 1 | 🍾 Tiro a las botellas | 10 dardos y 60 s por pareja, tirando alternado | Lobos de Mar |
+| 2 | 🎯 Dardos | La escalera 20→15, 2 minutos por pareja | Marea Alta |
+| 3 | 🏀 21 de básket | Tablero 1, limpio 2, se planta cuando quiere | Las Gaviotas (22) |
+| 4 | ⛳ Mini golf | 2 hoyos, golpes alternados, tope de 6, un mulligan | Las Focas Bravas (2 golpes) |
+| 5 | 🏎️ Carrera de autos | Vuelta contrarreloj con el mismo auto + final | Dúo Dinamita (40 s) |
 
-- **Opción A (recomendada):** en el editor de Apps Script, ⚙️ **Configuración del
-  proyecto → Propiedades del script → Agregar propiedad**:
-  `PIN_TORNEO` = el PIN que quieras.
-- **Opción B:** escribilo dentro de `configurarPin()` en `Codigo.gs`, ejecutá la
-  función una vez desde el editor y después borralo del código.
+Había una sexta prueba secreta —una trivia que valía doble— que no llegó a
+jugarse y salió del torneo.
 
-Para chequear que quedó puesto, ejecutá `hayPin()` y mirá el registro. Si no hay PIN,
-`admin.html` no deja entrar a nadie (y avisa por qué).
+**Puntaje:** 🥇 10 · 🥈 7 · 🥉 5 · y 3 por jugar. Los empates se resuelven por
+más oros, después platas, después bronces; si queda un empate en el primer
+puesto, muerte súbita al mini hoop.
 
-> El PIN cuida que no te cambien la tabla desde afuera, nada más. La página del torneo
-> es pública a propósito: cualquiera con el link ve las parejas y los puntos. Lo que
-> **no** sale nunca de la planilla son los teléfonos: el estado del torneo guarda
-> nombres y nada más.
+Las reglas completas de cada prueba están en la propia página, en *Las reglas*.
 
-### El puntaje
+### El sorteo
 
-| Puesto en la prueba | Puntos |
-|---|---|
-| 🥇 1º | 10 |
-| 🥈 2º | 7 |
-| 🥉 3º | 5 |
-| 🎽 Jugó y perdió | 3 |
+Las parejas salieron de `sortearParejas()`, en
+[`assets/torneo-core.js`](assets/torneo-core.js), con la **semilla 361566**
+anotada en la bitácora: con ese número el sorteo se repite idéntico. La función
+respeta las parejas marcadas como fijas y, si sobra alguien, arma un trío en vez
+de dejarlo afuera.
 
-Empate: define quién ganó más pruebas (más oros, después más platas, después más
-bronces). Si siguen iguales, comparten el puesto. El puntaje se cambia en un solo
-lugar: `MEDALLAS`, arriba de [`assets/torneo-core.js`](assets/torneo-core.js).
-
-### Cómo se usa el día del evento
-
-Todo desde el teléfono, en `fokapalooza.ar/admin.html`:
-
-1. **Jugadores** → *Traer confirmados de la planilla* trae a todos los que dijeron que sí.
-   Los que marcaron que no juegan la kermesse entran **destildados**, para que los veas.
-   A los que anotaste por fuera los sumás a mano (un nombre por renglón).
-2. **Parejas** → *Sortear parejas*. Si sobra uno, se arma un trío: nadie queda afuera.
-   - Podés marcar una pareja como **fija** y volver a sortear: esa queda como está y se
-     mezclan las demás.
-   - Cada sorteo usa una **semilla** que queda anotada. Si alguien grita "¡trampa!",
-     con esa semilla se repite el mismo sorteo y se demuestra que salió así.
-   - El nombre de cada pareja se puede editar (salen con nombres de fantasía).
-3. **Pruebas y puntos** → poné la prueba en *Jugando* cuando arranque y cargá el
-   puesto de cada pareja tocando 🥇/🥈/🥉/🎽. La tabla se recalcula sola.
-4. **Bitácora** → el minuto a minuto, por si querés contar cómo viene.
-5. **Publicar 🦭** → recién ahí se sube todo. Hasta que no toques ese botón, nadie ve
-   los cambios.
-
-**Sin señal:** todo lo que tocás queda guardado en el teléfono. Si se
-corta internet, seguís cargando igual y publicás cuando vuelva. Si publicaste desde
-otro teléfono en el medio, la consola te avisa antes de pisar nada.
-
-**La intriga:** la quinta prueba está marcada como *secreta* y en la web pública sale
-tapada ("Prueba secreta", con el nombre borroneado) hasta que la ponés en *Jugando* o
-*Jugada*. Recién ahí se revela.
-
-**Al final:** poné el torneo en *Terminado* y la página muestra el cartel de campeones
-con la pareja ganadora.
-
-### Si algo sale mal
-
-- **Datos → Bajar copia (JSON)** te guarda todo el torneo en un archivo.
-- **Datos → Pegar un JSON** lo vuelve a cargar (sirve para pasar de un teléfono a otro).
-- **Datos → Traer del servidor** descarta lo local y trae lo último publicado.
-- En la planilla, la hoja `Torneo` tiene el mismo JSON en una celda. Si se rompe algo,
-  se puede vaciar esa celda y empezar de cero.
+> ℹ️ **Para una próxima edición** hace falta volver a armar una consola: la que
+> había (`admin.html`) se borró junto con la carga por red, y el backend de
+> `Codigo.gs` quedó sin uso. Todo está en el historial de git.
 
 ---
 
@@ -319,8 +269,7 @@ node tools/render-og.js   # edita tools/og-source.html y vuelve a correr esto
 
 | Qué | Dónde |
 |---|---|
-| URL del Apps Script | `assets/config.js` |
-| Link del grupo de WhatsApp | `assets/config.js`, `index.html`, `torneo.html` y `URL_GRUPO` en `Codigo.gs` (ver sección 2 bis) |
+| Link del grupo de WhatsApp | `index.html`, `torneo.html` y `URL_GRUPO` en `Codigo.gs` (ver sección 2 bis) |
 | Hacia dónde corre el contador | `arranqueISO` en el bloque `const FOKA` de `index.html` |
 | Horarios y lugares de cada día (botón "Agendar") | `event.days` en `index.html` |
 | Mostrar/ocultar el contador de confirmados | `showStats` en `index.html` |
@@ -341,11 +290,11 @@ npm test                        # todo junto
 npm run test:rapido             # solo los que no necesitan navegador
 
 node tools/test-whatsapp.js     # normalización de números
-node tools/test-links.js        # los mensajes de WhatsApp y las 4 copias del link del grupo
+node tools/test-links.js        # los mensajes de WhatsApp y las 3 copias del link del grupo
 node tools/test-torneo.js       # sorteo, tabla de posiciones y desempates
 node tools/test-apps-script.js  # el backend entero, contra una planilla de mentira
 node tools/test-forms.js        # los formularios de index.html, con endpoint simulado
-node tools/test-torneo-web.js   # torneo.html y admin.html, con endpoint simulado
+node tools/test-torneo-web.js   # que torneo.html se dibuje entero sin red
 node tools/audit-mobile.js      # desborde y tamaños táctiles en 320–768px
 node tools/page-shot.js carpeta # capturas de index.html en desktop y mobile
 node tools/render-grupo.js      # la foto del grupo de WhatsApp

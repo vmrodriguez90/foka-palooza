@@ -2,9 +2,9 @@
    LA FOKA KERMESSE — lógica del torneo
    ------------------------------------------------------------------
    Funciones puras (no tocan el DOM ni la red) que comparten la página
-   pública (torneo.html), la consola del admin (admin.html) y los tests
-   (tools/test-torneo.js). Todo el estado del torneo es un solo objeto
-   JSON que se guarda en la hoja "Torneo" de la planilla.
+   del torneo (torneo.html) y los tests (tools/test-torneo.js). Todo el
+   estado del torneo es un solo objeto JSON; el de 2026 quedó escrito
+   dentro de torneo.html, en la constante TORNEO.
 
    Forma del estado:
    {

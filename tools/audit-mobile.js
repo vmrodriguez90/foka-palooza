@@ -10,7 +10,7 @@ const CSS = `
 @font-face{font-family:'Space Grotesk';src:url('${f('SpaceGrotesk.ttf')}') format('truetype');font-weight:400 700;font-display:block}`;
 
 const ANCHOS = [320, 360, 390, 414, 768];
-const PAGINAS = process.argv.slice(2).length ? process.argv.slice(2) : ['index.html', 'torneo.html', 'admin.html'];
+const PAGINAS = process.argv.slice(2).length ? process.argv.slice(2) : ['index.html', 'torneo.html'];
 
 (async () => {
   const b = await chromium.launch();

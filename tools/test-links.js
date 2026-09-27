@@ -5,17 +5,17 @@ const gs = fs.readFileSync(require('path').resolve(__dirname, '..', 'apps-script
 for (const re of [/var URL_SITIO = .*?;/, /var URL_GRUPO = .*?;/, /function linkWhatsapp[\s\S]*?\n}/, /function mensajeGracias[\s\S]*?\n}/, /function mensajeLineup[\s\S]*?\n}/]) {
   eval(gs.match(re)[0]);
 }
-/* El link del grupo está escrito en cuatro archivos (no hay forma de
-   compartirlo entre el HTML, el JS y el Apps Script). Que no se
-   desincronicen es justamente lo que chequeamos acá. */
+/* El link del grupo está escrito en tres archivos (no hay forma de
+   compartirlo entre el HTML y el Apps Script). Que no se desincronicen
+   es justamente lo que chequeamos acá. */
 {
   const raiz = require('path').resolve(__dirname, '..');
   const leer = f => fs.readFileSync(require('path').join(raiz, f), 'utf8');
   const sacar = t => (t.match(/https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]+/g) || []);
-  const esperado = sacar(leer('assets/config.js'))[0];
+  const esperado = sacar(leer('index.html'))[0];
   console.log('\nLink del grupo: ' + (esperado || 'NO CONFIGURADO'));
   let mal = 0;
-  for (const archivo of ['assets/config.js', 'index.html', 'torneo.html', 'apps-script/Codigo.gs']) {
+  for (const archivo of ['index.html', 'torneo.html', 'apps-script/Codigo.gs']) {
     const encontrados = sacar(leer(archivo));
     const coincide = encontrados.length > 0 && encontrados.every(u => u === esperado);
     console.log('  ' + (coincide ? '✓' : '✗') + ' ' + archivo +

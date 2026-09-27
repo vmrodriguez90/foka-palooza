@@ -40,10 +40,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 
-<!-- Tokens, botones, formularios y footer compartidos con torneo.html y admin.html -->
+<!-- Tokens, botones, formularios y footer compartidos con torneo.html -->
 <link rel="stylesheet" href="assets/foka.css">
-<!-- La URL del Apps Script, en un solo lugar para las tres páginas -->
-<script src="assets/config.js"></script>
 
 <style>
 /* ============================ HERO ============================ */
@@ -613,9 +611,6 @@
    CONFIG — lo único que tenés que tocar
    ================================================================== */
 const FOKA = {
-  /* Grupo de WhatsApp con las novedades (vive en assets/config.js) */
-  grupo: (window.FOKA_CONFIG || {}).grupo || '',
-
   /* Lo usa el botón de compartir */
   event: {
     title: 'FOKA PALOOZA 2026',
