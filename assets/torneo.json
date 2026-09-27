@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "actualizado": "2026-09-27T03:11:10.431Z",
+  "actualizado": "2026-09-27T03:12:00.929Z",
   "fase": "jugando",
-  "mensaje": "Terminó la escalera de dardos. Marea Alta 🌀 se llevó la prueba y pasó a liderar el torneo. El resto no sumó: solo dos parejas puntuaron.",
+  "mensaje": "Terminó la escalera de dardos. Marea Alta 🌀 se llevó la prueba y pasó a liderar, pero Lobos de Mar le respira en la nuca.",
   "semilla": 361566,
   "participantes": [
     {
@@ -209,8 +209,13 @@
       "d7": "jugo"
     },
     "dardos": {
+      "d4": "oro",
       "d1": "plata",
-      "d4": "oro"
+      "d2": "jugo",
+      "d6": "jugo",
+      "d3": "jugo",
+      "d7": "jugo",
+      "d5": "jugo"
     }
   },
   "bonus": {},
@@ -229,7 +234,7 @@
     },
     {
       "ts": "2026-09-27T03:11:10.431Z",
-      "texto": "Terminó 🎯 Dardos. 1º Marea Alta · 2º Las Focas Bravas. El resto no llegó a puntuar."
+      "texto": "Terminó 🎯 Dardos. 1º Marea Alta · 2º Las Focas Bravas · el resto suma sus 3 por jugar."
     }
   ]
 }
