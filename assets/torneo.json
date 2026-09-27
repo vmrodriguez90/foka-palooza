@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "actualizado": "2026-09-27T02:12:33.393Z",
+  "actualizado": "2026-09-27T02:49:02.057Z",
   "fase": "jugando",
-  "mensaje": "Arrancó el tiro a las botellas 🍾 — 10 dardos y 60 segundos por pareja, tirando alternado. Las dos del fondo valen doble.",
+  "mensaje": "Terminó el tiro a las botellas. Ganaron los Lobos de Mar 🌊 — y el tercer puesto quedó compartido entre Las Focas Bravas y Dúo Dinamita.",
   "semilla": 361566,
   "participantes": [
     {
@@ -153,7 +153,7 @@
       "id": "botellas",
       "nombre": "Tiro a las botellas",
       "emoji": "🍾",
-      "estado": "jugando",
+      "estado": "jugada",
       "secreta": false,
       "detalle": "Con las Nerf. Arranca la kermesse."
     },
@@ -198,7 +198,17 @@
       "detalle": "Se revela en La Foka House. Vale doble."
     }
   ],
-  "resultados": {},
+  "resultados": {
+    "botellas": {
+      "d1": "bronce",
+      "d2": "oro",
+      "d3": "jugo",
+      "d4": "plata",
+      "d5": "jugo",
+      "d6": "bronce",
+      "d7": "jugo"
+    }
+  },
   "bonus": {},
   "bitacora": [
     {
@@ -208,6 +218,10 @@
     {
       "ts": "2026-09-27T02:12:33.393Z",
       "texto": "Arranca la prueba 1: 🍾 Tiro a las botellas"
+    },
+    {
+      "ts": "2026-09-27T02:49:02.057Z",
+      "texto": "Terminó 🍾 Tiro a las botellas. 1º Lobos de Mar · 2º Marea Alta · 3º Las Focas Bravas y Dúo Dinamita (empate)"
     }
   ]
 }
