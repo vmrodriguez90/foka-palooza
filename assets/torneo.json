@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "actualizado": "2026-09-27T15:47:15.072Z",
-  "fase": "jugando",
-  "mensaje": "🌧️ Hoy domingo el plan cambió por el clima: en vez de la playa, sanguches en La Foka House. Abajo, cómo fue la kermesse.",
+  "actualizado": "2026-09-27T15:48:40.204Z",
+  "fase": "terminado",
+  "mensaje": "🏆 Campeonas: Las Focas Bravas. Terminó La Foka Kermesse 2026 con cinco pruebas — la trivia quedó sin jugar, así que la tabla se cierra como estaba.",
   "semilla": 361566,
   "participantes": [
     {
@@ -188,14 +188,6 @@
       "estado": "jugada",
       "secreta": false,
       "detalle": "A radio control. Contrarreloj y final."
-    },
-    {
-      "id": "sorpresa",
-      "nombre": "Prueba sorpresa",
-      "emoji": "❓",
-      "estado": "pendiente",
-      "secreta": true,
-      "detalle": "Se revela en La Foka House. Vale doble."
     }
   ],
   "resultados": {
@@ -271,6 +263,11 @@
       "emoji": "🏎️",
       "titulo": "5 · Carrera de autos: tres segundos",
       "texto": "Dúo Dinamita 40s, Las Focas Bravas 42s, Marea Alta 43s: el podio entero entró en tres segundos. Atrás quedó un abismo, con tiempos de hasta 4:50. Las Focas no ganaron pero volvieron a sumar, y se fueron a la última prueba como líderes."
+    },
+    {
+      "emoji": "🏆",
+      "titulo": "Final: campeonas Las Focas Bravas",
+      "texto": "La sexta prueba, la trivia sorpresa que valía doble, no llegó a jugarse: la noche se fue por otro lado. Así que el torneo cierra con las cinco pruebas y con Las Focas Bravas arriba, que fue lo más justo que podía pasar: Juan Pablo y Seba subieron al podio en las cinco. Bronce, plata, plata, oro y plata. Nadie más puntuó fuerte en todas."
     }
   ],
   "bitacora": [
@@ -317,6 +314,14 @@
     {
       "ts": "2026-09-27T15:46:40.551Z",
       "texto": "Domingo: el clima no dio para El Náutico. Sanguches en La Foka House 🥪"
+    },
+    {
+      "ts": "2026-09-27T15:48:40.204Z",
+      "texto": "La trivia no se jugó. El torneo se cierra con 5 pruebas."
+    },
+    {
+      "ts": "2026-09-27T15:48:40.204Z",
+      "texto": "🏆 Campeonas: Las Focas Bravas (Juan Pablo + Seba Menendez) con 36 puntos. Se llevan los autos a radio control."
     }
   ]
 }
