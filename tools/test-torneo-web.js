@@ -87,91 +87,38 @@ async function nuevaPagina(browser, guardadas) {
   const b = await chromium.launch();
 
   /* ============================ torneo.html ============================ */
-  console.log('\ntorneo.html (la página pública)');
+  /* El torneo terminado está escrito dentro de la página, así que tiene
+     que dibujarse entero sin red: ni planilla, ni archivo, ni nada. */
+  console.log('\ntorneo.html (el torneo cerrado, sin red)');
   {
-    const p = await nuevaPagina(b);
+    const p = await b.newPage({ viewport: { width: 1280, height: 1000 } });
+    p.on('pageerror', e => { console.log('  ✗ ERROR JS: ' + e.message); fallos++; });
+    const pedidos = [];
+    await p.route('**/*', route => {
+      const u = route.request().url();
+      if (!u.startsWith(BASE)) { pedidos.push(u); return route.abort(); }
+      route.continue();
+    });
     await p.goto(archivo('torneo.html'));
-    await p.waitForFunction(() => document.querySelectorAll('#posiciones .fila').length > 0);
+    await p.waitForSelector('#posiciones .fila');
 
-    ok((await p.textContent('#d-parejas')) === '2', 'cuenta 2 parejas');
-    ok((await p.textContent('#d-jugadas')) === '1/3', 'cuenta 1 de 3 pruebas jugadas', await p.textContent('#d-jugadas'));
-    ok((await p.textContent('#d-jugadores')) === '4', 'cuenta 4 jugadores');
+    ok(!pedidos.some(u => /torneo\.json|script\.google/.test(u)), 'no pide el torneo por red', pedidos.length);
+    ok((await p.locator('#posiciones .fila').count()) === 7, 'dibuja los 7 equipos');
+    ok((await p.textContent('#d-parejas')) === '7', 'cuenta 7 parejas');
+    ok((await p.textContent('#d-jugadores')) === '14', 'cuenta 14 jugadores');
+    ok((await p.textContent('#d-jugadas')) === '5/5', 'las 5 pruebas jugadas', await p.textContent('#d-jugadas'));
+
+    ok(await p.isVisible('#campeon'), 'muestra el cartel de campeones');
+    ok(/Focas Bravas/.test(await p.textContent('#campeon-nombre')), 'con Las Focas Bravas');
+    ok(/36/.test(await p.textContent('#campeon-gente')), 'y sus 36 puntos');
 
     const primera = await p.textContent('#posiciones .fila:first-child');
-    ok(/Las Focas/.test(primera), 'puntea Las Focas');
-    ok(/10/.test(primera), 'le suma los 10 puntos del oro');
+    ok(/Focas Bravas/.test(primera) && /36/.test(primera), 'encabezan la tabla');
 
-    ok(await p.isVisible('#aviso'), 'muestra el mensaje del admin');
-    ok(/mini golf/i.test(await p.textContent('#aviso-texto')), 'con el texto que mandó');
-
-    const pruebas = await p.textContent('#pruebas');
-    ok(/Prueba secreta/.test(pruebas), 'la prueba secreta queda tapada');
-    ok(!/Prueba sorpresa/.test(pruebas), 'no se filtra el nombre real de la secreta');
-    ok(/Carrera de autos/.test(pruebas), 'las otras se ven con su nombre');
-    ok((await p.locator('.prueba-fila.jugando').count()) === 1, 'marca la que se está jugando');
-
-    ok((await p.locator('#bitacora li').count()) === 1, 'la bitácora tiene una línea');
-    ok(!(await p.isVisible('#campeon')), 'todavía no hay campeones');
-    await p.close();
-  }
-
-  /* ---- sin torneo cargado: no tiene que romper ---- */
-  console.log('\ntorneo.html sin datos');
-  {
-    const p = await b.newPage();
-    p.on('pageerror', e => { console.log('  ✗ ERROR JS: ' + e.message); fallos++; });
-    await p.addInitScript(ep => { window.FOKA_CONFIG = { endpoint: ep }; }, ENDPOINT);
-    await p.route(ENDPOINT + '*', route => route.fulfill({
-      status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true, torneo: null })
-    }));
-    /* El archivo del repo tiene el torneo de verdad, así que acá lo
-       vaciamos: esta prueba es la de "no hay nada en ningún lado". */
-    await p.route('**/assets/torneo.json*', route => route.fulfill({
-      status: 200, contentType: 'application/json',
-      body: JSON.stringify({ participantes: [], parejas: [], bitacora: [] })
-    }));
-    await p.goto(archivo('torneo.html'));
-    await p.waitForFunction(() => !document.getElementById('vacio-tabla').classList.contains('oculto'));
-    ok(await p.isVisible('#vacio-tabla'), 'avisa que todavía no hay parejas');
-    ok((await p.textContent('#d-parejas')) === '0', 'cuenta 0 parejas');
-    await p.close();
-  }
-
-  /* ---- sin planilla: el torneo sale del archivo del repositorio ---- */
-  console.log('\ntorneo.html leyendo assets/torneo.json (sin planilla)');
-  {
-    const p = await b.newPage();
-    p.on('pageerror', e => { console.log('  ✗ ERROR JS: ' + e.message); fallos++; });
-    await p.addInitScript(ep => { window.FOKA_CONFIG = { endpoint: ep }; }, ENDPOINT);
-    await p.route(ENDPOINT + '*', route => route.abort());          // la planilla no existe
-    await p.route('**/assets/torneo.json*', route => route.fulfill({
-      status: 200, contentType: 'application/json',
-      body: JSON.stringify({ ...ESTADO, mensaje: 'Cargado desde el repositorio' })
-    }));
-    await p.goto(archivo('torneo.html'));
-    await p.waitForFunction(() => document.querySelectorAll('#posiciones .fila').length > 0);
-    ok((await p.textContent('#d-parejas')) === '2', 'muestra las parejas del archivo');
-    ok(/repositorio/.test(await p.textContent('#aviso-texto')), 'y el mensaje que trae');
-    await p.close();
-  }
-
-  /* ---- si los dos responden, gana el más nuevo ---- */
-  console.log('\ntorneo.html con planilla y archivo a la vez');
-  {
-    const p = await b.newPage();
-    p.on('pageerror', e => { console.log('  ✗ ERROR JS: ' + e.message); fallos++; });
-    await p.addInitScript(ep => { window.FOKA_CONFIG = { endpoint: ep }; }, ENDPOINT);
-    await p.route(ENDPOINT + '*', route => route.fulfill({
-      status: 200, contentType: 'application/json',
-      body: JSON.stringify({ ok: true, torneo: { ...ESTADO, mensaje: 'De la planilla, vieja', actualizado: '2026-09-26T18:00:00.000Z' } })
-    }));
-    await p.route('**/assets/torneo.json*', route => route.fulfill({
-      status: 200, contentType: 'application/json',
-      body: JSON.stringify({ ...ESTADO, mensaje: 'Del archivo, más nueva', actualizado: '2026-09-26T21:00:00.000Z' })
-    }));
-    await p.goto(archivo('torneo.html'));
-    await p.waitForSelector('#aviso.show');
-    ok(/más nueva/.test(await p.textContent('#aviso-texto')), 'gana la versión con fecha más nueva');
+    ok((await p.locator('.capitulo').count()) === 6, 'la crónica tiene sus 6 capítulos');
+    ok((await p.locator('.prueba-fila').count()) === 5, 'quedan 5 pruebas, sin la sorpresa');
+    ok(!/sorpresa|secreta/i.test(await p.textContent('#pruebas')), 'la trivia no jugada no aparece');
+    ok(/Torneo cerrado/.test(await p.textContent('#actualizado')), 'avisa que está cerrado');
     await p.close();
   }
 

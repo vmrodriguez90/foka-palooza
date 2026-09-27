@@ -10,10 +10,10 @@ Landing del cumpleaños. **Miramar, Buenos Aires · Viernes 25, sábado 26 y dom
 
 ```
 index.html             → la landing (cronograma, kermesse, RSVP)
-torneo.html            → la tabla del torneo, en vivo y pública
+torneo.html            → el torneo 2026, con el resultado escrito adentro
 admin.html             → la consola para manejar el torneo (con PIN)
 assets/foka.css        → estilos compartidos por las tres páginas
-assets/config.js       → la URL del Apps Script, en un solo lugar
+assets/config.js       → la URL del Apps Script (la usa admin.html)
 assets/torneo-core.js  → sorteo, puntajes y tabla (lo usan las 3 páginas y los tests)
 assets/og.png          → imagen de preview para WhatsApp (1200×630)
 assets/grupo.png       → foto de perfil del grupo de WhatsApp (1000×1000)
@@ -86,6 +86,12 @@ el torneo). El mensaje precargado sale de `mensajeLineup()` y el de las confirma
 
 Hoja **`Torneo`**: una sola celda con todo el estado de la kermesse en JSON. No se
 edita a mano (lo escribe `admin.html`); ver la sección 3.
+
+> ℹ️ **La edición 2026 ya terminó.** Su resultado dejó de bajarse por red y quedó
+> escrito dentro de `torneo.html`, en la constante `TORNEO`: la página abre con
+> todo dibujado, sin fetch, sin esperas y sin depender de la planilla. La consola
+> sigue funcionando para la próxima edición, pero lo que publique no se va a ver
+> hasta volver a conectar `torneo.html` a la planilla.
 
 > ⚠️ Si cambiás el **orden** de las columnas, hay que actualizar `COLUMNAS` en
 > `Codigo.gs` (y el índice de la columna `Personas` que usa `estadisticas()`).
