@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "actualizado": "2026-09-27T04:06:08.641Z",
+  "actualizado": "2026-09-27T04:43:21.880Z",
   "fase": "jugando",
-  "mensaje": "Terminó el mini golf y cambió el líder: Las Focas Bravas 🦭 lo ganaron con 2 golpes y pasaron a la punta. Marea Alta se hundió con 12 y perdió el primer puesto.",
+  "mensaje": "Terminó la carrera. Ganó Dúo Dinamita 🧨 por dos segundos, pero Las Focas Bravas 🦭 siguen punteras. Queda una sola prueba y vale doble: todo se define ahí.",
   "semilla": 361566,
   "participantes": [
     {
@@ -185,7 +185,7 @@
       "id": "autos",
       "nombre": "Carrera de autos",
       "emoji": "🏎️",
-      "estado": "pendiente",
+      "estado": "jugada",
       "secreta": false,
       "detalle": "A radio control. Contrarreloj y final."
     },
@@ -234,6 +234,15 @@
       "d5": "jugo",
       "d6": "bronce",
       "d7": "plata"
+    },
+    "autos": {
+      "d1": "plata",
+      "d2": "jugo",
+      "d3": "jugo",
+      "d4": "bronce",
+      "d5": "jugo",
+      "d6": "oro",
+      "d7": "jugo"
     }
   },
   "bonus": {},
@@ -269,6 +278,14 @@
     {
       "ts": "2026-09-27T04:06:08.641Z",
       "texto": "Tarjetas del golf: Focas 2 · Gaviotas 6 · Dinamita 7 · Sanguches 8 · Lobos 9 · Iceberg 12 · Marea Alta 12"
+    },
+    {
+      "ts": "2026-09-27T04:43:21.880Z",
+      "texto": "Terminó 🏎️ Carrera de autos. 1º Dúo Dinamita (40s) · 2º Las Focas Bravas (42s) · 3º Marea Alta (43s)"
+    },
+    {
+      "ts": "2026-09-27T04:43:21.880Z",
+      "texto": "Tiempos: Dinamita 40s · Focas 42s · Marea Alta 43s · Lobos 48s · Gaviotas 1:17 · Sanguches 3:10 · Iceberg 4:50"
     }
   ]
 }
