@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "actualizado": "2026-09-27T03:12:00.929Z",
+  "actualizado": "2026-09-27T03:38:28.289Z",
   "fase": "jugando",
-  "mensaje": "Terminó la escalera de dardos. Marea Alta 🌀 se llevó la prueba y pasó a liderar, pero Lobos de Mar le respira en la nuca.",
+  "mensaje": "Terminó el 21 de básket. Las Focas Bravas 🦭 se quedaron a dos del 21 exacto y ganaron la prueba. Las Gaviotas se pasaron a 22 y se comieron los −10.",
   "semilla": 361566,
   "participantes": [
     {
@@ -169,7 +169,7 @@
       "id": "basket",
       "nombre": "21 de básket",
       "emoji": "🏀",
-      "estado": "pendiente",
+      "estado": "jugada",
       "secreta": false,
       "detalle": "Con mini hoop. Llegar a 21 exacto, sin pasarse."
     },
@@ -209,13 +209,22 @@
       "d7": "jugo"
     },
     "dardos": {
-      "d4": "oro",
       "d1": "plata",
       "d2": "jugo",
-      "d6": "jugo",
       "d3": "jugo",
-      "d7": "jugo",
-      "d5": "jugo"
+      "d4": "oro",
+      "d5": "jugo",
+      "d6": "jugo",
+      "d7": "jugo"
+    },
+    "basket": {
+      "d1": "oro",
+      "d2": "bronce",
+      "d3": "jugo",
+      "d4": "plata",
+      "d5": "jugo",
+      "d6": "jugo",
+      "d7": "jugo"
     }
   },
   "bonus": {},
@@ -235,6 +244,14 @@
     {
       "ts": "2026-09-27T03:11:10.431Z",
       "texto": "Terminó 🎯 Dardos. 1º Marea Alta · 2º Las Focas Bravas · el resto suma sus 3 por jugar."
+    },
+    {
+      "ts": "2026-09-27T03:38:28.288Z",
+      "texto": "Terminó 🏀 21 de básket. 1º Las Focas Bravas (19) · 2º Marea Alta (18) · 3º Lobos de Mar (16)"
+    },
+    {
+      "ts": "2026-09-27T03:38:28.289Z",
+      "texto": "Números finales del 21, para desempates: Focas 19 · Marea Alta 18 · Lobos 16 · Dinamita 15 · Gaviotas 12 (22 −10) · Sanguches 11 · Iceberg 4"
     }
   ]
 }
