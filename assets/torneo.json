@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "actualizado": "2026-09-27T01:52:37.257Z",
-  "fase": "sorteo",
-  "mensaje": "Parejas sorteadas: 7 equipos. Arrancamos con el tiro a las botellas 🍾",
+  "actualizado": "2026-09-27T02:12:33.393Z",
+  "fase": "jugando",
+  "mensaje": "Arrancó el tiro a las botellas 🍾 — 10 dardos y 60 segundos por pareja, tirando alternado. Las dos del fondo valen doble.",
   "semilla": 361566,
   "participantes": [
     {
@@ -153,7 +153,7 @@
       "id": "botellas",
       "nombre": "Tiro a las botellas",
       "emoji": "🍾",
-      "estado": "pendiente",
+      "estado": "jugando",
       "secreta": false,
       "detalle": "Con las Nerf. Arranca la kermesse."
     },
@@ -204,6 +204,10 @@
     {
       "ts": "2026-09-27T01:52:37.257Z",
       "texto": "Se sortearon las parejas: 7 equipos en juego 🎲 (semilla 361566)"
+    },
+    {
+      "ts": "2026-09-27T02:12:33.393Z",
+      "texto": "Arranca la prueba 1: 🍾 Tiro a las botellas"
     }
   ]
 }
