@@ -213,6 +213,22 @@ titulo('Resumen para el encabezado');
   ok(r.pruebasVisibles === 2, 'la prueba secreta no se cuenta hasta destaparla');
 }
 
+titulo('Crónica');
+{
+  const e = T.normalizar({
+    cronica: [
+      { emoji: '🍾', titulo: 'Prueba 1', texto: 'Ganó alguien.' },
+      { titulo: 'Sin emoji' },
+      { texto: 'Sin título, se cae' },
+      'basura'
+    ]
+  });
+  ok(e.cronica.length === 2, 'se queda con los capítulos que tienen título');
+  ok(e.cronica[1].emoji === '•', 'al que no trae emoji le pone uno');
+  ok(e.cronica[0].texto === 'Ganó alguien.', 'respeta el texto');
+  ok(T.estadoInicial().cronica.length === 0, 'el estado nuevo arranca sin crónica');
+}
+
 titulo('Bitácora');
 {
   let e = T.anotar(T.estadoInicial(), 'Arrancó el mini golf', '2026-09-26T16:00:00.000Z');

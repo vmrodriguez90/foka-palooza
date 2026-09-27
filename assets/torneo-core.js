@@ -17,6 +17,7 @@
      parejas:       [{ id, nombre, emoji, integrantes: [idParticipante], fija }],
      pruebas:       [{ id, nombre, emoji, estado, secreta, detalle }],
      resultados:    { idPrueba: { idPareja: 'oro'|'plata'|'bronce'|'jugo' } },
+     cronica:       [{ emoji, titulo, texto }],      // cómo fue cada prueba
      bonus:         { idPareja: number },          // puntos foka a dedo
      bitacora:      [{ ts, texto }]
    }
@@ -128,6 +129,7 @@
       pruebas: pruebasPorDefecto(),
       resultados: {},
       bonus: {},
+      cronica: [],
       bitacora: []
     };
   }
@@ -152,6 +154,7 @@
       pruebas: [],
       resultados: {},
       bonus: {},
+      cronica: [],
       bitacora: []
     };
 
@@ -239,6 +242,14 @@
         if (n) salida.bonus[did] = n;
       });
     }
+
+    /* --- crónica: el relato de cada prueba, en orden --- */
+    (Array.isArray(e.cronica) ? e.cronica : []).forEach(function (c) {
+      if (!esObjeto(c)) return;
+      var titulo = texto(c.titulo);
+      if (!titulo) return;
+      salida.cronica.push({ emoji: texto(c.emoji) || '•', titulo: titulo, texto: texto(c.texto) });
+    });
 
     /* --- bitácora (lo último arriba, máximo 60 entradas) --- */
     (Array.isArray(e.bitacora) ? e.bitacora : []).forEach(function (b) {

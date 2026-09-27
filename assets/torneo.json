@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "actualizado": "2026-09-27T04:43:21.880Z",
+  "actualizado": "2026-09-27T15:47:15.072Z",
   "fase": "jugando",
-  "mensaje": "Terminó la carrera. Ganó Dúo Dinamita 🧨 por dos segundos, pero Las Focas Bravas 🦭 siguen punteras. Queda una sola prueba y vale doble: todo se define ahí.",
+  "mensaje": "🌧️ Hoy domingo el plan cambió por el clima: en vez de la playa, sanguches en La Foka House. Abajo, cómo fue la kermesse.",
   "semilla": 361566,
   "participantes": [
     {
@@ -246,6 +246,33 @@
     }
   },
   "bonus": {},
+  "cronica": [
+    {
+      "emoji": "🍾",
+      "titulo": "1 · Tiro a las botellas: arranque parejo",
+      "texto": "Ganaron Lobos de Mar y el tercer puesto quedó compartido entre Las Focas Bravas y Dúo Dinamita, así que los dos se llevaron el bronce. Terminó con 7 puntos entre el primero y el último: nadie sacó ventaja."
+    },
+    {
+      "emoji": "🎯",
+      "titulo": "2 · Dardos: Marea Alta toma la punta",
+      "texto": "La escalera del 20 al 15 la ganó Marea Alta, con Las Focas Bravas segundas. Con eso Marea Alta pasó a liderar y empezó a marcar el ritmo del torneo."
+    },
+    {
+      "emoji": "🏀",
+      "titulo": "3 · 21 de básket: el batacazo de Las Gaviotas",
+      "texto": "Venían últimas, sin haber puntuado en nada, y se mandaron un 22 que nadie vio venir. Ganaron la prueba y saltaron de 6 a 16 puntos de una. El momento que dio vuelta la tarde."
+    },
+    {
+      "emoji": "⛳",
+      "titulo": "4 · Mini golf: la tarjeta perfecta",
+      "texto": "Las Focas Bravas embocaron los dos hoyos en dos golpes. La mejor tarjeta posible, la prueba ganada sin discusión y la punta del torneo. Marea Alta, en el mismo rato, firmó 12 —el tope— y perdió el primer puesto."
+    },
+    {
+      "emoji": "🏎️",
+      "titulo": "5 · Carrera de autos: tres segundos",
+      "texto": "Dúo Dinamita 40s, Las Focas Bravas 42s, Marea Alta 43s: el podio entero entró en tres segundos. Atrás quedó un abismo, con tiempos de hasta 4:50. Las Focas no ganaron pero volvieron a sumar, y se fueron a la última prueba como líderes."
+    }
+  ],
   "bitacora": [
     {
       "ts": "2026-09-27T01:52:37.257Z",
@@ -286,6 +313,10 @@
     {
       "ts": "2026-09-27T04:43:21.880Z",
       "texto": "Tiempos: Dinamita 40s · Focas 42s · Marea Alta 43s · Lobos 48s · Gaviotas 1:17 · Sanguches 3:10 · Iceberg 4:50"
+    },
+    {
+      "ts": "2026-09-27T15:46:40.551Z",
+      "texto": "Domingo: el clima no dio para El Náutico. Sanguches en La Foka House 🥪"
     }
   ]
 }

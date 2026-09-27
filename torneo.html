@@ -233,6 +233,21 @@
 .casa li{margin-bottom:.4rem}
 .casa li:last-child{margin-bottom:0}
 
+/* ============================ CRÓNICA ============================ */
+.cronica{display:grid;gap:.8rem;margin-top:clamp(1.5rem,4vw,2.2rem)}
+.capitulo{
+  display:flex;gap:1rem;align-items:flex-start;
+  border:2px solid var(--line);border-radius:var(--r);
+  background:rgba(11,60,73,.5);
+  padding:1.1rem 1.2rem 1.2rem;
+}
+.capitulo .pico{font-size:1.7rem;line-height:1;flex:none}
+.capitulo h3{
+  font-family:var(--display);text-transform:uppercase;
+  font-size:1.15rem;line-height:1.1;margin:0 0 .35rem;font-weight:400;color:var(--ice);
+}
+.capitulo p{margin:0;font-size:.95rem;color:var(--muted)}
+
 /* ============================ VARIOS ============================ */
 .vacio{
   border:2px dashed var(--line);border-radius:var(--r);
@@ -319,6 +334,12 @@
     <h2>Las <span style="color:var(--coral)">pruebas</span></h2>
     <p class="sub">Se juegan una atrás de la otra. La última no se cuenta hasta que se juega.</p>
     <div class="lista-pruebas" id="pruebas"></div>
+  </section>
+
+  <section class="bloque oculto" id="bloque-cronica">
+    <h2>Cómo <span style="color:var(--coral)">fue</span></h2>
+    <p class="sub">Prueba por prueba, lo que pasó en La Foka Kermesse.</p>
+    <div class="cronica" id="cronica"></div>
   </section>
 
   <section class="bloque" id="bloque-bitacora">
@@ -580,6 +601,22 @@ function pintarPruebas(e){
   }).join('');
 }
 
+function pintarCronica(e){
+  const caja = $('cronica');
+  const bloque = $('bloque-cronica');
+  if(!e.cronica.length){
+    bloque.classList.add('oculto');
+    return;
+  }
+  bloque.classList.remove('oculto');
+  caja.innerHTML = e.cronica.map(c =>
+    '<article class="capitulo">' +
+      '<span class="pico" aria-hidden="true">' + esc(c.emoji) + '</span>' +
+      '<div><h3>' + esc(c.titulo) + '</h3><p>' + esc(c.texto) + '</p></div>' +
+    '</article>'
+  ).join('');
+}
+
 function pintarBitacora(e){
   const ul = $('bitacora');
   const vacio = $('vacio-bitacora');
@@ -602,6 +639,7 @@ function pintar(e){
   pintarTabla(e, filas);
   pintarParejas(e);
   pintarPruebas(e);
+  pintarCronica(e);
   pintarBitacora(e);
   $('actualizado').innerHTML = 'Actualizado ' + esc(hace(e.actualizado)) +
     ' · <button type="button" id="btn-refrescar">actualizar ahora</button>';
